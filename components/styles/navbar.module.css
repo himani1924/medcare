@@ -1,0 +1,92 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 36px 10px;
+  }
+
+  .navbar_links{
+    display: flex;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .app_logo{
+    padding: 8px;
+    gap: 8px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    color: var(--green-primary);
+    font-family: var(--font-mont);
+    font-weight: 500;
+    font-size: 23px;
+    color: #1C4A2A;
+  }
+  
+  .navLinks {
+    list-style: none;
+    display: none;
+    gap: 40px;
+  }
+  
+  .navLinks li a {
+    text-decoration: none;
+    color: var(--muted-text);
+    font-weight: 500;
+    font-size: 18px;
+  }
+
+  .navLinks li a:active{
+    color: var(--green-primary);
+
+  }
+  
+  .authButtons {
+    display: flex;
+    gap: 16px;
+    /* flex-direction: column; */
+  }
+  
+  .login, .register {
+    padding: 12px 32px;
+    border: 1px solid var(--border-card);
+    cursor: pointer;
+    font-weight: 500;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+  
+  .login {
+    background-color: white;
+    color: #064e3b;
+
+  }
+  
+  .register {
+    background-color: #064e3b;
+    color: white;
+  }
+  @media (min-width: 1019){
+    .navbar {
+      padding: 36px 60px;
+    }
+    .navLinks {
+      list-style: none;
+      display: flex;
+      gap: 40px;
+    }
+    .logo {
+      font-size: 28px;
+    }
+    .authButtons {
+      flex-direction: row;
+    }
+  }
+  @media (max-width: 435){
+    .authButtons {
+      flex-direction: column;
+    }
+  }
