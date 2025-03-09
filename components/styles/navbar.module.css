@@ -2,13 +2,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 36px 10px;
+    padding: 16px 10px;
+    margin-top: 0;
+    margin-bottom: 0;
+    gap: 5px;
   }
 
   .navbar_links{
     display: flex;
-    gap: 48px;
-    align-items: center;
+    flex-direction: column;
+    gap: 38px;
+    align-items:start;
   }
 
   .app_logo{
@@ -28,7 +32,7 @@
   
   .navLinks {
     list-style: none;
-    display: none;
+    display: flex;
     gap: 40px;
   }
   
@@ -69,9 +73,16 @@
     background-color: #064e3b;
     color: white;
   }
+
+  /* large desktop */
   @media (min-width: 1019){
     .navbar {
       padding: 36px 60px;
+    }
+    .navbar_links{
+      flex-direction: row;
+      align-items:center;
+      
     }
     .navLinks {
       list-style: none;
@@ -85,8 +96,18 @@
       flex-direction: row;
     }
   }
+  /* mobiles */
   @media (max-width: 435){
     .authButtons {
       flex-direction: column;
+    }
+  }
+  /* ipads */
+  @media (max-width: 711){
+    .navLinks {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
   }
