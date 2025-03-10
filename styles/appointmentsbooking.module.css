@@ -17,8 +17,10 @@
 .right{
     min-width: 50%;
     background-color: antiquewhite;
-    height: 500px;
-    /* will have to remove height when adding the form */
+    /* height: 500px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     background: url('/AppointmentImage.png') no-repeat center center;
     background-size: 100% 100%; 
@@ -49,7 +51,7 @@
     color: white;
     opacity: 70%;
   }
-  @media (min-width: 1019){
+  @media (min-width: 1011){
     .container {
       height: calc(100vh - 128px);
       background-color: var(--green-primary);

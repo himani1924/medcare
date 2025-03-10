@@ -1,0 +1,70 @@
+.container {
+  margin: 25px;
+  padding: 25px 20px;
+  background-color: white;
+  box-shadow: 5px;
+  max-width: 100%;
+}
+
+.appointment_head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.appointment_head h2 {
+  font-weight: 400;
+}
+.appointment_head button {
+  font-family: var(--font-mont);
+  background-color: #1c4a2a;
+  color: white;
+  width: 40%;
+  font-weight: 600;
+  padding: 5px 7px;
+  border-radius: 5px;
+}
+.buttonToggleContainer {
+  display: flex;
+}
+
+.button {
+  flex: 1;
+  padding: 5px 0;
+  margin: 7px 0;
+  border: 1px solid #F4D7D0;
+  background-color: white;
+  color: black;
+  font-size: 13px;
+  border-radius: 3px;
+  font-weight: 500;
+  font-family: var(--font-mont);
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.active {
+  background-color: #1C4A2A;
+  color: white;
+  border: none;
+}
+
+.button:hover:not(.active) {
+  background-color: #f0f0f0;
+}
+
+.location {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  margin-bottom: 3px;
+}
+.next{
+  width: 100%;
+  background-color: var(--green-primary);
+  color: white;
+  padding: 5px 0;
+  border-radius: 5px;
+}
