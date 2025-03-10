@@ -3,22 +3,28 @@ import { useState } from "react";
 import React from "react";
 import styles from "./styles/scheduleappointments.module.css";
 import DatePicker from "./DatePicker";
+import { useRef } from 'react';
 import Schedule from "./Schedule";
+// import { useRouter } from "next/navigation";
 
 export default function ScheduleAppointment() {
-  const [selectedOption, setSelectedOption] = useState("video");
-  //   const [selectedDate, setSelectedDate] = useState<string>("Thu 22 Dec");
-  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+  // const router = useRouter();
 
-  //   const dates: string[] = [
-  //     "Thu 22 Dec",
-  //     "Fri 23 Dec",
-  //     "Sat 24 Dec",
-  //     "Sun 25 Dec",
-  //     "Mon 26 Dec",
-  //     "Tue 27 Dec",
-  //     "Wed 28 Dec",
-  //   ];
+  const [selectedOption, setSelectedOption] = useState("video");
+  const [selectedDate, setSelectedDate] = useState<string>("Thu 22 Dec");
+  const [currentMonth, setCurrentMonth] = useState<string>("December");
+  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+  const dateContainerRef = useRef<HTMLDivElement>(null);
+
+    const dates: string[] = [
+      "Thu 22 Dec",
+      "Fri 23 Dec",
+      "Sat 24 Dec",
+      "Sun 25 Dec",
+      "Mon 26 Dec",
+      "Tue 27 Dec",
+      "Wed 28 Dec",
+    ];
 
   const slots: { morning: string[]; afternoon: string[] } = {
     morning: [
@@ -74,7 +80,14 @@ export default function ScheduleAppointment() {
         <option value="">MedicareHeart Institute, Okhla Road</option>
       </select>
       {/* making dates slider */}
-      <DatePicker />
+      <DatePicker 
+      currentMonth={currentMonth}
+      setCurrentMonth={setCurrentMonth}
+      dateContainerRef={dateContainerRef}
+      dates={dates}
+      selectedDate={selectedDate}
+      setSelectedDate={setSelectedDate}
+      />
 
       {/* morning schedule */}
       <Schedule

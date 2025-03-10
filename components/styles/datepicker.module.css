@@ -1,0 +1,88 @@
+.dateContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.monthSelector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.monthSelector button {
+  background: white;
+  border: none;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 60%;
+  transition: 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.monthSelector span {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--button-green);
+}
+
+.datePickerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+  gap: 5px;
+}
+
+.datePicker button{
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #F4D7D0;
+}
+
+.selected{
+  background-color: var(--green-primary);
+  color: white;
+  border: none;
+}
+
+/* Arrows inside the slider */
+.arrow {
+  background: white;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+
+  padding: 5px;
+  border-radius: 60%;
+
+  transition: 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Date Picker */
+.datePicker {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  white-space: nowrap;
+  padding: 10px;
+  flex-grow: 1;
+  scroll-behavior: smooth;
+}
+.monthSelector span {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--button-green);
+}
