@@ -1,39 +1,110 @@
-'use client'
+"use client";
+import { useState } from "react";
 import styles from "./styles/navbar.module.css";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
+  const [toggleDropdown, setToggleDropdown] = useState(false);
   return (
     <nav className={styles.navbar}>
       <div className={styles.navbar_links}>
+        {/* app logo  */}
         <div className={styles.app_logo}>
           <Image src={"logo.svg"} alt="logo" height={40} width={40} />
           <div className={styles.logo}>MedCare</div>
         </div>
+        {/* mobile navigation */}
+        <div className={styles.menu}>
+          <div className={styles.nav_menu}>
+            <Image
+              src={"hamburgerMenu.svg"}
+              height={30}
+              width={30}
+              alt="menu"
+              onClick={() => {
+                setToggleDropdown((prev) => !prev);
+                console.log(toggleDropdown);
+              }}
+            ></Image>
+            {toggleDropdown && (
+              <div className={styles.down}>
+                <Link
+                  href={"/"}
+                  className={styles.down_link}
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  Home
+                </Link>
+                <Link
+                  href={"/appointments"}
+                  className={styles.down_link}
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  Appointments
+                </Link>
+                <Link
+                  href={"/health-blog"}
+                  className={styles.down_link}
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  Health Blog
+                </Link>
+                <Link
+                  href={"/reviews"}
+                  className={styles.down_link}
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  Reviews
+                </Link>
+                <Link
+                  href={"/login"}
+                  className={styles.down_link}
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  href={"/signup"}
+                  className={styles.down_link}
+                  onClick={() => setToggleDropdown(false)}
+                >
+                  Signup
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
 
+        {/* nav links */}
         <ul className={styles.navLinks}>
           <li>
-            <a href="#">Home</a>
+            <Link href={"/"}>Home</Link>
           </li>
           <li>
-            <a href="#">Appointments</a>
+            <Link href={"appointments"}>Appointments</Link>
           </li>
           <li>
-            <a href="#">Health Blog</a>
+            <Link href={"health-bog"}>Health Blog</Link>
           </li>
           <li>
-            <a href="#">Reviews</a>
+            <Link href={"reviews"}>Reviews</Link>
           </li>
         </ul>
-          {/* mobile navigation */}
-          <div>
-
-          </div>
       </div>
-
+      {/* auth buttons */}
       <div className={styles.authButtons}>
-        <button className={styles.login}>Login</button>
-        <button className={styles.register}>Register</button>
+        <button className={styles.login} onClick={() => router.push("/login")}>
+          Login
+        </button>
+        <button
+          className={styles.register}
+          onClick={() => router.push("/signup")}
+        >
+          Register
+        </button>
       </div>
     </nav>
   );

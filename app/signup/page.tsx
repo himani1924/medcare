@@ -11,19 +11,6 @@ const SignupPage = () => {
           Already a member? <a href="#">Login.</a>
         </p>
         <form className={styles.signup_form}>
-            {/* role */}
-            <label>Role</label>
-          <div className={styles.input_box}>
-            <span className="icon">
-                <Image
-                    src={'Customer.svg'}
-                    width={15}
-                    height={15}
-                    alt='customer'
-                />
-            </span>
-            <input type="email" placeholder="Select role" />
-          </div>
             {/* name */}
             <label>Name</label>
           <div className={styles.input_box}>
@@ -38,7 +25,7 @@ const SignupPage = () => {
             <input type="email" placeholder="Enter your name" />
           </div>
             {/* phone */}
-            <label>Phone</label>
+            {/* <label>Phone</label>
           <div className={styles.input_box}>
             <span className="icon">
             <Image
@@ -49,7 +36,7 @@ const SignupPage = () => {
                 />
             </span>
             <input type="email" placeholder="Enter your phone number" />
-          </div>
+          </div> */}
             {/* email */}
             <label>Email</label>
           <div className={styles.input_box}>

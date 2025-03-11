@@ -1,0 +1,130 @@
+.profileContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* flex-direction: column; */
+    width: 100%;
+    background-color: #4a4a4a;
+    align-items: center;
+    padding: 40px 20px;
+    background: #f7f9fc;
+    gap: 30px;
+  }
+  
+  .profileCard {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    /* width: 360px; */
+    text-align: center;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .imageContainer {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid #1c4a2a;
+  }
+  
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .name {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1c4a2a;
+  }
+  
+  .qualification {
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
+  }
+  
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 16px;
+    color: #4a4a4a;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .icon {
+    color: #1c4a2a;
+    margin-right: 6px;
+  }
+  
+  .rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+    color: #4a4a4a;
+  }
+  
+  .star {
+    color: #f39c12;
+  }
+  
+  .emptyStar {
+    color: #d3d3d3;
+  }
+  
+  .button {
+    margin-top: 15px;
+    padding: 12px 28px;
+    border: none;
+    background: #1c4a2a;
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .button:hover {
+    background: #165c23;
+  }
+  
+  .aboutSection {
+    /* max-width: 600px; */
+    text-align: center;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    margin-top: 20px;
+  }
+  
+  .aboutSection h3 {
+    font-size: 22px;
+    color: #1c4a2a;
+    margin-bottom: 12px;
+  }
+  
+  .aboutSection p {
+    font-size: 15px;
+    color: #4a4a4a;
+    line-height: 1.6;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .profileCard {
+      width: 90%;
+    }
+  }
+  

@@ -1,16 +1,21 @@
 .container {
+  /* height: calc(100vh - 74px); */
   height: 100%;
   background-color: var(--green-primary);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   width: 100vw;
 }
 
 .content{
   height: 100%;
   display: flex;
+  min-height: 50%;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
 }
 .getStarted {
@@ -41,12 +46,11 @@
 
 @media (min-width: 1019){
   .container {
-    height: calc(100vh - 128px);
+    height: calc(100vh - 108px);
     background-color: var(--green-primary);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
   }
   .content{
     height: 100%;
@@ -54,6 +58,7 @@
     flex-direction: column;
     min-width: 50%;
     justify-content: center;
+    align-items: start;
   }
   .heroImage {
     display: flex;  

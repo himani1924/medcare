@@ -15,7 +15,7 @@ export default function Home() {
 
       <div className={styles.heroImage}>
         <Image
-          src="/HeroImage.png"
+          src="/Home.jpg"
           alt="Dentist with patient"
           fill
           className={styles.hero_img}

@@ -41,16 +41,15 @@
   gap: 5px;
 }
 
+.selected{
+  background-color: var(--green-primary);
+  color: white;
+  border: 1px solid var(--green-primary);
+}
 .datePicker button{
   padding: 5px;
   border-radius: 5px;
   border: 1px solid #F4D7D0;
-}
-
-.selected{
-  background-color: var(--green-primary);
-  color: white;
-  border: none;
 }
 
 /* Arrows inside the slider */
