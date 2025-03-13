@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
+import { usePathname } from 'next/navigation';
 import styles from "./styles/navbar.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const pathname = usePathname();
   const router = useRouter();
   const [toggleDropdown, setToggleDropdown] = useState(false);
   return (
@@ -80,19 +82,19 @@ const Navbar = () => {
 
         {/* nav links */}
         <ul className={styles.navLinks}>
-          <li>
-            <Link href={"/"}>Home</Link>
-          </li>
-          <li>
-            <Link href={"appointments"}>Appointments</Link>
-          </li>
-          <li>
-            <Link href={"health-bog"}>Health Blog</Link>
-          </li>
-          <li>
-            <Link href={"reviews"}>Reviews</Link>
-          </li>
-        </ul>
+      <li>
+        <Link href="/" className={pathname === '/' ? styles.active : ''}>Home</Link>
+      </li>
+      <li>
+        <Link href="/appointments" className={pathname === '/appointments' ? styles.active : ''}>Appointments</Link>
+      </li>
+      <li>
+        <Link href="/health-blog" className={pathname === '/health-blog' ? styles.active : ''}>Health Blog</Link>
+      </li>
+      <li>
+        <Link href="/reviews" className={pathname === '/reviews' ? styles.active : ''}>Reviews</Link>
+      </li>
+    </ul>
       </div>
       {/* auth buttons */}
       <div className={styles.authButtons}>

@@ -12,10 +12,10 @@
 
 }
 .sidebar {
-  /* background-color: antiquewhite; */
   width: 400px;
   padding: 20px;
   border-radius: 10px;
+  display: none;
 }
 .searchContainer{
   display: flex;
@@ -85,13 +85,14 @@
     font-weight: 600;
     cursor: pointer;
   }
-  .radio_input{
+  .radio_input, .checkbox_input{
     margin-right: 5px;
     accent-color: var(--primary-green);
     margin-top: 5px;
     vertical-align:bottom; 
   }
-.reset_btn{
+  
+.reset_btn, .resetBtn{
   font-weight: 700;
   font-size: 18px;
   color:#1C4A2A;
@@ -99,15 +100,23 @@
   background-color: transparent;
 }
 
+.resetBtn{
+  text-align: center;
+  margin-top: 50px;
+}
+
 .card{
     text-decoration: none;
     display: block; 
+    width: 30%;
+    height: 350px;
+    min-width: 200px;
 }
 .doctors {
   display: flex;
   flex: 1;
-  justify-content: start;
-  align-items: center;
+  justify-content: center;
+  align-items: start;
   flex-wrap: wrap;
   text-decoration: none;
   gap: 20px;
@@ -158,4 +167,76 @@
 .span {
   font-size: 14px;
   color: #8C8C8C;
+}
+.bottomBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #fff;
+  width: 100%;
+  /* padding: 10px; */
+  display: flex;
+  /* justify-content: space-around; */
+  border-top: 1px solid #ccc;
+}
+.bottomBar button{
+  flex: 1;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  border-right: none;
+}
+.bottomSheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #fff;
+  width: 100%;
+  padding: 20px;
+  border-radius: 12px;
+  z-index: 999;
+  animation: slideUp 0.3s ease;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 998;
+}
+.sheetHeader{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3px;
+}
+.sheetHeader button{
+  border: none;
+  background-color: transparent;
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@media (min-width: 1019){
+  .main {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content:center ;
+    gap:20px;
+    width: 100%; 
+  }
+  .sidebar{
+    display: flex;
+    flex-direction: column;
+  }
+  .bottomBar, .resetBtn{
+    display: none;
+  }
 }

@@ -4,17 +4,17 @@
   align-items: center;
   padding: 8px 10px;
   margin: 0 20px;
-  gap: 5px;
+  gap: 20px;
 }
 .nav_menu{
   margin-top: 5px;
-  /* position: relative; */
   display: flex;
+  /* justify-content: space-between; */
 }
 .navbar_links{
   flex: 1;
   display: flex;
-  gap: 38px;
+  gap: 20px;
   justify-content: space-between;
   align-items:center;
 }
@@ -40,6 +40,7 @@
 }
 .down {
   position: absolute;
+  z-index: 2;
   right: 0;
   top: 100%;
   margin-top: 0.75rem; 
@@ -60,6 +61,7 @@
   position: relative;
 }
 .down_link {
+  text-decoration: none;
   width: 100%;
   text-align: right;
   font-size: 0.875rem;
@@ -94,10 +96,8 @@
       font-weight: 500;
       font-size: 18px;
     }
-  
-    .navLinks li a:active{
+    .navLinks .active {
       color: var(--green-primary);
-  
     }
     .logo {
       font-size: 28px;

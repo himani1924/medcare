@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+import ToastProvider from '@/components/ToastProvider';
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
@@ -22,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={montserrat.variable}>
+      <ToastProvider />
         <Navbar/>
         {children}
       </body>
