@@ -3,17 +3,9 @@ import React, { useState, useEffect } from "react";
 import styles from "./styles/appointment.module.css";
 import Link from "next/link";
 import DoctorCard from "./DoctorCard";
+import { useRouter, useSearchParams } from 'next/navigation';
 
-// const allDoctors = [
-//   { name: "Dr Jane Doe, MBBS", specialty: "Dentist", experience: 9, rating: 5, gender: "Female", image: "/doc.png" },
-//   { name: "Dr Sam Wilson, BDS", specialty: "Dentist", experience: 5, rating: 5, gender: "Male", image: "/doc.png" },
-//   { name: "Dr Pepper, BHMS", specialty: "Dentist", experience: 5, rating: 4, gender: "Female", image: "/doc.png" },
-//   { name: "Dr Tony Stark, MDS", specialty: "Dentist", experience: 4, rating: 4, gender: "Male", image: "/doc.png" },
-//   { name: "Dr Meghan, MD", specialty: "Dentist", experience: 3, rating: 5, gender: "Female", image: "/doc.png" },
-//   { name: "Dr Dev Patel, FNB", specialty: "Dentist", experience: 2, rating: 4, gender: "Male", image: "/doc.png" },
-//   { name: "Dr Dev Patel, FNB", specialty: "Dentist", experience: 2, rating: 4, gender: "Male", image: "/doc.png" },
-//   { name: "Dr Dev Patel, FNB", specialty: "Dentist", experience: 2, rating: 4, gender: "Male", image: "/doc.png" },
-// ];
+// interface for doc 
 interface Doctor {
   id: number;
   name: string;
@@ -35,15 +27,16 @@ const DoctorAppointment = () => {
   const [activeFilter, setActiveFilter] = useState<"rating" | "experience" | "gender" | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
+  const router = useRouter();
+const searchParams = useSearchParams();
 
 
-
-
-
-  
   // use effect 
+
+  // prevent redering until hydration completes 
   useEffect(() => setHydrated(true), []);
 
+  // fetch docs data 
   useEffect(() => {
     const fetchDoctors = async () => {
       const res = await fetch('/api/doctors');
@@ -52,10 +45,50 @@ const DoctorAppointment = () => {
     };
     fetchDoctors();
   }, []);
+
+  // sync state from url 
+  // when user refreshes page 
+  useEffect(() => {
+    const page = searchParams.get('page');
+    const gender = searchParams.get('gender');
+    const rating = searchParams.get('rating');
+    const experience = searchParams.get('experience');
+  
+    if (page) setCurrentPage(Number(page));
+    if (gender) setGender(gender);
+    if (rating) setSelectedRatings(rating.split(',').map(Number));
+    if (experience) setExperience(Number(experience));
+  }, [searchParams]);
+
+  // sync url from state 
+  // when user clicks on a filter 
+  useEffect(() => {
+    updateURL(currentPage);
+  }, [currentPage, selectedRatings, experience, gender]);
+
+
+  // page change function 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    updateURL(page);
+  };
+    
   
   // search bar function 
   const handleSearch = () => {
     setSearchTerm(searchTerm.trim().toLowerCase());
+  };  
+
+  // updating url 
+  const updateURL = (page: number) => {
+    const params = new URLSearchParams();
+  
+    if (gender) params.set('gender', gender);
+    if (selectedRatings.length) params.set('rating', selectedRatings.join(','));
+    if (experience) params.set('experience', experience.toString());
+    params.set('page', page.toString());
+  
+    router.push(`?${params.toString()}`, { scroll: false });
   };
 
   // filter docs function 
@@ -135,6 +168,7 @@ const paginatedDoctors = filteredDoctors.slice(startIndex, endIndex);
                 setSelectedRatings([]);
                 setExperience(null);
                 setGender(null);
+                updateURL(1)
               }}
             >
               Reset
@@ -228,7 +262,7 @@ const paginatedDoctors = filteredDoctors.slice(startIndex, endIndex);
       <div className={styles.pagination}>
   <button 
     className={styles.pageBtn} 
-    onClick={() => setCurrentPage(currentPage - 1)}
+    onClick={() => handlePageChange(currentPage - 1)}
     disabled={currentPage === 1}
   >
     ❮ Prev
@@ -238,7 +272,7 @@ const paginatedDoctors = filteredDoctors.slice(startIndex, endIndex);
     <button 
       key={i} 
       className={`${styles.pageNumber} ${currentPage === i + 1 ? styles.active : ''}`}
-      onClick={() => setCurrentPage(i + 1)}
+      onClick={() => handlePageChange(i + 1)}
     >
       {i + 1}
     </button>
@@ -246,12 +280,13 @@ const paginatedDoctors = filteredDoctors.slice(startIndex, endIndex);
 
   <button 
     className={styles.pageBtn} 
-    onClick={() => setCurrentPage(currentPage + 1)}
+    onClick={() => handlePageChange(currentPage + 1)}
     disabled={currentPage === Math.ceil(filteredDoctors.length / itemsPerPage)}
   >
     Next ❯
   </button>
 </div>
+
 
     {/* mobile view  */}
     <div className={styles.bottomBar}>

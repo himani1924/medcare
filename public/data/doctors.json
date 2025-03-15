@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "name": "Dr Doctor 1, MBBS",
+        "name": "Dr. Jane Smith",
         "specialty": "Dentist",
         "experience": 1,
         "rating": 4,
@@ -10,7 +10,7 @@
     },
     {
         "id": 2,
-        "name": "Dr Doctor 2, MBBS",
+        "name": "Dr. John Doe",
         "specialty": "Cardiologist",
         "experience": 2,
         "rating": 5,
@@ -19,7 +19,7 @@
     },
     {
         "id": 3,
-        "name": "Dr Doctor 3, MBBS",
+        "name": "Dr. Emily Johnson",
         "specialty": "Orthopedic",
         "experience": 3,
         "rating": 4,
@@ -28,7 +28,7 @@
     },
     {
         "id": 4,
-        "name": "Dr Doctor 4, MBBS",
+        "name": "Dr. Michael Brown",
         "specialty": "Pediatrician",
         "experience": 4,
         "rating": 5,
@@ -37,7 +37,7 @@
     },
     {
         "id": 5,
-        "name": "Dr Doctor 5, MBBS",
+        "name": "Dr. Sarah Davis",
         "specialty": "Neurologist",
         "experience": 5,
         "rating": 4,
@@ -46,7 +46,7 @@
     },
     {
         "id": 6,
-        "name": "Dr Doctor 6, MBBS",
+        "name": "Dr. William Wilson",
         "specialty": "General Physician",
         "experience": 6,
         "rating": 5,
@@ -55,7 +55,7 @@
     },
     {
         "id": 7,
-        "name": "Dr Doctor 7, MBBS",
+        "name": "Dr. Olivia Martinez",
         "specialty": "Gynecologist",
         "experience": 7,
         "rating": 4,
@@ -64,7 +64,7 @@
     },
     {
         "id": 8,
-        "name": "Dr Doctor 8, MBBS",
+        "name": "Dr. James Taylor",
         "specialty": "Oncologist",
         "experience": 8,
         "rating": 5,
@@ -73,7 +73,7 @@
     },
     {
         "id": 9,
-        "name": "Dr Doctor 9, MBBS",
+        "name": "Dr. Sophia Anderson",
         "specialty": "Dentist",
         "experience": 9,
         "rating": 4,
@@ -82,7 +82,7 @@
     },
     {
         "id": 10,
-        "name": "Dr Doctor 10, MBBS",
+        "name": "Dr. Benjamin Thomas",
         "specialty": "Cardiologist",
         "experience": 10,
         "rating": 5,
@@ -91,7 +91,7 @@
     },
     {
         "id": 11,
-        "name": "Dr Doctor 11, MBBS",
+        "name": "Dr. Ava Hernandez",
         "specialty": "Orthopedic",
         "experience": 11,
         "rating": 4,
@@ -100,7 +100,7 @@
     },
     {
         "id": 12,
-        "name": "Dr Doctor 12, MBBS",
+        "name": "Dr. Alexander Moore",
         "specialty": "Pediatrician",
         "experience": 12,
         "rating": 5,
@@ -109,7 +109,7 @@
     },
     {
         "id": 13,
-        "name": "Dr Doctor 13, MBBS",
+        "name": "Dr. Mia Martin",
         "specialty": "Neurologist",
         "experience": 13,
         "rating": 4,
@@ -118,7 +118,7 @@
     },
     {
         "id": 14,
-        "name": "Dr Doctor 14, MBBS",
+        "name": "Dr. Ethan Lee",
         "specialty": "General Physician",
         "experience": 14,
         "rating": 5,
@@ -127,7 +127,7 @@
     },
     {
         "id": 15,
-        "name": "Dr Doctor 15, MBBS",
+        "name": "Dr. Isabella Perez",
         "specialty": "Gynecologist",
         "experience": 15,
         "rating": 4,
@@ -136,7 +136,7 @@
     },
     {
         "id": 16,
-        "name": "Dr Doctor 16, MBBS",
+        "name": "Dr. Mason White",
         "specialty": "Oncologist",
         "experience": 1,
         "rating": 5,
@@ -145,7 +145,7 @@
     },
     {
         "id": 17,
-        "name": "Dr Doctor 17, MBBS",
+        "name": "Dr. Amelia Scott",
         "specialty": "Dentist",
         "experience": 2,
         "rating": 4,
@@ -154,7 +154,7 @@
     },
     {
         "id": 18,
-        "name": "Dr Doctor 18, MBBS",
+        "name": "Dr. Logan Lewis",
         "specialty": "Cardiologist",
         "experience": 3,
         "rating": 5,
@@ -163,7 +163,7 @@
     },
     {
         "id": 19,
-        "name": "Dr Doctor 19, MBBS",
+        "name": "Dr. Lily Walker",
         "specialty": "Orthopedic",
         "experience": 4,
         "rating": 4,
@@ -172,7 +172,7 @@
     },
     {
         "id": 20,
-        "name": "Dr Doctor 20, MBBS",
+        "name": "Dr. Jacob Hall",
         "specialty": "Pediatrician",
         "experience": 5,
         "rating": 5,
@@ -181,7 +181,7 @@
     },
     {
         "id": 21,
-        "name": "Dr Doctor 21, MBBS",
+        "name": "Dr. Chloe Young",
         "specialty": "Neurologist",
         "experience": 6,
         "rating": 4,
@@ -190,7 +190,7 @@
     },
     {
         "id": 22,
-        "name": "Dr Doctor 22, MBBS",
+        "name": "Dr. Lucas Allen",
         "specialty": "General Physician",
         "experience": 7,
         "rating": 5,
@@ -199,7 +199,7 @@
     },
     {
         "id": 23,
-        "name": "Dr Doctor 23, MBBS",
+        "name": "Dr. Ella King",
         "specialty": "Gynecologist",
         "experience": 8,
         "rating": 4,
@@ -208,7 +208,7 @@
     },
     {
         "id": 24,
-        "name": "Dr Doctor 24, MBBS",
+        "name": "Dr. Jackson Wright",
         "specialty": "Oncologist",
         "experience": 9,
         "rating": 5,
@@ -217,7 +217,7 @@
     },
     {
         "id": 25,
-        "name": "Dr Doctor 25, MBBS",
+        "name": "Dr. Grace Lopez",
         "specialty": "Dentist",
         "experience": 10,
         "rating": 4,
@@ -226,7 +226,7 @@
     },
     {
         "id": 26,
-        "name": "Dr Doctor 26, MBBS",
+        "name": "Dr. Aiden Hill",
         "specialty": "Cardiologist",
         "experience": 11,
         "rating": 5,
@@ -235,7 +235,7 @@
     },
     {
         "id": 27,
-        "name": "Dr Doctor 27, MBBS",
+        "name": "Dr. Scarlett Green",
         "specialty": "Orthopedic",
         "experience": 12,
         "rating": 4,
@@ -244,7 +244,7 @@
     },
     {
         "id": 28,
-        "name": "Dr Doctor 28, MBBS",
+        "name": "Dr. Carter Adams",
         "specialty": "Pediatrician",
         "experience": 13,
         "rating": 5,
@@ -253,7 +253,7 @@
     },
     {
         "id": 29,
-        "name": "Dr Doctor 29, MBBS",
+        "name": "Dr. Victoria Nelson",
         "specialty": "Neurologist",
         "experience": 14,
         "rating": 4,
@@ -262,7 +262,7 @@
     },
     {
         "id": 30,
-        "name": "Dr Doctor 30, MBBS",
+        "name": "Dr. Henry Carter",
         "specialty": "General Physician",
         "experience": 15,
         "rating": 5,
@@ -271,7 +271,7 @@
     },
     {
         "id": 31,
-        "name": "Dr Doctor 31, MBBS",
+        "name": "Dr. Emily Mitchell",
         "specialty": "Gynecologist",
         "experience": 1,
         "rating": 4,
@@ -280,7 +280,7 @@
     },
     {
         "id": 32,
-        "name": "Dr Doctor 32, MBBS",
+        "name": "Dr. Daniel Phillips",
         "specialty": "Oncologist",
         "experience": 2,
         "rating": 5,
@@ -289,7 +289,7 @@
     },
     {
         "id": 33,
-        "name": "Dr Doctor 33, MBBS",
+        "name": "Dr. Sofia Evans",
         "specialty": "Dentist",
         "experience": 3,
         "rating": 4,
@@ -298,7 +298,7 @@
     },
     {
         "id": 34,
-        "name": "Dr Doctor 34, MBBS",
+        "name": "Dr. Matthew Campbell",
         "specialty": "Cardiologist",
         "experience": 4,
         "rating": 5,
@@ -307,7 +307,7 @@
     },
     {
         "id": 35,
-        "name": "Dr Doctor 35, MBBS",
+        "name": "Dr. Madison Parker",
         "specialty": "Orthopedic",
         "experience": 5,
         "rating": 4,
@@ -316,7 +316,7 @@
     },
     {
         "id": 36,
-        "name": "Dr Doctor 36, MBBS",
+        "name": "Dr. Christopher Collins",
         "specialty": "Pediatrician",
         "experience": 6,
         "rating": 5,
@@ -325,7 +325,7 @@
     },
     {
         "id": 37,
-        "name": "Dr Doctor 37, MBBS",
+        "name": "Dr. Avery Stewart",
         "specialty": "Neurologist",
         "experience": 7,
         "rating": 4,
@@ -334,7 +334,7 @@
     },
     {
         "id": 38,
-        "name": "Dr Doctor 38, MBBS",
+        "name": "Dr. David Morris",
         "specialty": "General Physician",
         "experience": 8,
         "rating": 5,
@@ -343,7 +343,7 @@
     },
     {
         "id": 39,
-        "name": "Dr Doctor 39, MBBS",
+        "name": "Dr. Lily Bryant",
         "specialty": "Gynecologist",
         "experience": 9,
         "rating": 4,
@@ -352,7 +352,7 @@
     },
     {
         "id": 40,
-        "name": "Dr Doctor 40, MBBS",
+        "name": "Dr. James Ward",
         "specialty": "Oncologist",
         "experience": 10,
         "rating": 5,
