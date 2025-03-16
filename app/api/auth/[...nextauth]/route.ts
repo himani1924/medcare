@@ -1,10 +1,16 @@
 import NextAuth from "next-auth";
-// import { NextAuthConfig } from 'next-auth';
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-// import User from "@/models/user";
-// import bcrypt from "bcryptjs";
+import { QueryResult } from 'pg';
 import connectToDB from "@/utils/database";
+import bcrypt from "bcryptjs";
+
+interface Patient {
+    id: string;
+    name: string;
+    email: string;
+    password: string;
+  }
 
 const handler = NextAuth( {
     session: {
@@ -27,69 +33,92 @@ const handler = NextAuth( {
                 password:{},
             },
             async authorize(credentials) {
-                try {
-                    // connection to db code 
-                    await connectToDB();
-
-                    console.log(credentials);//remove
-                    
-                    // const user = await User.findOne({ email: credentials?.email });
-                    // if (!user) {
-                    //     throw new Error("")
-                    // }
-                    // const isValidPassword = await bcrypt.compare(
-                    //     credentials?.password ?? "", user.password as string
-                    // ); 
-                    // if (!isValidPassword) {
-                    //     throw new Error ("")
-                    // }
-                    // return user;
-                    return null;
+                if (!credentials?.email || !credentials?.password) {
+                  throw new Error("Missing email or password");
                 }
-                catch {
-                    return null
+        
+                const pool = await connectToDB();
+        
+                // Find user by email
+                const query = `SELECT * FROM patients WHERE email = $1`;
+                const values = [credentials.email];
+                const res = await pool.query(query, values);
+        
+                if (res.rows.length === 0) {
+                  throw new Error("No user found with this email");
                 }
-            }
+        
+                const user = res.rows[0] as Patient;
+                const isValidPassword = await bcrypt.compare(credentials.password, user.password);
+        
+                if (!isValidPassword) {
+                  throw new Error("Invalid password");
+                }
+        
+                // Return user object for session
+                return {
+                  id: user.id,
+                  name: user.name,
+                  email: user.email,
+                };
+              },
         })
     ],
 
     // callbacks 
     callbacks: {
-        async signIn({ profile }) {
+        async signIn({ profile, account }) {
             if (!profile) return false;
-            try {
-                // await connectToDB();
-                console.log(profile.name);
-                console.log(profile.email);
-                console.log(profile.sub);
-                // check if user already exists
-                
-                // if not ----> create new user
-                return true;
-            } catch (error) {
-                console.error("Error during sign-in:", error);
-                return false;
+        try {
+            const pool = await connectToDB();
+            if (account?.provider === 'google'){
+              // Check if user already exists
+              const checkUserQuery = `SELECT * FROM patients WHERE email = $1`;
+              const checkUserValues = [profile.email];
+              const res: QueryResult = await pool.query(checkUserQuery, checkUserValues);
+              
+              // check if it is a new sign in 
+              if(res.rows.length === 0){
+                // Create new user
+                const insertUserQuery = `
+                  INSERT INTO patients (name, email) 
+                  VALUES ($1, $2) 
+                  RETURNING id, name, email;
+                `;
+                const insertUserValues = [profile.name, profile.email];
+                const newUser: QueryResult = await pool.query(insertUserQuery, insertUserValues);            
+                console.log("User created:", newUser.rows[0]);
+              }
             }
+            // Redirect to dashboard upon success
+            return '/';
+          } catch (error) {
+            console.error("Error during sign-in:", error);
+            return false;
+          }
         },
-        // for jwt 
         async jwt({ token, user }) {
             if (user) {
-                token.id = user.id;
-                token.email = user.email;
+              token.id = user.id;
+              token.name = user.name;
+              token.email = user.email;
             }
             return token;
-        },
-        // for session 
-        async session({ session, token }) {
-            if (token) {
-                session.user = {
-                    email: token.email,
-                    name: token.name,
-                    image: token.picture,
-                };
-            };
+          },
+          async session({ session, token }) {
+            if (token && typeof token.id === 'string') {
+                session.user.id = token.id;
+              }
+            
+              if (token && typeof token.name === 'string') {
+                session.user.name = token.name;
+              }
+            
+              if (token && typeof token.email === 'string') {
+                session.user.email = token.email;
+              }
             return session;
-        }
+          },
     },
     secret: process.env.NEXTAUTH_SECRET
 });

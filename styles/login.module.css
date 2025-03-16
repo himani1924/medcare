@@ -90,7 +90,7 @@
     justify-content: space-between;
   }
 
-  .login_btn, .reset_btn {
+  .login_btn, .reset_btn, .google_btn{
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -121,6 +121,11 @@
   .forgot_password a {
     color: #064e3b;
   }
+  .google_btn{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
 
   @media (min-width: 1019px) {
     .container {

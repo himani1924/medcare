@@ -95,6 +95,7 @@ export default function Login() {
           <button className={styles.login_btn} disabled={pending}>Login</button>
           <button className={styles.reset_btn} disabled={pending}>Reset</button>
           {/* sign in with google  */}
+          <hr style={{width: '100%'}}/>
           <button className={styles.google_btn} onClick={handleProvider}>
             <span>
               <FcGoogle />

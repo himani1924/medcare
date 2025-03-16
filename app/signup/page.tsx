@@ -39,13 +39,26 @@ const SignupPage = () => {
     }
   };
 
-  const handleProvider = (e: React.MouseEvent<HTMLButtonElement>) =>{
-    e.preventDefault()
+  const handleProvider = async (e: React.MouseEvent<HTMLButtonElement>) =>{
+    e.preventDefault() 
+    try {
+      await signIn('google', {callbackUrl:'/'})
+      toast.success('Signup successful')
+    } catch (error) {
+      if(error instanceof Error){
+        if(error.message === 'User already exists'){
+          toast.error(error.message)
+        }
+        else{
+          toast.error(error.message)
+        }
+      }
+      else{
+        toast.error('Some unknown error occured.')
+      }
+      
+    }
     
-    signIn('google', {callbackUrl:'/'})
-    toast.success('Signup successful')
-    
-
   }
   return (
     <div className={styles.container}>
