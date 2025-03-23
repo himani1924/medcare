@@ -1,7 +1,6 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import passport from "passport";
-import jwt from "jsonwebtoken";
 import pool from '../api/db/index.js';
 
 const router = express.Router();
@@ -16,10 +15,7 @@ router.post("/signup", async (req, res) => {
     }
 
     // Check if user already exists
-    const existingUser = await pool.query(
-      "SELECT * FROM users WHERE email = $1",
-      [email]
-    );
+    const existingUser = await pool.query("SELECT * FROM users WHERE email = $1",[email]);
     if (existingUser.rows.length > 0) {
       return res.status(400).json({ message: "User already exists" });
     }
@@ -32,16 +28,10 @@ router.post("/signup", async (req, res) => {
       [name, email, hashedPassword, 'patient']
     );
 
-    // Create JWT token
-    // const token = jwt.sign(
-    //   { id: newUser.rows[0].id },
-    //   process.env.JWT_SECRET,
-    //   { expiresIn: "1d" }
-    // );
-
+    //login user after sign in
     req.login(newUser.rows[0], (err) => {
       if (err) return res.status(500).json({ message: "Error logging in after signup" });
-      return res.status(200).json({ user: newUser.rows[0] });
+      return res.status(201).json({ user: newUser.rows[0] });
     });
   } catch (error) {
     console.error("Signup error:", error);
