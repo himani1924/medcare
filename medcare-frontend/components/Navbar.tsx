@@ -5,8 +5,10 @@ import styles from "./styles/navbar.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/app/api/auth/authContext";
 
 const Navbar = () => {
+  const {user, logout} = useAuth()
   const pathname = usePathname();
   const router = useRouter();
   const [toggleDropdown, setToggleDropdown] = useState(false);
@@ -61,20 +63,17 @@ const Navbar = () => {
                 >
                   Reviews
                 </Link>
-                <Link
-                  href={"/login"}
-                  className={styles.down_link}
-                  onClick={() => setToggleDropdown(false)}
-                >
-                  Login
-                </Link>
-                <Link
-                  href={"/signup"}
-                  className={styles.down_link}
-                  onClick={() => setToggleDropdown(false)}
-                >
-                  Signup
-                </Link>
+                {user ? (
+                  <>
+                    <Link href="/profile" className={styles.down_link} onClick={() => setToggleDropdown(false)}>My Profile</Link>
+                    <Link href='#' onClick={logout} className={styles.down_link}>Logout</Link>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/login" className={styles.down_link} onClick={() => setToggleDropdown(false)}>Login</Link>
+                    <Link href="/signup" className={styles.down_link} onClick={() => setToggleDropdown(false)}>Signup</Link>
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -98,15 +97,17 @@ const Navbar = () => {
       </div>
       {/* auth buttons */}
       <div className={styles.authButtons}>
-        <button className={styles.login} onClick={() => router.push("/login")}>
-          Login
-        </button>
-        <button
-          className={styles.register}
-          onClick={() => router.push("/signup")}
-        >
-          Register
-        </button>
+      {user ? (
+          <>
+            <button className={styles.login} onClick={() => router.push("/profile")}>My profile</button>
+            <button className={styles.logout} onClick={logout}>Logout</button>
+          </>
+        ) : (
+          <>
+            <button className={styles.login} onClick={() => router.push("/login")}>Login</button>
+            <button className={styles.register} onClick={() => router.push("/signup")}>Register</button>
+          </>
+        )}
       </div>
     </nav>
   );
