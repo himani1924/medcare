@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllDoctors } from "../services/doctorServices";
+import { getAllDoctors } from "../services/doctorServices.js";
 const router = express.Router();
 
 router.get('/', async (req, res) =>{

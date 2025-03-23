@@ -1,7 +1,7 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import passport from "passport";
-import pool from '../api/db/index.js';
+import pool from '../../db/index.js';
 
 const router = express.Router();
 
