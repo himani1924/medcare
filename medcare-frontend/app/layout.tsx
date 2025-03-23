@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import ToastProvider from '@/components/ToastProvider';
 import "./globals.css";
-import { Session } from "next-auth";
-import Navbar from "@/components/Navbar";
-import SessionProviderWrapper from "@/components/SessionProviderWrapper";
+import { AuthProvider } from "./api/auth/authContext";
+import LayoutContent from "@/components/LayoutContent";
 
 const montserrat = Montserrat({ 
   subsets: ["latin"], 
@@ -17,21 +16,14 @@ export const metadata: Metadata = {
   description: "A healthcare management system",
 };
 
-export default function RootLayout({
-  children,
-  session
-}: Readonly<{
-  children: React.ReactNode;
-  session: Session | null;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={montserrat.variable}>
-        <SessionProviderWrapper session={session}>
+      <AuthProvider>
       <ToastProvider />
-        <Navbar/>
-        {children}
-        </SessionProviderWrapper>
+        <LayoutContent>{children}</LayoutContent>
+        </AuthProvider>
       </body>
     </html>
   );
