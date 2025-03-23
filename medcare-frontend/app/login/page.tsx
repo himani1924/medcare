@@ -1,7 +1,7 @@
 "use client";
 // import React, { useState } from "react";
 import styles from "@/styles/login.module.css";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -9,6 +9,7 @@ import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 
 export default function Login() {
+  const session = useSession()
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [pending, setPending] = useState(false);
@@ -18,24 +19,33 @@ export default function Login() {
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     setPending(true);
+    setError('')
     const res = await signIn("credentials", {
       redirect: false,
       email,
       password,
     });
+
     if (res?.ok) {
-      router.push("/");
-      toast.success("login successful");
-    } else if (res?.status === 401) {
-      setError("Invalid Credentials");
-      setPending(false);
+      console.log(session);
+        router.push("/");
+        toast.success("Login successful");
+    } else if (res?.error === "No user found with this email" || res?.error === "Invalid password") {
+      console.log(session);
+        setError(res.error); 
+        toast.error(res.error);
     } else {
-      setError("Something went wrong");
+      console.log(session);
+        setError("Something went wrong");
+        toast.error("Something went wrong");
     }
-    if (error) {
-      toast.error(error);
+    if(error){
+      console.log(error);
     }
-  };
+
+    setPending(false);
+};
+
   const handleProvider = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {

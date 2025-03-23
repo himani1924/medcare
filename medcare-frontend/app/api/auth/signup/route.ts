@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
     const { name, email, password } = await req.json();
+    console.log('post req in signup/auth');
 
     // Validate input fields
     if (!name || !email || !password) {

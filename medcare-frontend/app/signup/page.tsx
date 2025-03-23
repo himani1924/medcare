@@ -28,11 +28,11 @@ const SignupPage = () => {
       body: JSON.stringify(form),
     });
     const data = await res.json();
-    if (res.ok) {
+    if (res?.ok) {
       setPending(false);
       toast.success('Signup successful')
       router.push("/login");
-    } else if (res.status === 500 || res.status === 400) {
+    } else if (res?.status === 500 || res?.status === 400) {
       setError(data.message);
       setPending(false);
       toast.error(error)
