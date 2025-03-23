@@ -12,6 +12,8 @@ const sql_pool = new Pool({
     database: process.env.DB_NAME || "",
     password: process.env.DB_PASSWORD || "",
     port: Number(process.env.DB_PORT) || 5432,
+    idleTimeoutMillis: process.env.idleTimeoutMillis,
+    connectionTimeoutMillis: process.env.connectionTimeoutMillis
 })
 console.log("Connected to PostgreSQL");
 sql_pool.on("error", (err) => {
