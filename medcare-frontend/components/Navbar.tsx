@@ -99,7 +99,7 @@ const Navbar = () => {
       <div className={styles.authButtons}>
       {user ? (
           <>
-            <button className={styles.login} onClick={() => router.push("/profile")}>My profile</button>
+            <button className={styles.profile} onClick={() => router.push("/profile")}>My profile</button>
             <button className={styles.logout} onClick={logout}>Logout</button>
           </>
         ) : (
