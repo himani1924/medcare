@@ -40,17 +40,29 @@ router.post("/signup", async (req, res) => {
 });
 
 // Login
-router.post("/login", passport.authenticate('local'), (req, res) =>{
+router.post("/login", (req, res, next)=>{
+  console.log('inside backend login api');
+  next()
+}, passport.authenticate('local'),(req, res) =>{
+  console.log('after authentication sending user', req.user);
   res.json({user: req.user})
 });
 
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get("/google",(req, res, next) =>{
+  console.log('redirecting to google oauth');
+  next()
+}, passport.authenticate("google", { scope: ["profile", "email"] }));
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
+  (req, res, next) => {
+    console.log("Google callback reached. User is being authenticated...");
+    next();
+  },
+  passport.authenticate("google", { failureRedirect: `${process.env.FRONTEND_URL}/login` }),
   (req, res) => {
-    res.redirect("/dashboard");
+    console.log("User successfully authenticated. Redirecting to frontend...");
+    res.redirect(`${process.env.FRONTEND_URL}`);
   }
 );
 
