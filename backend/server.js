@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import api from './api/index.js';
 import './api/v1/auth/passportSetup.js'
 import authRoutes from './api/v1/routes/auth.js'
+import doctorsRoute from './api/v1/routes/doctors.js'
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/api',api)
 app.use("/api/v1/auth", authRoutes);
+app.use('/api/v1/doctors', doctorsRoute)
 
 
 const PORT = process.env.PORT || 5000;
