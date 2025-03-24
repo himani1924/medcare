@@ -1,203 +1,266 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import styles from "./styles/test.module.css";
-import Link from "next/link";
-import DoctorCard from "./DoctorCard";
+// "use client";
+// import React, { useState, useEffect, useCallback } from "react";
+// import DoctorCard from "../card/DoctorCard";
+// import styles from "./AppointmentMain.module.css";
+// import Toast from "../toast/Toast";
+// import { useSearchParams, useRouter } from "next/navigation";
 
-const allDoctors = [
-  { name: "Dr Jane Doe, MBBS", specialty: "Dentist", experience: 9, rating: 5, gender: "Female", image: "/doc.png" },
-  { name: "Dr Sam Wilson, BDS", specialty: "Dentist", experience: 5, rating: 5, gender: "Male", image: "/doc.png" },
-  { name: "Dr Pepper, BHMS", specialty: "Dentist", experience: 5, rating: 4, gender: "Female", image: "/doc.png" },
-  { name: "Dr Tony Stark, MDS", specialty: "Dentist", experience: 4, rating: 4, gender: "Male", image: "/doc.png" },
-];
+// type Doctor = {
+//     id: string;
+//     name: string;
+//     specialty: string;
+//     experience: number;
+//     average_rating: number;
+//     gender: string;
+//     image: string;
+//     qualifications: string[];
+//     hospital: string[];
+//     about: string;
+//     availability: string[];
+//     diseases: string[]; 
+//     reviews: { name: string; review: string; }[];
+// };
 
-const DoctorAppointment = () => {
-  const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
-  const [experience, setExperience] = useState<number | null>(null);
-  const [gender, setGender] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [activeFilter, setActiveFilter] = useState<"rating" | "experience" | "gender" | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
+// const DoctorsPage: React.FC = () => {
+//     const searchParams = useSearchParams();
+//     const router = useRouter();
+//     const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
 
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = activeFilter ? "hidden" : "auto";
-  }, [activeFilter]);
 
-  const handleRatingChange = (rating: number) => {
-    setSelectedRatings((prev) =>
-      prev.includes(rating) ? prev.filter((r) => r !== rating) : [...prev, rating]
-    );
-  };
+//     const [searchTerm, setSearchTerm] = useState("");  
+    
+//     const initialPage = parseInt(searchParams.get("page") || "1", 10);
+//     const initialRating = searchParams.get("rating") ? parseInt(searchParams.get("rating")!, 10) : null;
+//     const initialExperience = searchParams.get("experience") ? parseInt(searchParams.get("experience")!, 10) : null;
+//     const initialGender = searchParams.get("gender") || null;
 
-  const filteredDoctors = allDoctors.filter((doctor) => {
-    return (
-      (selectedRatings.length === 0 || selectedRatings.includes(doctor.rating)) &&
-      (experience === null || doctor.experience >= experience) &&
-      (gender === null || doctor.gender === gender) &&
-      (doctor.name.toLowerCase().includes(searchTerm) || 
-        doctor.specialty.toLowerCase().includes(searchTerm))
-    );
-  });
+//     const [ratingFilter, setRatingFilter] = useState<number | null>(initialRating);
+//     const [experienceFilter, setExperienceFilter] = useState<number | null>(initialExperience);
+//     const [genderFilter, setGenderFilter] = useState<string | null>(initialGender);
+//     const [doctors, setDoctors] = useState<Doctor[]>([]);
+//     const [currentPage, setCurrentPage] = useState(initialPage);
+//     const [totalPages, setTotalPages] = useState<number>(1);
+//     const [totalDoctors, setTotalDoctors] = useState<number>(0);
+//     const [searchQuery, setSearchQuery] = useState(""); // Separate state to track the confirmed search term
 
-  return (
-    <div className={styles.container}>
-      {/* Heading */}
-      <h1 className={styles.heading}>Find a doctor at your own ease</h1>
 
-      {/* Search */}
-      <div className={styles.searchContainer}>
-        <input
-          type="text"
-          placeholder="Search doctors"
-          className={styles.search}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button className={styles.searchBtn}>Search</button>
-      </div>
+//     const showToast = (message: string, type: "success" | "error" | "info") => {
+//         setToast({ message, type });
+//     };
 
-      {/* Header */}
-      <div className={styles.headerContainer}>
-        <h1 className={styles.doc_heading}>{filteredDoctors.length} Doctors Available</h1>
-        <p className={styles.doc_para}>
-          Book appointments with minimum wait-time & verified doctor details
-        </p>
-      </div>
 
-      {/* Desktop View: Sidebar */}
-      <main className={styles.main}>
-        {!isMobile && (
-          <div className={styles.sidebar}>
-            {/* Rating Filter */}
-            <div className={styles.filter_card}>
-              <h4>Rating</h4>
-              {[1, 2, 3, 4, 5].map((star) => (
-                <label key={star}>
-                  <input
-                    type="checkbox"
-                    checked={selectedRatings.includes(star)}
-                    onChange={() => handleRatingChange(star)}
-                  />
-                  {star} star
-                </label>
-              ))}
-            </div>
+//     const fetchDoctors = useCallback(async () => {
+//         try {
+//             const token = localStorage.getItem("token");
+//             if (!token) {
+//                 showToast("You need to log in first!", "error");
+//                 setTimeout(() => {
+//                     router.push("/login");
+//                 }, 3000);
+//                 return;
+//             }
+    
+//             const params = new URLSearchParams();
+//             if (ratingFilter !== null) params.append("rating", ratingFilter.toString());
+//             if (experienceFilter !== null) params.append("experience", experienceFilter.toString());
+//             if (genderFilter !== null) params.append("gender", genderFilter);
+//             if (searchQuery) params.append("searchTerm", searchQuery); // ✅ Use confirmed searchQuery
+//             params.append("page", currentPage.toString());
+//             params.append("limit", "6");
+    
+//             const response = await fetch(`http://localhost:5000/api/doctors/?${params.toString()}`, {
+//                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+//             });
+    
+//             if (response.status === 401) {
+//                 showToast("You need to log in first!", "error");
+//                 localStorage.removeItem("token");
+//                 window.location.href = "/login";
+//                 return;
+//             }
+//             if (!response.ok) throw new Error("❌ API Error: " + response.status);
+    
+//             const data = await response.json();
+//             setDoctors(data.doctors);
+//             setTotalPages(data.totalPages);
+//             setCurrentPage(data.currentPage);
+//             setTotalDoctors(data.totalDoctors);
+//         } catch (error) {
+//             console.error("Error fetching doctors:", error);
+//             setDoctors([]);
+//         }
+//     }, [ratingFilter, experienceFilter, genderFilter, searchQuery, currentPage, router]); // ✅ Using searchQuery instead of searchTerm
+    
+//     useEffect(() => {
+//         fetchDoctors();
+//     }, [fetchDoctors]);
+    
 
-            {/* Experience Filter */}
-            <div className={styles.filter_card}>
-              <h4>Experience</h4>
-              {[15, 10, 5, 3, 1].map((years) => (
-                <label key={years}>
-                  <input
-                    type="radio"
-                    checked={experience === years}
-                    onChange={() =>
-                      setExperience(experience === years ? null : years)
-                    }
-                  />
-                  {years}+ years
-                </label>
-              ))}
-            </div>
+//     const updateFilters = (newFilters: { rating?: number | null; experience?: number | null; gender?: string | null }) => {
+//         const params = new URLSearchParams();
 
-            {/* Gender Filter */}
-            <div className={styles.filter_card}>
-              <h4>Gender</h4>
-              {["Male", "Female"].map((g) => (
-                <label key={g}>
-                  <input
-                    type="radio"
-                    checked={gender === g}
-                    onChange={() => setGender(gender === g ? null : g)}
-                  />
-                  {g}
-                </label>
-              ))}
-            </div>
-          </div>
-        )}
+//         if (newFilters.rating !== undefined) setRatingFilter(newFilters.rating);
+//         if (newFilters.experience !== undefined) setExperienceFilter(newFilters.experience);
+//         if (newFilters.gender !== undefined) setGenderFilter(newFilters.gender);
 
-        {/* Doctor List */}
-        <div className={styles.doctors}>
-          {filteredDoctors.map((doc, index) => (
-            <Link href={`/doctor/${index}`} key={index} className={styles.card}>
-              <DoctorCard {...doc} />
-            </Link>
-          ))}
-        </div>
-      </main>
+//         if (newFilters.rating !== null && newFilters.rating !== undefined) params.set("rating", newFilters.rating.toString());
+//         if (newFilters.experience !== null && newFilters.experience !== undefined) params.set("experience", newFilters.experience.toString());
+//         if (newFilters.gender !== null && newFilters.gender !== undefined) params.set("gender", newFilters.gender);
 
-      {/* Mobile Bottom Filter Bar */}
-      {isMobile && (
-        <div className={styles.bottomBar}>
-          <button onClick={() => setActiveFilter("rating")}>Rating</button>
-          <button onClick={() => setActiveFilter("experience")}>Experience</button>
-          <button onClick={() => setActiveFilter("gender")}>Gender</button>
-        </div>
-      )}
+//         params.set("page", "1");
 
-      {/* Bottom Sheet for Filters */}
-      {activeFilter && (
-        <>
-          <div className={styles.overlay} onClick={() => setActiveFilter(null)} />
-          <div className={styles.bottomSheet}>
-            <div className={styles.sheetHeader}>
-              <h3>{activeFilter.charAt(0).toUpperCase() + activeFilter.slice(1)}</h3>
-              <button onClick={() => setActiveFilter(null)}>✕</button>
-            </div>
+//         router.push(`?${params.toString()}`);
+//         setCurrentPage(1);//for filter
+//     };
 
-            {/* Filter Options */}
-            <div className={styles.filterOptions}>
-              {activeFilter === "rating" &&
-                [1, 2, 3, 4, 5].map((star) => (
-                  <label key={star}>
-                    <input
-                      type="checkbox"
-                      checked={selectedRatings.includes(star)}
-                      onChange={() => handleRatingChange(star)}
-                    />
-                    {star} star
-                  </label>
-                ))}
+//     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//         setSearchTerm(e.target.value); // ✅ Updates input field without triggering API calls
+//     };
+    
+//     const handleSearch = () => {
+//         if (!searchTerm.trim()) return; // Prevents empty or space-only searches
+//         setSearchQuery(searchTerm); // triggers API call only when search button is clicked
+//         setCurrentPage(1);
+//     };
 
-              {activeFilter === "experience" &&
-                [15, 10, 5, 3, 1].map((years) => (
-                  <label key={years}>
-                    <input
-                      type="radio"
-                      checked={experience === years}
-                      onChange={() =>
-                        setExperience(experience === years ? null : years)
-                      }
-                    />
-                    {years}+ years
-                  </label>
-                ))}
+//     const handlePageChange = (newPage: number) => {
+//         if (newPage >= 1 && newPage <= totalPages) {
+//             setCurrentPage(newPage);
+//         }
+//     };
 
-              {activeFilter === "gender" &&
-                ["Male", "Female"].map((g) => (
-                  <label key={g}>
-                    <input
-                      type="radio"
-                      checked={gender === g}
-                      onChange={() => setGender(gender === g ? null : g)}
-                    />
-                    {g}
-                  </label>
-                ))}
-            </div>
-          </div>
-        </>
-      )}
-    </div>
-  );
-};
+//     return (
+//         <div className={styles.Appointmentcontainer}>
+//             {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+//             <div className={styles.searchParent}>
+//                 <h1 className={styles.h1}>Find a doctor at your own ease</h1>
+//                 <div className={styles.searchContainer}>
+//                     <input
+//                         type="text"
+//                         placeholder="Search Doctors by Name or Specialty or Disease"
+//                         className={styles.searchInput}
+//                         value={searchTerm}
+//                         onChange={handleSearchChange}
+//                     />
+//                     <button className={styles.searchBtn} onClick={handleSearch}>Search</button>
+//                 </div>
+//             </div>
+//             <div className={styles.headerContainer}>
+//                 <h1 className={styles.headerh1}>{totalDoctors} Doctors Available</h1>
+//                 <p className={styles.headerP}>Book appointments with minimum wait-time & verified doctor details</p>
+//             </div>
 
-export default DoctorAppointment;
+//             <div className={styles.mainContent}>
+//                 <div className={styles.sidebar}>
+//                     <div className={styles.filterHeader}>
+//                         <h3 className={styles.h3}>Filter By:</h3>
+//                         <button className={styles.resetBtn} onClick={() => updateFilters({ rating: null, experience: null, gender: null })}>
+//                             Reset
+//                         </button>
+//                     </div>
+
+//                     <div className={styles.filterCard}>
+//                         <h4>Rating</h4>
+//                         <label>
+//                             <input
+//                                 className={styles.radioInp}
+//                                 type="radio"
+//                                 name="rating"
+//                                 checked={ratingFilter === null}
+//                                 onChange={() => updateFilters({ rating: null })}
+//                             />
+//                             Show All
+//                         </label>
+//                         {[1, 2, 3, 4, 5].map((star) => (
+//                             <label key={star}>
+//                                 <input
+//                                     className={styles.radioInp}
+//                                     type="radio"
+//                                     name="rating"
+//                                     checked={ratingFilter === star}
+//                                     onChange={() => updateFilters({ rating: ratingFilter === star ? null : star })}
+//                                 />
+//                                 {star} Star
+//                             </label>
+//                         ))}
+//                     </div>
+
+
+//                     <div className={styles.filterCard}>
+//                         <h4>Experience</h4>
+//                         {[15, 10, 5, 3, 1].map((years) => (
+//                             <label key={years}>
+//                                 <input
+//                                     className={styles.radioInp}
+//                                     type="radio"
+//                                     name="experience"
+//                                     checked={experienceFilter === years}
+//                                     onChange={() => updateFilters({ experience: experienceFilter === years ? null : years })}
+//                                 />
+//                                 {years}+ years
+//                             </label>
+//                         ))}
+//                     </div>
+
+//                     <div className={styles.filterCard}>
+//                         <h4>Gender</h4>
+//                         <label>
+//                             <input
+//                                 className={styles.radioInp}
+//                                 type="radio"
+//                                 name="gender"
+//                                 checked={genderFilter === null}
+//                                 onChange={() => updateFilters({ gender: null })}
+//                             />
+//                             Show All
+//                         </label>
+//                         {["Male", "Female"].map((gender) => (
+//                             <label key={gender}>
+//                                 <input
+//                                     className={styles.radioInp}
+//                                     type="radio"
+//                                     name="gender"
+//                                     checked={genderFilter === gender}
+//                                     onChange={() => updateFilters({ gender: genderFilter === gender ? null : gender })}
+//                                 />
+//                                 {gender}
+//                             </label>
+//                         ))}
+//                     </div>
+
+//                 </div>
+
+//                 <div className={styles.doctorList}>
+//                     {doctors.length > 0 ? (
+//                         doctors.map((doc) => <DoctorCard key={doc.id} {...doc} average_rating={doc.average_rating} />)
+//                     ) : (
+//                         <p className={styles.noDoctors}>No doctors match the selected filters.</p>
+//                     )}
+//                 </div>
+//             </div>
+
+//             {totalPages > 1 && (
+//                 <div className={styles.pagination}>
+//                     <button className={styles.pageBtn} onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+//                         ❮ Prev
+//                     </button>
+//                     {Array.from({ length: totalPages }, (_, i) => (
+//                         <button
+//                             key={i + 1}
+//                             className={`${styles.pageNumber} ${currentPage === i + 1 ? styles.active : ""}`}
+//                             onClick={() => handlePageChange(i + 1)}
+//                         >
+//                             {i + 1}
+//                         </button>
+//                     ))}
+//                     <button className={styles.pageBtn} onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+//                         Next ❯
+//                     </button>
+//                 </div>
+//             )}
+//         </div>
+//     );
+// };
+
+// export default DoctorsPage;

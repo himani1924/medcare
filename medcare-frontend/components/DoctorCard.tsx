@@ -10,7 +10,7 @@ interface DoctorCardProps {
   gender: string;
   experience: number;
   rating: number;
-  image: string;
+  profile_image: string;
 }
 
 const DoctorCard: React.FC<DoctorCardProps> = ({
@@ -19,12 +19,13 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
   specialty,
   experience,
   rating,
-  image,
+  profile_image,
 }) => {
+  console.log('inside doctor card');
   return (
     <div className={styles.card}>
       <div className={styles.imageContainer}>
-        <Image src={image} alt={name} width={100} height={100} className={styles.image} />
+        <Image src={`/${profile_image}`} alt={name} width={100} height={100} className={styles.image} />
       </div>
       <h3 className={styles.name}>
         {name}, {gender}

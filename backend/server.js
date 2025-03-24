@@ -6,8 +6,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 import api from './api/index.js';
 import './api/v1/auth/passportSetup.js'
+import pgSession from "connect-pg-simple";
 import authRoutes from './api/v1/routes/auth.js'
 import doctorsRoute from './api/v1/routes/doctors.js'
+import pool from "./api/db/index.js";
 
 dotenv.config();
 
@@ -20,24 +22,27 @@ app.use(cors({
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET, // Replace with a strong secret
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: false, // Set true in production with HTTPS
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
-    },
-  })
-);
+const PgStore = pgSession(session);
+app.use(session({
+  store: new PgStore({
+    pool,
+    tableName: "session",
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    secure: false, 
+    maxAge: 24 * 60 * 60 * 1000, 
+  },
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/api',api)
 app.use("/api/v1/auth", authRoutes);
-app.use('/api/v1/doctors', doctorsRoute)
+// app.use('/api/v1/doctors')
 
 
 const PORT = process.env.PORT || 5000;

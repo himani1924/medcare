@@ -1,11 +1,10 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styles from "./styles/appointment.module.css";
-import Link from "next/link";
 import DoctorCard from "./DoctorCard";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from "next/navigation";
 
-// interface for doc 
+// Interface for doctor data
 interface Doctor {
   id: number;
   name: string;
@@ -13,293 +12,308 @@ interface Doctor {
   experience: number;
   rating: number;
   gender: string;
-  image: string;
+  profile_image: string;
 }
 
 const DoctorAppointment = () => {
-  // use state 
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
-  const [experience, setExperience] = useState<number | null>(null);
-  const [gender, setGender] = useState<string | null>(null);
-  const [hydrated, setHydrated] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [activeFilter, setActiveFilter] = useState<"rating" | "experience" | "gender" | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
   const router = useRouter();
-const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
 
+  // Get initial values from URL params
+  const initialPage = parseInt(searchParams.get("page") || "1", 10);
+  const initialRating = searchParams.get("rating")
+    ? parseInt(searchParams.get("rating")!, 10)
+    : null;
+  const initialExperience = searchParams.get("experience")
+    ? parseInt(searchParams.get("experience")!, 10)
+    : null;
+  const initialGender = searchParams.get("gender") || null;
 
-  // use effect 
+  // State variables
+  const [searchTerm, setSearchTerm] = useState("");
+  const [ratingFilter, setRatingFilter] = useState<number | null>(
+    initialRating
+  );
+  const [experienceFilter, setExperienceFilter] = useState<number | null>(
+    initialExperience
+  );
+  const [genderFilter, setGenderFilter] = useState<string | null>(
+    initialGender
+  );
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalDoctors, setTotalDoctors] = useState<number>(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
-  // prevent redering until hydration completes 
-  useEffect(() => setHydrated(true), []);
+  const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-  // fetch docs data 
+  // Fetch doctors from backend
+  const fetchDoctors = useCallback(async () => {
+    try {
+      const params = new URLSearchParams();
+      if (ratingFilter !== null)
+        params.append("rating", ratingFilter.toString());
+      if (experienceFilter !== null)
+        params.append("experience", experienceFilter.toString());
+      if (genderFilter !== null) params.append("gender", genderFilter);
+      if (searchQuery) params.append("searchTerm", searchQuery);
+      params.append("page", currentPage.toString());
+      params.append("limit", "6");
+      router.push(`?${params.toString()}`, { scroll: false });
+
+      console.log(
+        `Fetching doctors from: ${API_URL}/doctors/?${params.toString()}`
+      );
+
+      const resp = await fetch(`${API_URL}/doctors/?${params.toString()}`);
+      if (!resp.ok) throw new Error(`API error ${resp.status}`);
+
+      const data = await resp.json();
+      setDoctors(data.doctors || []); // Ensure it's always an array
+      setTotalPages(data.totalPages);
+      setTotalDoctors(data.totalDoctors);
+    } catch (error) {
+      console.error("Error fetching doctors:", error);
+      setDoctors([]); // Set empty array to prevent `doctors.length` error
+    }
+  }, [ratingFilter, experienceFilter, genderFilter, searchQuery, currentPage]);
+
+  // Fetch doctors when filters change
   useEffect(() => {
-    const fetchDoctors = async () => {
-      const res = await fetch('/api/doctors');
-      const data = await res.json();
-      setDoctors(data);
-    };
     fetchDoctors();
-  }, []);
+  }, [fetchDoctors]);
 
-  // sync state from url 
-  // when user refreshes page 
-  useEffect(() => {
-    const page = searchParams.get('page');
-    const gender = searchParams.get('gender');
-    const rating = searchParams.get('rating');
-    const experience = searchParams.get('experience');
-  
-    if (page) setCurrentPage(Number(page));
-    if (gender) setGender(gender);
-    if (rating) setSelectedRatings(rating.split(',').map(Number));
-    if (experience) setExperience(Number(experience));
-  }, [searchParams]);
-
-  // sync url from state 
-  // when user clicks on a filter 
-  useEffect(() => {
-    updateURL(currentPage);
-  }, [currentPage, selectedRatings, experience, gender]);
-
-
-  // page change function 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    updateURL(page);
-  };
-    
-  
-  // search bar function 
-  const handleSearch = () => {
-    setSearchTerm(searchTerm.trim().toLowerCase());
-  };  
-
-  // updating url 
-  const updateURL = (page: number) => {
+  // Update filters
+  const updateFilters = (newFilters: {
+    rating?: number | null;
+    experience?: number | null;
+    gender?: string | null;
+  }) => {
     const params = new URLSearchParams();
-  
-    if (gender) params.set('gender', gender);
-    if (selectedRatings.length) params.set('rating', selectedRatings.join(','));
-    if (experience) params.set('experience', experience.toString());
-    params.set('page', page.toString());
-  
-    router.push(`?${params.toString()}`, { scroll: false });
+
+    if (newFilters.rating !== undefined) setRatingFilter(newFilters.rating);
+    if (newFilters.experience !== undefined)
+      setExperienceFilter(newFilters.experience);
+    if (newFilters.gender !== undefined) setGenderFilter(newFilters.gender);
+
+    if (newFilters.rating !== null && newFilters.rating !== undefined)
+      params.set("rating", newFilters.rating.toString());
+    if (newFilters.experience !== null && newFilters.experience !== undefined)
+      params.set("experience", newFilters.experience.toString());
+    if (newFilters.gender !== null && newFilters.gender !== undefined)
+      params.set("gender", newFilters.gender);
+
+    params.set("page", "1");
+    router.push(`?${params.toString()}`);
+    setCurrentPage(1);
   };
 
-  // filter docs function 
-  const filteredDoctors = doctors.filter((doctor) => {
-    return (
-      (selectedRatings.length === 0 || selectedRatings.includes(doctor.rating)) &&
-      (experience === null || doctor.experience >= experience) &&
-      (gender === null || doctor.gender === gender) &&
-      (doctor.name.toLowerCase().includes(searchTerm) || 
-       doctor.specialty.toLowerCase().includes(searchTerm))
-    );
-  });
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setSearchTerm(e.target.value);
+  const handleSearch = () => {
+    if (!searchTerm.trim()) return;
+    setSearchQuery(searchTerm);
+    setCurrentPage(1);
+  };
 
-  // ratings change function 
-const handleRatingChange = (rating: number) => {
-  if (selectedRatings.includes(rating)) {
-    setSelectedRatings(selectedRatings.filter((r) => r !== rating));
-  } else {
-    setSelectedRatings([...selectedRatings, rating]);
-  }
-};
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) setCurrentPage(newPage);
+  };
 
-// clear rating function 
-const handleClearRatings = () => {
-  setSelectedRatings([]);
-};
-
-// pagination 
-const startIndex = (currentPage - 1) * itemsPerPage;
-const endIndex = startIndex + itemsPerPage;
-const paginatedDoctors = filteredDoctors.slice(startIndex, endIndex);
-
-// return jsx 
-  return hydrated?(
+  return (
     <div className={styles.container}>
-      {/* heading  */}
       <h1 className={styles.heading}>Find a doctor at your own ease</h1>
 
-      {/* search  */}
+      {/* Search Bar */}
       <div className={styles.searchContainer}>
         <input
           type="text"
           placeholder="Search doctors"
           className={styles.search}
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={handleSearchChange}
         />
-        <button className={styles.searchBtn}  onClick={handleSearch}>Search</button>
+        <button className={styles.searchBtn} onClick={handleSearch}>
+          Search
+        </button>
       </div>
 
-      {/* header for doctors */}
+      {/* Header Section */}
       <div className={styles.headerContainer}>
-        <h1 className={styles.doc_heading}>{filteredDoctors.length} Doctors Available</h1>
+        <h1 className={styles.doc_heading}>{totalDoctors} Doctors Available</h1>
         <p className={styles.doc_para}>
           Book appointments with minimum wait-time & verified doctor details
         </p>
-      <button
-              className={styles.resetBtn}
-              onClick={() => {
-                setSelectedRatings([]);
-                setExperience(null);
-                setGender(null);
-              }}
-            >
-              Reset filters
-            </button>
+        <button
+          className={styles.resetBtn}
+          onClick={() =>
+            updateFilters({ rating: null, experience: null, gender: null })
+          }
+        >
+          Reset filters
+        </button>
       </div>
 
-      <main className={styles.main}>
-        {/* filters section  */}
+      <div className={styles.main}>
         <div className={styles.sidebar}>
           <div className={styles.filter_header}>
             <h3 className={styles.h3}>Filter By:</h3>
             <button
               className={styles.reset_btn}
-              onClick={() => {
-                setSelectedRatings([]);
-                setExperience(null);
-                setGender(null);
-                updateURL(1)
-              }}
+              onClick={() =>{
+                updateFilters({ rating: null, experience: null, gender: null , })
+                setSearchQuery('')
+              }
+              }
             >
               Reset
             </button>
           </div>
-          {/* Rating Filter */}
+
           <div className={styles.filter_card}>
-      <h4>Rating</h4>
-      <label>
-        <input
-          className={styles.checkbox_input}
-          type="checkbox"
-          onChange={handleClearRatings}
-          checked={selectedRatings.length === 0}
-        />
-        Show all
-      </label>
-      {[1, 2, 3, 4, 5].map((star) => (
-        <label key={star}>
-          <input
-            className={styles.checkbox_input}
-            type="checkbox"
-            checked={selectedRatings.includes(star)}
-            onChange={() => handleRatingChange(star)}
-          />
-          {star} star
-        </label>
-      ))}
-    </div>
-          {/* Experience Filter */}
+            <h4>Rating</h4>
+            <label>
+              <input
+                className={styles.radio_inp}
+                type="radio"
+                name="rating"
+                checked={ratingFilter === null}
+                onChange={() => updateFilters({ rating: null })}
+              />
+              Show All
+            </label>
+            {[1, 2, 3, 4, 5].map((star) => (
+              <label key={star}>
+                <input
+                  className={styles.radio_inp}
+                  type="radio"
+                  name="rating"
+                  checked={ratingFilter === star}
+                  onChange={() =>
+                    updateFilters({
+                      rating: ratingFilter === star ? null : star,
+                    })
+                  }
+                />
+                {star} Star
+              </label>
+            ))}
+          </div>
+
           <div className={styles.filter_card}>
             <h4>Experience</h4>
             {[15, 10, 5, 3, 1].map((years) => (
               <label key={years}>
                 <input
-                  className={styles.radio_input}
+                  className={styles.radio_inp}
                   type="radio"
                   name="experience"
-                  checked={experience === years}
+                  checked={experienceFilter === years}
                   onChange={() =>
-                    setExperience(experience === years ? null : years)
+                    updateFilters({
+                      experience: experienceFilter === years ? null : years,
+                    })
                   }
                 />
                 {years}+ years
               </label>
             ))}
           </div>
-          {/* Gender filter  */}
+
           <div className={styles.filter_card}>
             <h4>Gender</h4>
             <label>
-            <input
-                  className={styles.radio_inp}
-                  type="radio"
-                  name="gender"
-                  // checked={gender === g}
-                  onChange={() => setGender(null )}
-                />
-                Show all
-                </label>
-            {["Male", "Female"].map((g) => (
-              <label key={g}>
+              <input
+                className={styles.radio_inp}
+                type="radio"
+                name="gender"
+                checked={genderFilter === null}
+                onChange={() => updateFilters({ gender: null })}
+              />
+              Show All
+            </label>
+            {["Male", "Female"].map((gender) => (
+              <label key={gender}>
                 <input
                   className={styles.radio_inp}
                   type="radio"
                   name="gender"
-                  checked={gender === g}
-                  onChange={() => setGender(gender === g ? null : g)}
+                  checked={genderFilter === gender}
+                  onChange={() =>
+                    updateFilters({
+                      gender: genderFilter === gender ? null : gender,
+                    })
+                  }
                 />
-                {g}
+                {gender}
               </label>
             ))}
           </div>
         </div>
-        {/* docs list  */}
+
+        {/* Doctor List */}
         <div className={styles.doctors}>
-  {paginatedDoctors.length > 0 ? (
-    paginatedDoctors.map((doc) => (
-      <Link href={`/doctor/${doc.id}`} key={doc.id} className={styles.card}>
-        <DoctorCard {...doc} />
-      </Link>
-    ))
-  ) : (
-    <p className={styles.noDoctors}>No doctors match the selected filters.</p>
-  )}
-</div>
+          {doctors.length > 0 ? (
+            doctors.map((doc) => <DoctorCard key={doc.id} {...doc} />)
+          ) : (
+            <p className={styles.noDoctors}>
+              No doctors match the selected filters.
+            </p>
+          )}
+        </div>
+      </div>
 
-      </main>
-
-      {/* pagination  */}
-      <div className={styles.pagination}>
-  <button 
-    className={styles.pageBtn} 
-    onClick={() => handlePageChange(currentPage - 1)}
-    disabled={currentPage === 1}
-  >
-    ❮ Prev
-  </button>
-  
-  {Array.from({ length: Math.ceil(filteredDoctors.length / itemsPerPage) }, (_, i) => (
-    <button 
-      key={i} 
-      className={`${styles.pageNumber} ${currentPage === i + 1 ? styles.active : ''}`}
-      onClick={() => handlePageChange(i + 1)}
-    >
-      {i + 1}
-    </button>
-  ))}
-
-  <button 
-    className={styles.pageBtn} 
-    onClick={() => handlePageChange(currentPage + 1)}
-    disabled={currentPage === Math.ceil(filteredDoctors.length / itemsPerPage)}
-  >
-    Next ❯
-  </button>
-</div>
-
-
-    {/* mobile view  */}
-    <div className={styles.bottomBar}>
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className={styles.pagination}>
+          <button
+            className={styles.pageBtn}
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            ❮ Prev
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i + 1}
+              className={`${styles.pageNumber} ${
+                currentPage === i + 1 ? styles.active : ""
+              }`}
+              onClick={() => handlePageChange(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            className={styles.pageBtn}
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next ❯
+          </button>
+        </div>
+      )}
+      {/* mobile view  */}
+      <div className={styles.bottomBar}>
         <button onClick={() => setActiveFilter("rating")}>Rating</button>
-        <button onClick={() => setActiveFilter("experience")}>Experience</button>
+        <button onClick={() => setActiveFilter("experience")}>
+          Experience
+        </button>
         <button onClick={() => setActiveFilter("gender")}>Gender</button>
       </div>
       {activeFilter && (
         <>
-          <div className={styles.overlay} onClick={() => setActiveFilter(null)} />
+          <div
+            className={styles.overlay}
+            onClick={() => setActiveFilter(null)}
+          />
           <div className={styles.bottomSheet}>
             <div className={styles.sheetHeader}>
-              <h3>{activeFilter.charAt(0).toUpperCase() + activeFilter.slice(1)}</h3>
+              <h3>
+                {activeFilter.charAt(0).toUpperCase() + activeFilter.slice(1)}
+              </h3>
               <button onClick={() => setActiveFilter(null)}>✕</button>
             </div>
 
@@ -309,9 +323,14 @@ const paginatedDoctors = filteredDoctors.slice(startIndex, endIndex);
                   <label key={star}>
                     <input
                       className={styles.checkbox_input}
-                      type="checkbox"
-                      checked={selectedRatings.includes(star)}
-                      onChange={() => handleRatingChange(star)}
+                      type="radio"
+                      name="rating"
+                      checked={ratingFilter === star}
+                      onChange={() =>
+                        updateFilters({
+                          rating: ratingFilter === star ? null : star,
+                        })
+                      }
                     />
                     {star} star
                   </label>
@@ -323,9 +342,12 @@ const paginatedDoctors = filteredDoctors.slice(startIndex, endIndex);
                     <input
                       className={styles.radio_input}
                       type="radio"
-                      checked={experience === years}
+                      name="experience"
+                      checked={experienceFilter === years}
                       onChange={() =>
-                        setExperience(experience === years ? null : years)
+                        updateFilters({
+                          experience: experienceFilter === years ? null : years,
+                        })
                       }
                     />
                     {years}+ years
@@ -338,8 +360,11 @@ const paginatedDoctors = filteredDoctors.slice(startIndex, endIndex);
                     <input
                       className={styles.radio_input}
                       type="radio"
-                      checked={gender === g}
-                      onChange={() => setGender(gender === g ? null : g)}
+                      name="gender"
+                      checked={genderFilter === g}
+                      onChange={() =>
+                        updateFilters({ gender: genderFilter === g ? null : g })
+                      }
                     />
                     {g}
                   </label>
@@ -349,8 +374,7 @@ const paginatedDoctors = filteredDoctors.slice(startIndex, endIndex);
         </>
       )}
     </div>
-  ):
-  <p>Loading...</p>;
+  );
 };
 
 export default DoctorAppointment;

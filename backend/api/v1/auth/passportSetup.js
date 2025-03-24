@@ -68,7 +68,7 @@ passport.deserializeUser(async (id, done) =>{
     try {
         console.log("Deserializing User ID:", id);
         const user = await pool.query('select * from users where id = $1', [id])
-        if (userRes.rows.length === 0) {
+        if (user.rows.length === 0) {
             return done(new Error("User not found"), null);
           }
         done(null, user.rows[0])
