@@ -1,15 +1,14 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import styles from "@/styles/signup.module.css";
 import { FcGoogle } from "react-icons/fc";
-
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 const SignupPage = () => {
   const [pending, setPending] = useState(false);
-  const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -18,48 +17,50 @@ const SignupPage = () => {
 
   const router = useRouter();
 
+  const togglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setPending(true);
 
-    const res = await fetch("/api/auth/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-    const data = await res.json();
-    if (res?.ok) {
+    try {
+      const res = await fetch("http://localhost:5000/api/v1/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+        credentials: "include",
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        toast.success("Signup successful! Redirecting...");
+        router.push("/");
+      } else {
+        throw new Error(data.message || "Signup failed");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    } finally {
       setPending(false);
-      toast.success('Signup successful')
-      router.push("/login");
-    } else if (res?.status === 500 || res?.status === 400) {
-      setError(data.message);
-      setPending(false);
-      toast.error(error)
     }
   };
 
-  const handleProvider = async (e: React.MouseEvent<HTMLButtonElement>) =>{
-    e.preventDefault() 
+  const handleProvider = async () => {
     try {
-      await signIn('google', {callbackUrl:'/'})
-      toast.success('Signup successful')
+      window.location.href = "http://localhost:5000/api/v1/auth/google";
     } catch (error) {
-      if(error instanceof Error){
-        if(error.message === 'User already exists'){
-          toast.error(error.message)
-        }
-        else{
-          toast.error(error.message)
-        }
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Google Signup Failed");
       }
-      else{
-        toast.error('Some unknown error occured.')
-      }
-      
     }
-    
-  }
+  };
   return (
     <div className={styles.container}>
       <div className={styles.signup_box}>
@@ -108,7 +109,7 @@ const SignupPage = () => {
                 <Image src={"Lock.svg"} alt="lock" height={15} width={15} />
               </span>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
                 name="password"
                 id="password"
@@ -118,16 +119,36 @@ const SignupPage = () => {
               />
             </div>
             <div>
-              <a>
-                <Image src={"Eye.svg"} alt="lock" height={15} width={15} />
-              </a>
+              <div onClick={togglePassword}>
+                {showPassword ? (
+                  <span>
+                    <FaEyeSlash />
+                  </span>
+                ) : (
+                  <span>
+                    <FaEye></FaEye>
+                  </span>
+                )}
+              </div>
             </div>
           </div>
-          <button className={styles.submit_btn} disabled={pending}>Submit</button>
-          <button className={styles.reset_btn} disabled={pending}>Reset</button>
-          <hr style={{width: '100%'}}/>
+          <button
+            className={styles.submit_btn}
+            disabled={pending}
+          >
+            Submit
+          </button>
+          <button className={styles.reset_btn} disabled={pending} onClick={() => setForm({ name: "", email: "", password: "" })}>
+            Reset
+          </button>
+          <hr style={{ width: "100%" }} />
           {/* sign in with google button */}
-          <button className={styles.google_btn} onClick={handleProvider}><span><FcGoogle/></span><span>Sign up with google</span></button>
+          <button className={styles.google_btn} onClick={handleProvider}>
+            <span>
+              <FcGoogle />
+            </span>
+            <span>Sign up with google</span>
+          </button>
         </form>
       </div>
     </div>

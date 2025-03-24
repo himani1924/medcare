@@ -1,56 +1,56 @@
 "use client";
-// import React, { useState } from "react";
+import React from "react";
 import styles from "@/styles/login.module.css";
-import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
+import { useAuth } from "../api/auth/authContext";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Login() {
-  const session = useSession()
+  const { login } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [pending, setPending] = useState(false);
   const router = useRouter();
-  const [error, setError] = useState("");
+
+  const togglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   const submitHandler = async (e: React.FormEvent) => {
+    
     e.preventDefault();
+    console.log('button clicked');
     setPending(true);
-    setError('')
-    const res = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    });
+    console.log('button clicked ', email, password);
 
-    if (res?.ok) {
-      console.log(session);
-        router.push("/");
-        toast.success("Login successful");
-    } else if (res?.error === "No user found with this email" || res?.error === "Invalid password") {
-      console.log(session);
-        setError(res.error); 
-        toast.error(res.error);
-    } else {
-      console.log(session);
-        setError("Something went wrong");
-        toast.error("Something went wrong");
+    try {
+      await login(email, password);
+      toast.success("Login successful!");
+      router.push("/");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message || "Login failed");
+      } else {
+        toast.error("something went wrong");
+      }
+    } finally {
+      setPending(false);
     }
-    if(error){
-      console.log(error);
-    }
+  };
 
-    setPending(false);
-};
-
-  const handleProvider = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleProvider = (event: React.MouseEvent<HTMLButtonElement>) => {
+    console.log("inside google handler");
     event.preventDefault();
-    signIn('google', { callbackUrl: "/" });
+    console.log(
+      "this is the url of backendddddddd--------------------------",
+      process.env.NEXT_PUBLIC_BACKEND_URL
+    );
+    window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`;
   };
   return (
     <div className={styles.container}>
@@ -85,27 +85,39 @@ export default function Login() {
               <span className="icon">
                 <Image src={"Lock.svg"} alt="lock" height={15} width={15} />
               </span>
-              <input 
-              type="password" 
-              placeholder="••••••••" 
-              id="passwordInp" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                id="passwordInp"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div>
-              <a>
-                <Image src={"Eye.svg"} alt="lock" height={15} width={15} />
-              </a>
+              <div onClick={togglePassword}>
+                {showPassword ? (
+                  <span>
+                    <FaEyeSlash />
+                  </span>
+                ) : (
+                  <span>
+                    <FaEye></FaEye>
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 
           {/* Login & Reset Buttons */}
-          <button className={styles.login_btn} disabled={pending}>Login</button>
-          <button className={styles.reset_btn} disabled={pending}>Reset</button>
+          <button className={styles.login_btn} disabled={pending} type="submit">
+            Login
+          </button>
+          <button className={styles.reset_btn} disabled={pending} onClick={() => {setEmail(''); setPassword('')}}>
+            Reset
+          </button>
           {/* sign in with google  */}
-          <hr style={{width: '100%'}}/>
+          <hr style={{ width: "100%" }} />
           <button className={styles.google_btn} onClick={handleProvider}>
             <span>
               <FcGoogle />

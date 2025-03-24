@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${process.env.BACKEND_URL}/auth/me`, { withCredentials: true });
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/me`, { withCredentials: true });
         setUser(res.data.user);
       } catch (error) {
         console.log(error);
@@ -43,7 +43,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // login
   const login = async (email: string, password: string) => {
     try {
-      const res = await axios.post(`${process.env.BACKEND_URL}/auth/login`, { email, password }, { withCredentials: true });
+        console.log('inside login');
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, { email, password }, { withCredentials: true });
       setUser(res.data.user);
       router.push("/"); 
     } catch (error) {
@@ -54,7 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Logout function
   const logout = async () => {
     try {
-      await axios.get(`${process.env.BACKEND_URL}/auth/logout`, { withCredentials: true });
+      await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/logout`, { withCredentials: true });
       setUser(null);
       router.push("/"); 
     } catch (error) {

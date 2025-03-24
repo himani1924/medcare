@@ -17,14 +17,14 @@ const Navbar = () => {
       <div className={styles.navbar_links}>
         {/* app logo  */}
         <div className={styles.app_logo}>
-          <Image src={"logo.svg"} alt="logo" height={40} width={40} />
+        <Image src="/logo.svg" alt="logo" height={40} width={40} />
           <div className={styles.logo}>MedCare</div>
         </div>
         {/* mobile navigation */}
         <div className={styles.menu}>
           <div className={styles.nav_menu}>
             <Image
-              src={"hamburgerMenu.svg"}
+              src="/hamburgerMenu.svg"
               height={30}
               width={30}
               alt="menu"
