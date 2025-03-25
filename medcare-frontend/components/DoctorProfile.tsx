@@ -2,55 +2,50 @@ import Image from "next/image";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { MdMedicalServices } from "react-icons/md";
 import { IoTimeOutline } from "react-icons/io5";
-import { IoLocationOutline } from "react-icons/io5";
-import { BiClinic } from "react-icons/bi";
 import styles from "./styles/doctorprofile.module.css";
+import { useRouter } from "next/navigation";
 
 interface DoctorProfileProps {
+  id: number;
   name: string;
-  qualification: string;
   specialty: string;
   experience: number;
   rating: number;
-  image: string;
-  clinic: string;
-  location: string;
-  about: string;
+  gender: string;
+  profile_image: string;
+  description: string;
 }
 
 const DoctorProfile: React.FC<DoctorProfileProps> = ({
+  id,
   name,
-  qualification,
   specialty,
   experience,
   rating,
-  image,
-  clinic,
-  location,
-  about,
+  gender,
+  profile_image,
+  description,
 }) => {
+  const router = useRouter()
+
+  const handleBookAppointment = () =>{
+    router.push(`/appointments-booking?doctorId=${id}`)
+  }
   return (
     <div className={styles.profileContainer}>
       <div className={styles.profileCard}>
         <div className={styles.imageContainer}>
-          <Image src={image} alt={name} width={120} height={120} className={styles.image} />
+          <Image src={`/${profile_image}`} alt={name} width={120} height={120} className={styles.image} />
         </div>
-        <h2 className={styles.name}>
-          {name}, {qualification}
-        </h2>
         <div className={styles.details}>
+          <p>{gender}</p>
           <span>
             <MdMedicalServices className={styles.icon} /> {specialty}
           </span>
           <span>
             <IoTimeOutline className={styles.icon} /> {experience} Years of Experience
           </span>
-          <span>
-            <BiClinic className={styles.icon} /> {clinic}
-          </span>
-          <span>
-            <IoLocationOutline className={styles.icon} /> {location}
-          </span>
+          
         </div>
         <div className={styles.rating}>
           Ratings:{" "}
@@ -64,12 +59,12 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
             )
           )}
         </div>
-        <button className={styles.button}>Book Appointment</button>
+        <button className={styles.button} onClick={handleBookAppointment}>Book Appointment</button>
       </div>
 
       <div className={styles.aboutSection}>
         <h3>About {name}</h3>
-        <p>{about}</p>
+        <p>{description}</p>
       </div>
     </div>
   );

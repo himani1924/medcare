@@ -1,19 +1,24 @@
 import Image from "next/image";
+import Link from 'next/link'
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { MdMedicalServices } from "react-icons/md";
 import { IoTimeOutline } from "react-icons/io5";
 import styles from "./styles/doctorcard.module.css";
+import { useRouter } from "next/navigation";
 
 interface DoctorCardProps {
+  id: number;
   name: string;
   specialty: string;
   gender: string;
   experience: number;
   rating: number;
   profile_image: string;
+  description: string;
 }
 
 const DoctorCard: React.FC<DoctorCardProps> = ({
+  id,
   name,
   gender,
   specialty,
@@ -22,8 +27,14 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
   profile_image,
 }) => {
   console.log('inside doctor card');
+  const router = useRouter()
+  const handleBookAppointment = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation(); // Prevent triggering card click event
+    router.push(`/appointments-booking?doctorId=${id}`);
+  };
   return (
     <div className={styles.card}>
+      <Link href={`/doctor/${id}`} className={styles.cardLink}>
       <div className={styles.imageContainer}>
         <Image src={`/${profile_image}`} alt={name} width={100} height={100} className={styles.image} />
       </div>
@@ -50,7 +61,9 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
           )
         )}
       </div>
-      <button className={styles.button}>Book Appointment</button>
+      </Link>
+
+      <button className={styles.button} onClick={handleBookAppointment}>Book Appointment</button>
     </div>
   );
 };

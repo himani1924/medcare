@@ -13,6 +13,7 @@ interface Doctor {
   rating: number;
   gender: string;
   profile_image: string;
+  description: string;
 }
 
 const DoctorAppointment = () => {
@@ -71,12 +72,12 @@ const DoctorAppointment = () => {
       if (!resp.ok) throw new Error(`API error ${resp.status}`);
 
       const data = await resp.json();
-      setDoctors(data.doctors || []); // Ensure it's always an array
+      setDoctors(data.doctors || []); 
       setTotalPages(data.totalPages);
       setTotalDoctors(data.totalDoctors);
     } catch (error) {
       console.error("Error fetching doctors:", error);
-      setDoctors([]); // Set empty array to prevent `doctors.length` error
+      setDoctors([]); 
     }
   }, [ratingFilter, experienceFilter, genderFilter, searchQuery, currentPage]);
 
@@ -122,6 +123,7 @@ const DoctorAppointment = () => {
     if (newPage >= 1 && newPage <= totalPages) setCurrentPage(newPage);
   };
 
+  // return jsx 
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Find a doctor at your own ease</h1>

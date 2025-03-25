@@ -1,24 +1,43 @@
+'use client'
 import DoctorProfile from '@/components/DoctorProfile';
-import React from 'react'
+import { useParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react'
 
-const page = () => {
-    const doctorData = {
-        name: "Dr. Jane Doe",
-        qualification: "MBBS, DDS",
-        specialty: "Dentist",
-        experience: 9,
-        rating: 4.5,
-        image: "/doc.png",
-        clinic: "Green Dental Care",
-        location: "New York, USA",
-        about:
-          "Dr. Jane Doe is a highly experienced dentist specializing in cosmetic and general dentistry. With 9 years of practice, she is dedicated to providing the best dental care with a focus on patient comfort and precision.",
-      };
+interface Doctor{
+  id: number;
+  name: string;
+  specialty: string;
+  experience: number;
+  gender: string;
+  rating: number;
+  description: string;
+  profile_image: string
+}
+const Doctorpage = () => {
+    const {id} = useParams()
+    const [doctor, setDoctor] = useState<Doctor | null>(null)
+    const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  useEffect(() => {
+    const fetchDoctor = async () => {
+      try {
+        console.log(`${API_URL}/doctors/${id}`);
+        const res = await fetch(`${API_URL}/doctors/${id}`);
+        if (!res.ok) throw new Error("Failed to fetch doctor");
+        const data = await res.json();
+        setDoctor(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    if (id) fetchDoctor();
+  }, [id]);
+  if(!doctor) return <p>Loading doctor details...</p>
   return (
     <div>
-        <DoctorProfile {...doctorData}/>
+        <DoctorProfile {...doctor}/>
     </div>
   )
 }
 
-export default page
+export default Doctorpage
