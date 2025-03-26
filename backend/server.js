@@ -8,7 +8,6 @@ import api from './api/index.js';
 import './api/v1/auth/passportSetup.js'
 import pgSession from "connect-pg-simple";
 import authRoutes from './api/v1/routes/auth.js'
-import doctorsRoute from './api/v1/routes/doctors.js'
 import pool from "./api/db/index.js";
 
 dotenv.config();
@@ -34,7 +33,7 @@ app.use(session({
   cookie: {
     httpOnly: true,
     secure: false, 
-    maxAge: 24 * 60 * 60 * 1000, 
+    maxAge: 2 * 60 * 60 * 1000, 
   },
 }));
 
@@ -42,7 +41,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/api',api)
 app.use("/api/v1/auth", authRoutes);
-// app.use('/api/v1/doctors')
 
 
 const PORT = process.env.PORT || 5000;
