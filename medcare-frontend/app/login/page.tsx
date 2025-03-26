@@ -22,12 +22,8 @@ export default function Login() {
   };
 
   const submitHandler = async (e: React.FormEvent) => {
-    
     e.preventDefault();
-    console.log('button clicked');
     setPending(true);
-    console.log('button clicked ', email, password);
-
     try {
       await login(email, password);
       toast.success("Login successful!");
@@ -44,12 +40,7 @@ export default function Login() {
   };
 
   const handleProvider = (event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log("inside google handler");
     event.preventDefault();
-    console.log(
-      "this is the url of backendddddddd--------------------------",
-      process.env.NEXT_PUBLIC_BACKEND_URL
-    );
     window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google`;
   };
   return (
