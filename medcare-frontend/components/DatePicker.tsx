@@ -1,32 +1,24 @@
 // import React, { useRef, useState, useEffect } from 'react';
 import styles from './styles/datepicker.module.css';
+import dayjs from 'dayjs';
 
 interface DatePickerProps{
-  setCurrentMonth: React.Dispatch<React.SetStateAction<string >>;
+  // setCurrentMonth: React.Dispatch<React.SetStateAction<string >>;
   dateContainerRef: React.RefObject<HTMLDivElement | null>;
-  currentMonth: string;
-  dates: string[]
+  currentMonth: number;
+  dates: { date: string; isDisabled: boolean }[]
   selectedDate: string;
-  setSelectedDate: React.Dispatch<React.SetStateAction<string>>
+  setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
+  changeMonth: (direction: "prev" | "next") => void;
+  startMonth: number;
+  endMonth: number;
+  currentYear: number;
 }
-const DatePicker: React.FC<DatePickerProps> = ({currentMonth, setCurrentMonth, dateContainerRef, dates, selectedDate, setSelectedDate}) => {
-  const getPreviousMonth = (month: string): string => {
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const index = months.indexOf(month);
-    return index > 0 ? months[index - 1] : months[11]; // Loop back to December if at January
-  };
-  const getNextMonth = (month: string): string => {
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const index = months.indexOf(month);
-    return index < 11 ? months[index + 1] : months[0]; // Loop back to January if at December
-  };
-  const prevMonth = () => {
-    setCurrentMonth((prev) => getPreviousMonth(prev ?? "January"));
-  };
-  
-  const nextMonth = () => {
-    setCurrentMonth((prev) => getNextMonth(prev ?? "January"));
-  };
+const DatePicker: React.FC<DatePickerProps> = ({currentMonth, dateContainerRef, dates, selectedDate, setSelectedDate, changeMonth, startMonth, endMonth, currentYear}) => {
+
+
+
+
   const scrollLeft = () => {
     if (dateContainerRef.current) {
       dateContainerRef.current.scrollBy({ left: -100, behavior: "smooth" });
@@ -42,9 +34,9 @@ const DatePicker: React.FC<DatePickerProps> = ({currentMonth, setCurrentMonth, d
 
             {/* Month Selector */}
             <div className={styles.monthSelector}>
-              <button onClick={prevMonth}>◀</button>
-              <span>{currentMonth}</span>
-              <button onClick={nextMonth}>▶</button>
+              <button onClick={() => changeMonth("prev")} disabled={currentMonth === startMonth}>◀</button>
+              <span>{dayjs().year(currentYear).month(currentMonth).format("MMMM YYYY")}</span>
+              <button onClick={() => changeMonth("next")} disabled={currentMonth === endMonth}>▶</button>
             </div>
 
 
@@ -52,11 +44,12 @@ const DatePicker: React.FC<DatePickerProps> = ({currentMonth, setCurrentMonth, d
             <div className={styles.datePickerContainer}>
               <button className={styles.arrow} onClick={scrollLeft}>◀</button>
               <div className={styles.datePicker} ref={dateContainerRef}>
-                {dates.map((date) => (
+                {dates.map(({date, isDisabled}, index) => (
                   <button
-                    key={date}
+                    key={index}
                     className={selectedDate === date ? styles.selected : ""}
-                    onClick={() => setSelectedDate(date)}
+                    onClick={() => !isDisabled && setSelectedDate(date)}
+                    disabled={isDisabled}
                   >
                     {date}
                   </button>

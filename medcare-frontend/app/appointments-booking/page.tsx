@@ -4,6 +4,7 @@ import Content from "@/components/Content";
 import ScheduleAppointment from "@/components/ScheduleAppointment";
 
 const page = () => {
+  
   return (
     <div className={styles.container}>
       {/* left side */}
