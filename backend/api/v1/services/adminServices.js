@@ -57,7 +57,6 @@ export const getAllDoctors = async (req, res) =>{
                 message: 'No doctors found.'
             })
         }
-        console.log(slots.rows);
         res.status(200).json({
             doctors: doctors.rows
         })

@@ -1,6 +1,9 @@
 import express from "express";
 import { approveSlot, createDoctor, deleteSlot, getAllDoctors, getAllSlots, updateDoctor } from "../services/adminServices.js";
 const router = express.Router();
+import adminAuth from '../routes/admin.js'
+
+router.use('/auth', adminAuth)
 
 router.post("/create-doctor", createDoctor);
 router.get('/doctors', getAllDoctors)
