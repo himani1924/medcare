@@ -22,7 +22,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={montserrat.variable}>
       <AuthProvider>
       <ToastProvider />
-        <LayoutContent>{children}</LayoutContent>
+        <LayoutContent>
+          {children}
+          </LayoutContent>
         </AuthProvider>
       </body>
     </html>

@@ -1,4 +1,4 @@
-"use client"; // This must be a client component
+"use client"; 
 
 import { useAuth } from "../app/api/auth/authContext";
 import Navbar from "@/components/Navbar";
@@ -11,12 +11,13 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
 
   const publicPages = ['/login', '/signup']
 
-  if (loading) return <p>Loading...</p>; // Prevents flickering
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div>
       <Navbar />
-      {user || publicPages.includes(pathname) ? children : <Home />}
+      {/* {user || publicPages.includes(pathname) ? children : <Home />} */}
+      {children}
     </div>
   );
 };
