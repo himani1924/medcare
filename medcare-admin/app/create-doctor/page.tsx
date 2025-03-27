@@ -3,15 +3,18 @@ import React, { useState } from "react";
 import styles from "@/styles/createdoctor.module.css";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [name, setName] = useState<string>("");
   const [specialty, setSpecialty] = useState<string>("");
-  const [experience, setExperience] = useState<number>();
+  const [experience, setExperience] = useState<number | null>(null);
   const [gender, setGender] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [profileImage, setProfileImage] = useState<string>("");
   const [pending, setPending] = useState(false);
+
+  const router = useRouter()
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,6 +37,8 @@ const Page = () => {
         }
       })
       toast.success(response.data.message || "Doctor added successfully!");
+      router.push('/doctors')
+      
     } catch (error) {
       let errorMessage = "Something went wrong. Please try again.";
 
@@ -92,7 +97,7 @@ const Page = () => {
                 type="number"
                 placeholder="Enter experience"
                 id="experienceInp"
-                value={experience}
+                value={experience === null? '': experience}
                 onChange={(e) => setExperience(Number(e.target.value))}
                 required
               />
@@ -136,7 +141,6 @@ const Page = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
-                required
               />
             </div>
           </div>
@@ -150,7 +154,6 @@ const Page = () => {
               autoComplete="true"
               value={profileImage}
               onChange={(e) => setProfileImage(e.target.value)}
-              required
             />
           </div>
           {/* buttons  */}
@@ -163,7 +166,7 @@ const Page = () => {
             onClick={() => {
               setName("");
               setSpecialty("");
-              setExperience(0);
+              setExperience(null);
               setGender("");
               setDescription("");
               setProfileImage("");

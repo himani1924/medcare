@@ -2,7 +2,7 @@ import pool from "../../db/index.js";
 
 export const createDoctor = async (req, res) =>{
     const {name, specialty, experience, gender, description } = req.body;
-    const profile_image = req.file ? req.file.path : null;
+    const profile_image = req.file ? req.file.path : '/blank-profile.png';
     if(!name || !specialty || !experience || !gender){
         return res.status(400).json({
             error: 'Please fill all required fields'
@@ -68,7 +68,7 @@ export const getAllDoctors = async (req, res) =>{
 
 export const getAllSlots = async (req, res) =>{
     try {
-        const slots = await pool.query (`select * from slots where status != 'rejected'`, [])
+        const slots = await pool.query (`select * from slots where status = 'pending'`, [])
         if(slots.rows.length ===0){
             return res.status(400).json({
                 message: 'No slots found.'
@@ -92,7 +92,7 @@ export const deleteSlot = async (req, res) =>{
                 error: 'Slot does not exist'
             })
         }
-        await pool.query(`delete from slots where id = $1`,[slotId])
+        await pool.query(`UPDATE slots SET status = 'rejected' where id = $1`,[slotId])
         res.status(200).json({
             message: 'Slot deleted successfully'
         })
@@ -108,9 +108,10 @@ export const approveSlot = async (req, res) => {
   
     try {
       const slotQuery = await pool.query(
-        "SELECT doctor_id, user_id, date, slot_time FROM slots WHERE id = $1",
+        "SELECT * FROM slots WHERE id = $1",
         [slotId]
       );
+      console.log('slotquery ===>>>>>>', slotQuery.rows);
   
       if (slotQuery.rowCount === 0) {
         return res.status(404).json({ error: "Slot not found" });
@@ -118,7 +119,6 @@ export const approveSlot = async (req, res) => {
   
       const { doctor_id, user_id, date, slot_time, appointment_type} = slotQuery.rows[0];
   
-      doctor
       const insertAppointment = pool.query(
         `INSERT INTO appointments (user_id, doctor_id, slot_id, date, slot_time, appointment_type, status) 
          VALUES ($1, $2, $3, $4, $5, $6, 'confirmed')`,
@@ -146,4 +146,24 @@ export const approveSlot = async (req, res) => {
       res.status(500).json({ error: "Internal server error" });
     }
   };
+
+export const deleteDoctor = async (req, res) =>{
+    const {id} = req.params;
+    try {
+        const checkDoctor = await pool.query("SELECT * FROM doctors WHERE id = $1", [id]);
+
+    if (checkDoctor.rows.length === 0) {
+      return res.status(404).json({ error: "Doctor not found" });
+    }
+    await pool.query(
+        `delete from doctors where id = $1`,
+        [id]
+      );
+      res.status(200).json({
+        message: "Doctor deleted successfully",
+      });
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+    }   
+}
   

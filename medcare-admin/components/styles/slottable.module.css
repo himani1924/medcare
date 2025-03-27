@@ -1,0 +1,88 @@
+.container {
+    width: 100%;
+    padding: 20px;
+    background-color: var(--green-primary);
+    min-height: 100vh;
+  }
+  
+  .slotTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .slotTable th, .slotTable td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+  
+  .slotTable th {
+    background-color: rgb(48, 60, 84);
+    color: white;
+  }
+  .slotTable td {
+    background-color: white;
+    color: black;
+  }
+  .slotTable tr:nth-child(even) td {
+    background-color: #f9f9f9; 
+  }
+  
+  
+  .approveBtn {
+    background-color: #296d39;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  
+  .rejectBtn {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+  }
+  
+
+  .cardContainer {
+    display: none;
+  }
+  
+  @media (max-width: 1019px) {
+    .slotTable {
+      display: none;
+    }
+  
+    .cardContainer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      
+    }
+  
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+      padding: 15px;
+      width: 100%;
+      max-width: 350px;
+ 
+    }
+  
+    .card p {
+      margin: 5px 0;
+    }
+  
+    .cardActions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      padding: 5px;
+    }
+  }
+  

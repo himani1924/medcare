@@ -9,15 +9,17 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
   const pathname = usePathname()
 
-  const publicPages = ['/login', '/signup']
+  const publicPages = ['/login']
 
   if (loading) return <p>Loading...</p>;
 
   return (
     <div>
       <Navbar />
-      {/* {user || publicPages.includes(pathname) ? children : <Home />} */}
-      {children}
+      {user || publicPages.includes(pathname) ? children : (
+        <Home />
+        )}
+      {/* {children} */}
     </div>
   );
 };

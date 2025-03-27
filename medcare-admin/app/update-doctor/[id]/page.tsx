@@ -43,7 +43,7 @@ const DoctorEditForm = () => {
     fetchDoctor();
   }, [doctorId]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setDoctor((prev) => prev && { ...prev, [e.target.name]: e.target.value });
   };
 
@@ -106,10 +106,10 @@ const DoctorEditForm = () => {
         {/* Gender */}
         <div className={styles.formGroup}>
           <label>Gender</label>
-          {/* <select name="gender" value={doctor.gender} onChange={handleChange} required>
+          <select name="gender" value={doctor.gender} onChange={handleChange} required>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
-          </select> */}
+          </select>
         </div>
 
         {/* Description */}
