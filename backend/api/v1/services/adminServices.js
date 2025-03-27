@@ -1,9 +1,10 @@
 import pool from "../../db/index.js";
 
 export const createDoctor = async (req, res) =>{
-    const {name, specialty, experience, gender, description, profile_image } = req.body;
+    const {name, specialty, experience, gender, description } = req.body;
+    const profile_image = req.file ? req.file.path : null;
     if(!name || !specialty || !experience || !gender){
-        res.status(400).json({
+        return res.status(400).json({
             error: 'Please fill all required fields'
         })
     }
