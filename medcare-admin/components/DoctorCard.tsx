@@ -25,7 +25,6 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
   rating,
   profile_image,
 }) => {
-  console.log('inside doctor card');
 
   return (
     <div className={styles.card}>

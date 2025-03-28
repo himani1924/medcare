@@ -1,6 +1,4 @@
 import Image from "next/image";
-// import { MdMedicalServices } from "react-icons/md";
-// import { IoTimeOutline } from "react-icons/io5";
 import styles from "./styles/doctorprofile.module.css";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -77,7 +75,7 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
           </p>
         </div>
       </div>
-      <p className={styles.description}>{description}</p>
+      <p className={styles.description}>{description == 'null' ? '' : description}</p>
 
       <div className={styles.actionButtons}>
         <button className={styles.updateBtn} onClick={handleUpdate}>Update Profile</button>
