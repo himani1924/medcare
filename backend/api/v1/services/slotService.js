@@ -68,3 +68,26 @@ export const bookSlot = async (req, res) =>{
         })
     }
 }
+
+export const slotsByUserId = async (req, res) =>{
+    const { userId } = req.params;
+    console.log(userId);
+    console.log('inside slot');
+
+    if (!userId) {
+        return res.status(400).json({ error: "User ID is required" });
+    }
+
+    try {
+        const result = await pool.query(`SELECT * FROM slots WHERE user_id = $1 ORDER BY date ASC, slot_time ASC`, [userId]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "No slots found for this user." });
+        }
+        console.log(result.rows);
+        res.status(200).json({ slots: result.rows });
+    } catch (error) {
+        console.error("Error fetching user slots:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}

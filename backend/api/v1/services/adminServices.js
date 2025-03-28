@@ -1,17 +1,17 @@
 import pool from "../../db/index.js";
 
 export const createDoctor = async (req, res) =>{
-    const {name, specialty, experience, gender, description } = req.body;
-    const profile_image = req.file ? req.file.path : '/blank-profile.png';
-    if(!name || !specialty || !experience || !gender){
-        return res.status(400).json({
-            error: 'Please fill all required fields'
-        })
-    }
     try {
+        const {name, specialty, experience, gender, description } = req.body;
+        const profile_image = req.file ? req.file.path : '/blank-profile.png';
+        if(!name || !specialty || !experience || !gender){
+            return res.status(400).json({
+                error: 'Please fill all required fields'
+            })
+        }
         await pool.query(`insert into doctors(name, specialty, experience, gender, description, profile_image) values($1, $2, $3, $4, $5, $6)`,[name, specialty, experience, gender, description, profile_image])
         res.status(200).json({
-            message: 'Doctor created'
+            message: 'Doctor added'
         })
     } catch (error) {
         res.status(500).json({
@@ -22,13 +22,14 @@ export const createDoctor = async (req, res) =>{
 
 export const updateDoctor = async (req, res) =>{
     const {id} = req.params;
-    const {name, specialty, experience, rating, gender, description, profile_image} = req.body;
+    const {name, specialty, experience, rating, gender, description} = req.body;
     try {
         const checkDoctor = await pool.query("SELECT * FROM doctors WHERE id = $1", [id]);
 
     if (checkDoctor.rows.length === 0) {
       return res.status(404).json({ error: "Doctor not found" });
     }
+    const profile_image = req.file ? req.file.path : checkDoctor.rows[0].profile_image;
     await pool.query(
         `UPDATE doctors 
          SET 
@@ -46,7 +47,7 @@ export const updateDoctor = async (req, res) =>{
         message: "Doctor updated successfully",
       });
     } catch (error) {
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(500).json({ error: "Internal server error" });
     }
 }
 
@@ -68,10 +69,12 @@ export const getAllDoctors = async (req, res) =>{
 
 export const getAllSlots = async (req, res) =>{
     try {
+        'inside slots'
         const slots = await pool.query (`select * from slots where status = 'pending'`, [])
         if(slots.rows.length ===0){
+            console.log('inside empty array');
             return res.status(400).json({
-                message: 'No slots found.'
+                error: 'No slots found.'
             })
         }
         console.log(slots.rows);
@@ -79,7 +82,9 @@ export const getAllSlots = async (req, res) =>{
             slots: slots.rows
         })
     } catch (error) {
-        
+        res.status(500).json({
+            error: 'Internal server error'
+        })
     }
 }
 

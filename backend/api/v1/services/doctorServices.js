@@ -5,45 +5,38 @@ export const getAllDoctors = async (req, res) => {
       console.log('inside doc route');
       let { searchTerm, rating, experience, gender, page = 1, limit = 6 } = req.query;
       console.log(searchTerm, rating, experience, gender, page , limit );
-      // Convert to numbers where necessary
       page = parseInt(page, 10);
       limit = parseInt(limit, 10);
       const offset = (page - 1) * limit;
   
-      // Construct base query
       let query = "SELECT * FROM doctors WHERE 1=1";
       let countQuery = "SELECT COUNT(*) FROM doctors WHERE 1=1";
       const params = [];
   
-      // 🔹 Search by name or specialty
       if (searchTerm) {
         query += " AND (LOWER(name) LIKE LOWER($1) OR LOWER(specialty) LIKE LOWER($1))";
         countQuery += " AND (LOWER(name) LIKE LOWER($1) OR LOWER(specialty) LIKE LOWER($1))";
         params.push(`%${searchTerm}%`);
       }
   
-      // 🔹 Filter by rating (single value)
       if (rating) {
-        query += ` AND rating = $${params.length + 1}`;
-        countQuery += ` AND rating = $${params.length + 1}`;
-        params.push(Number(rating));
+        query += ` AND rating >= $${params.length + 1} and rating < $${params.length + 2}`;
+        countQuery += ` AND rating >= $${params.length + 1} and rating < $${params.length + 2}`;
+        params.push(Number(rating), Number(rating) + 1);
       }
   
-      // 🔹 Filter by experience
       if (experience) {
         query += ` AND experience >= $${params.length + 1}`;
         countQuery += ` AND experience >= $${params.length + 1}`;
         params.push(Number(experience));
       }
   
-      // 🔹 Filter by gender
       if (gender) {
         query += ` AND gender = $${params.length + 1}`;
         countQuery += ` AND gender = $${params.length + 1}`;
         params.push(gender);
       }
   
-      // 🔹 Sorting by experience (highest first) & apply pagination
       query += ` ORDER BY experience DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
       params.push(limit, offset);
   

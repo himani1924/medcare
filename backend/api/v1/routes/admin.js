@@ -4,10 +4,7 @@ import passport from "passport";
 const router = express.Router();
 
 // Login
-router.post("/login", (req, res, next)=>{
-  console.log('inside backend login api');
-  next()
-}, passport.authenticate('local'),(req, res) =>{
+router.post("/login", passport.authenticate('local'),(req, res) =>{
   console.log('after authentication sending user', req.user);
   res.json({user: req.user})
 });
