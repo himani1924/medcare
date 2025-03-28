@@ -27,7 +27,6 @@ export default function Login() {
 
     try {
       await login(email, password);
-      toast.success("Login successful!");
       router.push("/");
     } catch (error) {
       if (error instanceof Error) {
