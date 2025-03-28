@@ -1,0 +1,126 @@
+.container{
+  min-height: 100vh;
+  /* background-color: rgb(32, 82, 32); */
+  background-color: var(--green-primary);
+  width: 100vw;
+
+}
+.profileContainer {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+
+    
+  }
+  .profilehead{
+    text-align: center;
+    color: white;
+  }
+  .title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+  }
+  
+  .slotContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .userDetails {
+    margin: 10px 0;
+    background: rgb(122, 167, 116);
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    display: flex;
+
+  }
+  
+  .userDetails p {
+    margin: 5px 0;
+    flex: 1;
+    text-align: center;;
+  }
+  
+  /* Table Styling */
+  .tableWrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .slotTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .slotTable th, .slotTable td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid var(--green-primary);
+    background-color: rgb(122, 167, 116);
+  }
+  
+  .slotTable th {
+    background-color: #e5ebf0;
+
+  }
+  
+  /* Status Colors */
+  .pending {
+    color: rgb(141, 95, 12);
+  }
+  
+  .approved {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .rejected {
+    color: rgb(177, 58, 58);
+    font-weight: bold;
+  }
+  
+  /* Cards for Mobile View */
+  .cardWrapper {
+    display: none;
+  }
+  
+  .slotCard {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 350px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .slotCard p {
+    margin: 5px 0;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 1019px) {
+    .tableWrapper {
+      display: none;
+    }
+  
+    .cardWrapper {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cardWrapper p{
+      text-align: center;
+    }
+  }
+  
