@@ -24,12 +24,12 @@ const DoctorEditForm = () => {
   const [doctor, setDoctor] = useState<Doctor | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [newImage, setNewImage] = useState<File | null>(null);
 
   useEffect(() => {
     const fetchDoctor = async () => {
       if (!doctorId) return;
       try {
-        console.log('doctor id is: ', doctorId);
         const response = await fetch(`${API_URL}/doctors/${doctorId}`);
         if (!response.ok) throw new Error(`API error: ${response.status}`);
         const data = await response.json();
@@ -47,14 +47,36 @@ const DoctorEditForm = () => {
     setDoctor((prev) => prev && { ...prev, [e.target.name]: e.target.value });
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      
+      if (file.size > 5 * 1024 * 1024) { 
+        toast.error("File size exceeds 5MB. Please upload a smaller image.");
+          return;
+      }
+      
+      setNewImage(file);
+  }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!doctor) return;
+    const formData = new FormData();
+    formData.append("name", doctor.name);
+    formData.append("specialty", doctor.specialty);
+    formData.append("experience", String(doctor.experience));
+    formData.append("gender", doctor.gender);
+    formData.append("description", doctor.description);
+    
+    if (newImage) {
+      formData.append("profile_image", newImage);
+    }
     try {
       const response = await fetch(`${API_URL}/admin/update/${doctor.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(doctor),
+        body: formData,
       });
       if (!response.ok) throw new Error("Failed to update doctor");
       toast.success('Profile updated successfully')
@@ -115,13 +137,15 @@ const DoctorEditForm = () => {
         {/* Description */}
         <div className={styles.formGroup}>
           <label>Description</label>
-          <textarea name="description" value={doctor.description} onChange={handleChange} required />
+          <textarea name="description" value={doctor.description ? doctor.description : ''} onChange={handleChange} />
         </div>
 
         {/* Profile Image */}
         <div className={styles.formGroup}>
-          <label>Profile Image URL</label>
-          <input type="text" name="profile_image" value={doctor.profile_image} onChange={handleChange} required />
+        <label>Profile Image</label>
+            <img src={doctor.profile_image} alt="Profile" className={styles.profileImage} />
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+          
         </div>
 
         <button type="submit" className={styles.submitBtn}>Update Doctor</button>
