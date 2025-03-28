@@ -36,7 +36,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
     <div className={styles.card}>
       <Link href={`/doctor/${id}`} className={styles.cardLink}>
       <div className={styles.imageContainer}>
-        <Image src={`/${profile_image}`} alt={name} width={100} height={100} className={styles.image} />
+        <Image src={profile_image} alt={name} width={100} height={100} className={styles.image} />
       </div>
       <h3 className={styles.name}>
         {name}, {gender}

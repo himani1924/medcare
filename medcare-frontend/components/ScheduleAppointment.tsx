@@ -7,7 +7,7 @@ import { useRef } from 'react';
 import dayjs from "dayjs";
 import Schedule from "./Schedule";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import { useAuth } from "@/app/api/auth/authContext";
 
@@ -30,6 +30,7 @@ export default function ScheduleAppointment() {
   const [selectedMonth, setSelectedMonth] = useState(today.month())
   const [dates, setDates] = useState<{date: string; isDisabled: boolean}[]>([])
   const dateContainerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter()
 
   const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -75,6 +76,7 @@ export default function ScheduleAppointment() {
 
       if(response.status === 200){
         toast.success(response.data.message)
+        router.push('/profile')
       }
       if(response.data.error){
         toast.error(response.data.error)

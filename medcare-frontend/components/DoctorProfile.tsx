@@ -35,7 +35,7 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
     <div className={styles.profileContainer}>
       <div className={styles.profileCard}>
         <div className={styles.imageContainer}>
-          <Image src={`/${profile_image}`} alt={name} width={120} height={120} className={styles.image} />
+          <Image src={profile_image} alt={name} width={120} height={120} className={styles.image} />
         </div>
         <div className={styles.details}>
           <p>{gender}</p>
