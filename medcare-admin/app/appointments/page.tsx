@@ -1,9 +1,8 @@
 'use client'
 import React from 'react'
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import SlotTable from '@/components/SlotTable';
-import { toast } from 'react-toastify';
 
 
 const Page = () => {
@@ -14,15 +13,19 @@ const Page = () => {
     const fetchSlots = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/slots`);
-        if(response.data.status === 400){
-          toast.error(response.data.error)
-          setSlots([])
-          return;
-        }
         setSlots(response.data.slots);
-        console.log(response.data);
+        console.log(response);
       } catch (error) {
-        console.error("Error fetching slots:", error);
+        if(error instanceof AxiosError){
+          if (error.response) {
+            console.log('no slots');
+            setSlots([]);
+            return;
+          }
+        }
+        else{
+          console.error("Error fetching slots:", error);
+        }
       }
     };
 
@@ -55,9 +58,11 @@ const Page = () => {
       <p>No pending slots</p>
     )
   }
+  else{
   return (
     <SlotTable slots={slots} onApprove={handleApprove} onReject={handleReject} />
   )
+}
 }
 
 export default Page
