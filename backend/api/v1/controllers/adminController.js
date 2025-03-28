@@ -6,9 +6,9 @@ import upload from '../utils/multer.js'
 
 router.use('/auth', adminAuth)
 
-router.post("/create-doctor", upload.single('profile_image'), createDoctor);
+router.post("/create-doctor", upload.single('profile_image'),createDoctor);
 router.get('/doctors', getAllDoctors)
-router.put('/update/:id', updateDoctor)
+router.put('/update/:id', upload.single('profile_image'), updateDoctor)
 router.get('/slots', getAllSlots)
 router.post('/delete-slot/:slotId', deleteSlot)
 router.post('/approve-slot/:slotId',approveSlot)
