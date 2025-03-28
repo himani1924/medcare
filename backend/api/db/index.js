@@ -29,14 +29,12 @@ sql_pool.on("error", (err) => {
   process.exit(-1);
 });
 
-// const pool = {
-//     query: (sql, args) =>{
-//         return util.promisify(sql_pool.query).call(sql_pool, sql, args)
-//     }
-
-// }
 const pool = {
-    query: (sql, args) => sql_pool.query(sql, args)
+    query: (sql, args) => sql_pool.query(sql, args),
+    getClient: async () => {
+        const client = await sql_pool.connect();
+        return client;
+    }
 };
 
 export default pool;
