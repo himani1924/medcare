@@ -11,10 +11,19 @@ const Page = () => {
   const [experience, setExperience] = useState<number | null>(null);
   const [gender, setGender] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [profileImage, setProfileImage] = useState<string>("");
+  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
   const router = useRouter()
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
+    const file = e.target.files?.[0];
+    if(file){
+      setProfileImage(file);
+      setImagePreview(URL.createObjectURL(file))
+    }
+  }
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +37,7 @@ const Page = () => {
       formData.append("description", description);
     }
     if (profileImage) {
-      formData.append("profileImage", profileImage);
+      formData.append("profile_image", profileImage);
     }
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/create-doctor`, formData, {
@@ -58,7 +67,7 @@ const Page = () => {
   return (
     <div className={styles.container}>
       <div className={styles.box}>
-        <h2>Create doctor</h2>
+        <h2>Create Doctor Profile</h2>
 
         <form onSubmit={submitHandler} className={styles.form}>
           {/* Name */}
@@ -148,13 +157,16 @@ const Page = () => {
           <label>Profile image</label>
           <div className={styles.input_box}>
             <input
-              type="text"
+              type="file"
+              accept="image/*"
               placeholder="Image url"
               id="imageInp"
               autoComplete="true"
-              value={profileImage}
-              onChange={(e) => setProfileImage(e.target.value)}
+              onChange={handleFileChange}
             />
+            {imagePreview && 
+            <img 
+            src={imagePreview} alt="Preview" width={100} height={100}/>}
           </div>
           {/* buttons  */}
           <button className={styles.submit_btn} disabled={pending} type="submit">
@@ -169,7 +181,7 @@ const Page = () => {
               setExperience(null);
               setGender("");
               setDescription("");
-              setProfileImage("");
+              setProfileImage(null);
             }}
           >
             Reset
