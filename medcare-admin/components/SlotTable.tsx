@@ -3,12 +3,13 @@ import styles from '@/components/styles/slottable.module.css';
 
 interface Slot {
   id: number;
-  doctor_id: number;
-  user_id: number;
   date: string;
   slot_time: string;
   appointment_type: string;
   status: string;
+  doctor_id: number;
+  doctor_name: string;
+  patient_name: string;
 }
 
 interface SlotTableProps {
@@ -37,13 +38,19 @@ const SlotTable: React.FC<SlotTableProps> = ({ slots, onApprove, onReject }) => 
       
     return (
         <div className={styles.container}>
+
+        <a href="/all-slots">
+        <div className={styles.history}> Get Appointment history</div>
+        
+        </a>
         {/* Table for larger screens */}
         <table className={styles.slotTable}>
           <thead>
             <tr>
               <th>Slot ID</th>
               <th>Doctor ID</th>
-              <th>User ID</th>
+              <th>Doctor Name</th>
+              <th>Patient Name</th>
               <th>Date</th>
               <th>Slot Time</th>
               <th>Appointment Type</th>
@@ -55,7 +62,8 @@ const SlotTable: React.FC<SlotTableProps> = ({ slots, onApprove, onReject }) => 
               <tr key={slot.id}>
                 <td>{slot.id}</td>
                 <td>{slot.doctor_id}</td>
-                <td>{slot.user_id}</td>
+                <td>{slot.doctor_name}</td>
+                <td>{slot.patient_name}</td>
                 <td>{new Date(slot.date).toLocaleDateString()}</td>
                 <td>{formatTime(slot.slot_time)}</td>
                 <td>{slot.appointment_type}</td>
@@ -74,7 +82,8 @@ const SlotTable: React.FC<SlotTableProps> = ({ slots, onApprove, onReject }) => 
             <div className={styles.card} key={slot.id}>
               <p><strong>Slot ID:</strong> {slot.id}</p>
               <p><strong>Doctor ID:</strong> {slot.doctor_id}</p>
-              <p><strong>User ID:</strong> {slot.user_id}</p>
+              <p><strong>Doctor Name:</strong> {slot.doctor_name}</p>
+              <p><strong>Patient Name:</strong> {slot.patient_name}</p>
               <p><strong>Date:</strong> {formatDate(slot.date)}</p>
               <p><strong>Slot Time:</strong> {formatTime(slot.slot_time)}</p>
               <p><strong>Type:</strong> {slot.appointment_type}</p>

@@ -27,30 +27,6 @@
   .slotTable tr:nth-child(even) td {
     background-color: #f9f9f9; 
   }
-  .history{
-    margin: 10px 0;
-    padding: 10px 0;
-    color: white;
-    text-align: right;
-  }
-  
-  .approveBtn {
-    background-color: #296d39;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    margin-right: 5px;
-  }
-  
-  .rejectBtn {
-    background-color: #dc3545;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-  }
-  
 
   .cardContainer {
     display: none;
@@ -60,12 +36,17 @@
     .slotTable {
       display: none;
     }
+    .para{
+      margin: 10px 0;
+      padding: 10px 0;
+      color: white;
+    }
   
     .cardContainer {
       display: flex;
       flex-wrap: wrap;
       gap: 15px;
-      justify-content: center;
+      justify-content: space-evenly;
       
     }
   
@@ -83,11 +64,5 @@
       margin: 5px 0;
     }
   
-    .cardActions {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 10px;
-      padding: 5px;
-    }
   }
   

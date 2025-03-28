@@ -60,7 +60,10 @@ const Page = () => {
   }
   else{
   return (
+    <>
+    
     <SlotTable slots={slots} onApprove={handleApprove} onReject={handleReject} />
+    </>
   )
 }
 }
