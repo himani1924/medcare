@@ -2,6 +2,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 interface User {
   id: number;
@@ -29,6 +30,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const fetchUser = async () => {
       try {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/me`, { withCredentials: true });
+        if(res.data.user.role != 'admin') setUser(null)
         setUser(res.data.user);
       } catch (error) {
         console.log(error);
@@ -43,9 +45,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // login
   const login = async (email: string, password: string) => {
     try {
-        console.log('inside login');
       const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, { email, password }, { withCredentials: true });
       setUser(res.data.user);
+      if(res.data.user.role != 'admin') {
+        setUser(null)
+        toast.error('Login failed')
+      }
+      else{
+        toast.success('Login successful')
+      }
       router.push("/"); 
     } catch (error) {
       console.error("Login failed", error);
