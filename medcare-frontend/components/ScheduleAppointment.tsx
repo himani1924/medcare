@@ -133,7 +133,7 @@ export default function ScheduleAppointment() {
       {/* Schedule and book appointment */}
       <div className={styles.appointment_head}>
         <h2>Schedule Appointment</h2>
-        <button>Book Appointment</button>
+        <button onClick={handleBooking}>Book Appointment</button>
       </div>
       {/* buttons - for booking type */}
       <div className={styles.buttonToggleContainer}>
@@ -187,7 +187,7 @@ export default function ScheduleAppointment() {
       {/* afternoon slot  */}
       <Schedule
       head={`Afternoon`}
-      availableSlots={2}
+      availableSlots={slots.availableEveningSlots.length}
       imgsrc={"sunset.svg"}
       times={slots.eveningSlots}
       selectedSlot={selectedSlot}

@@ -2,7 +2,6 @@
 import React from "react";
 import styles from "@/styles/login.module.css";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
@@ -15,7 +14,6 @@ export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [pending, setPending] = useState(false);
-  const router = useRouter();
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
@@ -26,8 +24,6 @@ export default function Login() {
     setPending(true);
     try {
       await login(email, password);
-      toast.success("Login successful!");
-      router.push("/");
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message || "Login failed");

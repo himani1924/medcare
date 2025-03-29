@@ -16,16 +16,15 @@ passport.use(new LocalStrategy(
     },
     async (email, password, done) =>{
         try {
-            console.log(email, password);
             const user = await pool.query('select * from users where email = $1', [email])
             if(user.rows.length === 0){
                 console.log('no user returned');
-                return done(null, false, {message: 'User not found'})
+                return done(null, false, {error: 'User not found'})
             }
             const isMatch = await bcrypt.compare(password, user.rows[0].password)
             console.log('isMatch', isMatch);
             if(!isMatch){
-                return done(null, false, {message: 'Incorrect password'})
+                return done(null, false, {error: 'Incorrect password'})
             }
             return done(null, user.rows[0])
         } catch (error) {

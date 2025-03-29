@@ -1,130 +1,122 @@
-.profileContainer {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    /* flex-direction: column; */
-    width: 100%;
-    background-color: #4a4a4a;
+   .body{
+    min-height: calc(100vh - 70px);
+    width: 100vw;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    padding: 40px 20px;
-    background: #f7f9fc;
-    gap: 30px;
+    background-color: var(--green-primary);
+   }
+   .container {
+    max-width: 600px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 10px;
+    overflow: hidden;
   }
   
   .profileCard {
-    background: white;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    gap: 40px;
+    padding: 5px;
+  }
+  
+  .imageWrapper {
+    flex-shrink: 0;
+  }
+  
+  .profileImage {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid black;
+  }
+  
+  .infoSection {
+    text-align: left;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    /* width: 360px; */
-    text-align: center;
-    border: 1px solid #e0e0e0;
+    gap: 5px;
   }
   
-  .imageContainer {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid #1c4a2a;
+  .doctorName {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
   }
   
-  .image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .name {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1c4a2a;
-  }
-  
-  .qualification {
-    font-size: 16px;
-    font-weight: 500;
-    color: #555;
+  .specialty {
+    font-size: 18px;
+    font-weight: 400;
+    color: #333;
   }
   
   .details {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
     font-size: 16px;
-    color: #4a4a4a;
-    width: 100%;
-    text-align: center;
+    color: #444;
+    margin: 2px 0;
   }
   
-  .icon {
-    color: #1c4a2a;
-    margin-right: 6px;
+  .description {
+    font-size: 14px;
+    color: black;
+    margin-top: 10px;
+    text-align: justify;
   }
   
-  .rating {
+  .actionButtons {
     display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 16px;
-    color: #4a4a4a;
-  }
-  
-  .star {
-    color: #f39c12;
-  }
-  
-  .emptyStar {
-    color: #d3d3d3;
-  }
-  
-  .button {
-    margin-top: 15px;
-    padding: 12px 28px;
-    border: none;
-    background: #1c4a2a;
-    color: white;
-    font-size: 17px;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  .button:hover {
-    background: #165c23;
-  }
-  
-  .aboutSection {
-    /* max-width: 600px; */
-    text-align: center;
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e0e0e0;
+    justify-content: space-between;
     margin-top: 20px;
   }
   
-  .aboutSection h3 {
-    font-size: 22px;
-    color: #1c4a2a;
-    margin-bottom: 12px;
+  .btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
   }
   
-  .aboutSection p {
-    font-size: 15px;
-    color: #4a4a4a;
-    line-height: 1.6;
+  .btn {
+    background-color: green;
+    color: white;
+    border: none;
+    margin-right: 10px;
   }
   
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .profileCard {
-      width: 90%;
+  .btn:hover {
+    background-color: var(--green-primary);
+  }
+  
+  
+  .loading,
+  .error {
+    font-size: 16px;
+    color: #e74c3c;
+    text-align: center;
+  }
+  @media (min-width: 1019){
+    .body{
+      height: calc(100vh - 108px);
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--green-primary);
+    }
+    .infoSection {
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
   }
-  

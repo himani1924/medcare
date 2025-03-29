@@ -40,10 +40,8 @@ router.post("/signup", async (req, res) => {
 });
 
 // Login
-router.post("/login", (req, res, next)=>{
-  console.log('inside backend login api');
-  next()
-}, passport.authenticate('local'),(req, res) =>{
+router.post("/login", passport.authenticate('local'),(req, res) =>{
+  console.log(res);
   console.log('after authentication sending user', req.user);
   res.json({user: req.user})
 });
