@@ -201,6 +201,12 @@ export const approveSlot = async (req, res) => {
          RETURNING user_id`,
         [doctor_id, date, slot_time, slotId]
     );
+    const slotDate = new Date(date).toLocaleDateString("en-GB", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+})
+    const slotTime = new Date(`1970-01-01T${slot_time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })
 
     const rejectedUserIds = rejectedSlotsQuery.rows.map(row => row.user_id);
         let rejectedUsersEmails = [];
@@ -226,7 +232,7 @@ export const approveSlot = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
         const userEmail = userQuery.rows[0].email;
-        await sendConfirmEmail(userEmail, doctorName, date);
+        await sendConfirmEmail(userEmail, doctorName, slotDate, slotTime, appointment_type);
         await Promise.all(
             rejectedUsersEmails.map(email =>
                 sendRejectEmail(email, doctorName, date)
