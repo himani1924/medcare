@@ -1,6 +1,8 @@
 import Image from "next/image";
 import styles from "./styles/doctorprofile.module.css";
 import { useRouter } from "next/navigation";
+import RateDoctor from "./RateDoctor";
+import { useAuth } from "@/app/api/auth/authContext";
 
 interface DoctorProfileProps {
   id: number;
@@ -30,6 +32,7 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
   evening_availability
 }) => {
   const router = useRouter()
+  const {user} = useAuth()
 
   const handleBookAppointment = () =>{
     router.push(`/appointments-booking?doctorId=${id}`)
@@ -71,6 +74,7 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
             <strong>Evening availability:</strong> {evening_availability}
           </p>
         </div>
+        <RateDoctor doctorId={id} userId={user?.id}/>
       </div>
       <p className={styles.description}>{description == 'null' ? '' : description}</p>
 

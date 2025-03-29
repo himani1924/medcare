@@ -78,3 +78,57 @@ export const getAllDoctors = async (req, res) => {
         res.status(500).json({error: "Internal server error"})
     }
   }
+
+  export const rateDoctor = async (req, res) =>{
+    console.log('inside rate doc');
+    const {doctorId} = req.params;
+    const {userId, newrating} = req.body;
+
+    if(!newrating || newrating<1 || newrating > 5){
+      return res.status(400).json({error: 'Rating must be between 1 and 5'})
+    }
+    try {
+      console.log('inside try');
+      const doc = await pool.query('select id from doctors where id = $1', [doctorId])
+      if(doc.rows.length === 0){
+        return res.status(400).json({error: 'Doctor not found'})
+      }
+      console.log('doc exists');
+      const existingRating = await pool.query('select id from doctor_ratings where doctor_id = $1 and user_id = $2', [doctorId, userId])
+      console.log('check if already rated');
+
+      if(existingRating.rows.length >0){
+        await pool.query('update doctor_ratings set rating = $1 where doctor_id = $2 and user_id = $3', [newrating, doctorId, userId])
+        console.log('yes exists');
+      }
+      else{
+        console.log('not extst');
+        await pool.query('insert into doctor_ratings (doctor_id, user_id, rating) values ($1, $2, $3)', [doctorId, userId, newrating])
+      }
+      console.log('avg calculation');
+      const avg = await pool.query('select avg(rating) :: numeric(2,1) as avg_rating from doctor_ratings where doctor_id = $1',[doctorId])
+      const avgRating = avg.rows[0].avg_rating || 0;
+      await pool.query('update doctors set rating = $1 where id = $2', [avgRating, doctorId])
+      console.log('average is ', avgRating);
+      res.status(200).json({ message: "Rating submitted successfully", average_rating: avgRating });
+    } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
+  export const getRating = async (req, res) =>{
+    const { doctorId } = req.params;
+    const {userId} = req.query      
+
+    try {
+        const ratings = await pool.query(
+            "SELECT rating FROM doctor_ratings WHERE doctor_id = $1 and user_id = $2",
+            [doctorId, userId]
+        );
+        console.log(ratings.rows[0]);
+        res.json(ratings.rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+  }
