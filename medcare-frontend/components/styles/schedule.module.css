@@ -4,13 +4,13 @@
     border: 1px solid white;
     box-shadow: 2px 2px 6px #bebebe73, -2px -2px 6px #bebebe73;
     border-radius: 5px;
-    margin: 10px 0;
+    margin: 5px 0;
 }
 .schedule_header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 5px 10px;
 }
 .schedule_header h3{
     font-weight: 700;

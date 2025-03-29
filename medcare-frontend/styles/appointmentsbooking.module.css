@@ -53,7 +53,7 @@
   }
   @media (min-width: 1011){
     .container {
-      height: calc(100vh - 108px);
+      height: calc(100vh - 108px - 39.2px);
       background-color: var(--green-primary);
       display: flex;
       flex-direction: row;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from '@/components/styles/slottable.module.css';
 
 interface Slot {
@@ -19,6 +19,13 @@ interface SlotTableProps {
 }
 
 const SlotTable: React.FC<SlotTableProps> = ({ slots, onApprove, onReject }) => {
+  const [doctorId, setDoctorId] = useState<number | null>(null);
+
+  const filteredSlots = slots.filter((slot) => {
+    return (
+      (doctorId ? slot.doctor_id === doctorId : true)
+    );
+  });
     
     const formatTime = (time: string) => {
         const [hour, minute] = time.split(":");
@@ -39,10 +46,36 @@ const SlotTable: React.FC<SlotTableProps> = ({ slots, onApprove, onReject }) => 
     return (
         <div className={styles.container}>
 
+          <div className={styles.filters}>
+            <div>
+          <label>Doctor ID:</label>
+            <select
+              value={doctorId ?? ""}
+              onChange={(e) =>
+                setDoctorId(e.target.value ? Number(e.target.value) : null)
+              }
+            >
+              <option value="">All</option>
+              {Array.from(
+                new Set(
+                  slots.map((slot) => slot.doctor_id).filter((id) => id != null)
+                )
+              ) // Extract unique doctor IDs
+                .sort((a, b) => a - b)
+                .map((id) => (
+                  <option key={id} value={Number(id)}>
+                    {id}
+                  </option>
+                ))}
+            </select>
+            </div>
         <a href="/all-slots">
         <div className={styles.history}> Get Appointment history</div>
-        
         </a>
+          </div>
+
+
+
         {/* Table for larger screens */}
         <table className={styles.slotTable}>
           <thead>
@@ -58,7 +91,7 @@ const SlotTable: React.FC<SlotTableProps> = ({ slots, onApprove, onReject }) => 
             </tr>
           </thead>
           <tbody>
-            {slots.map((slot) => (
+            {filteredSlots.map((slot) => (
               <tr key={slot.id}>
                 <td>{slot.id}</td>
                 <td>{slot.doctor_id}</td>
@@ -78,7 +111,7 @@ const SlotTable: React.FC<SlotTableProps> = ({ slots, onApprove, onReject }) => 
   
         {/* Cards for smaller screens */}
         <div className={styles.cardContainer}>
-          {slots.map((slot) => (
+          {filteredSlots.map((slot) => (
             <div className={styles.card} key={slot.id}>
               <p><strong>Slot ID:</strong> {slot.id}</p>
               <p><strong>Doctor ID:</strong> {slot.doctor_id}</p>

@@ -9,6 +9,16 @@
     width: 100%;
     border-collapse: collapse;
   }
+  .filters{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    color: white;
+  }
+  .filters select{
+    margin: 0 10px;
+    width: 100px;
+  }
   
   .slotTable th, .slotTable td {
     padding: 8px;
@@ -27,12 +37,12 @@
   .slotTable tr:nth-child(even) td {
     background-color: #f9f9f9; 
   }
-  .history{
+  /* .history{
     margin: 10px 0;
     padding: 10px 0;
     color: white;
     text-align: right;
-  }
+  } */
   
   .approveBtn {
     background-color: #296d39;
