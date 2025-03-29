@@ -157,7 +157,7 @@ export const getAllDoctors = async (req, res) => {
     const {doctorId} = req.params;
     try {
       const result = await pool.query(
-        "SELECT dr.review, u.name AS user_name, dr.created_at FROM doctorreviews dr JOIN users u ON dr.user_id = u.id WHERE doctor_id = $1 ORDER BY dr.created_at DESC",
+        "SELECT dr.review, u.name AS user_name, dr.created_at FROM doctorreviews dr JOIN users u ON dr.user_id = u.id WHERE doctor_id = $1 ORDER BY dr.created_at DESC limit 5",
         [doctorId]
     );
     res.json(result.rows);
@@ -167,3 +167,22 @@ export const getAllDoctors = async (req, res) => {
       
     }
   }
+
+  export const getAllReviews = async (req, res) => {
+    console.log('Fetching all reviews');
+    
+    try {
+        const result = await pool.query(
+            `SELECT dr.review, u.name AS user_name, d.name AS doctor_name, dr.created_at 
+             FROM doctorreviews dr
+             JOIN users u ON dr.user_id = u.id
+             JOIN doctors d ON dr.doctor_id = d.id
+             ORDER BY dr.created_at DESC`
+        );
+
+        res.json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
