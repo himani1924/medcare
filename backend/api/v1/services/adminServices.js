@@ -3,14 +3,16 @@ import { sendConfirmEmail, sendRejectEmail } from "./emailService.js";
 
 export const createDoctor = async (req, res) =>{
     try {
-        const {name, specialty, experience, gender, description } = req.body;
+
+        const {name, specialty, experience, gender, description, diseases } = req.body;
         const profile_image = req.file ? req.file.path : '/blank-profile.png';
-        if(!name || !specialty || !experience || !gender){
+        if(!name || !specialty || !experience || !gender || !description || !diseases){
             return res.status(400).json({
                 error: 'Please fill all required fields'
             })
         }
-        await pool.query(`insert into doctors(name, specialty, experience, gender, description, profile_image) values($1, $2, $3, $4, $5, $6)`,[name, specialty, experience, gender, description, profile_image])
+        const diseasesArray = diseases.split(',').map((d)=>d.trim())
+        await pool.query(`insert into doctors(name, specialty, experience, gender, description, profile_image, diseases) values($1, $2, $3, $4, $5, $6, $7)`,[name, specialty, experience, gender, description, profile_image, diseasesArray])
         res.status(200).json({
             message: 'Doctor added'
         })
@@ -22,14 +24,19 @@ export const createDoctor = async (req, res) =>{
 }
 
 export const updateDoctor = async (req, res) =>{
+    console.log('inside create doc');
     const {id} = req.params;
-    const {name, specialty, experience, rating, gender, description} = req.body;
+    const {name, specialty, experience, gender, description, diseases} = req.body;
     try {
+        console.log(name, specialty, experience, gender, description, diseases);
+
         const checkDoctor = await pool.query("SELECT * FROM doctors WHERE id = $1", [id]);
 
     if (checkDoctor.rows.length === 0) {
       return res.status(404).json({ error: "Doctor not found" });
     }
+    const diseasesArray = `{${diseases.split(',').map((d) => d.trim()).join(',')}}`
+    console.log(diseasesArray);
     const profile_image = req.file ? req.file.path : checkDoctor.rows[0].profile_image;
     await pool.query(
         `UPDATE doctors 
@@ -37,13 +44,14 @@ export const updateDoctor = async (req, res) =>{
           name = COALESCE($1, name), 
           specialty = COALESCE($2, specialty), 
           experience = COALESCE($3, experience), 
-          rating = COALESCE($4, rating), 
-          gender = COALESCE($5, gender), 
-          description = COALESCE($6, description), 
-          profile_image = COALESCE($7, profile_image) 
+          gender = COALESCE($4, gender), 
+          description = COALESCE($5, description), 
+          profile_image = COALESCE($6, profile_image) ,
+          diseases = COALESCE($7, diseases)
          WHERE id = $8`,
-        [name, specialty, experience, rating, gender, description, profile_image, id]
+        [name, specialty, experience, gender, description, profile_image, diseasesArray, id]
       );
+      console.log('update query');
       res.status(200).json({
         message: "Doctor updated successfully",
       });

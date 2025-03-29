@@ -13,6 +13,7 @@ const Page = () => {
   const [description, setDescription] = useState<string>("");
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [diseases, setDiseases] = useState('')
   const [pending, setPending] = useState(false);
 
   const router = useRouter()
@@ -33,9 +34,8 @@ const Page = () => {
     formData.append('specialty', specialty)
     formData.append('experience', experience?.toString() ||'')
     formData.append('gender', gender)
-    if (description) {
-      formData.append("description", description);
-    }
+    formData.append("description", description);
+    formData.append("diseases", diseases);
     if (profileImage) {
       formData.append("profile_image", profileImage);
     }
@@ -87,7 +87,7 @@ const Page = () => {
           {/* Specialty */}
           <label>Specialty</label>
           <div className={styles.input_box} id={styles.password_input}>
-            <div className={styles.p}>
+
               <input
                 type="text"
                 placeholder="Enter specialty"
@@ -96,12 +96,12 @@ const Page = () => {
                 onChange={(e) => setSpecialty(e.target.value)}
                 required
               />
-            </div>
+
           </div>
           {/* experience  */}
           <label>Experience</label>
           <div className={styles.input_box}>
-            <div className={styles.p}>
+           
               <input
                 type="number"
                 placeholder="Enter experience"
@@ -110,7 +110,7 @@ const Page = () => {
                 onChange={(e) => setExperience(Number(e.target.value))}
                 required
               />
-            </div>
+            
           </div>
           {/* gender  */}
           <label>Gender</label>
@@ -142,17 +142,31 @@ const Page = () => {
           </div>
           {/* description  */}
           <label>Description</label>
-          <div className={styles.input_box}>
-            <div className={styles.p}>
+          <div className={styles.input_box} id={styles.desc}>
+           
               <textarea
                 placeholder="Enter doctor's description"
-                id="descriptionInp"
+                id={styles.descriptionInp}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
                 required
               />
-            </div>
+          
+          </div>
+          {/* diseases  */}
+          <label>Diseases  (comma separated)</label>
+          <div className={styles.input_box}>
+      
+              <input
+                type="text"
+                placeholder="Enter diseases"
+                id="diseaseInp"
+                value={diseases === null? '': diseases}
+                onChange={(e) => setDiseases(e.target.value)}
+                required
+              />
+    
           </div>
           {/* pfp  */}
           <label>Profile image</label>

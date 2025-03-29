@@ -13,6 +13,7 @@ interface Doctor {
   gender: string;
   description: string;
   profile_image: string;
+  diseases: string
 }
 
 const API_URL = 'http://localhost:5000/api/v1';
@@ -69,6 +70,7 @@ const DoctorEditForm = () => {
     formData.append("experience", String(doctor.experience));
     formData.append("gender", doctor.gender);
     formData.append("description", doctor.description);
+    formData.append('diseases', doctor.diseases)
     
     if (newImage) {
       formData.append("profile_image", newImage);
@@ -138,6 +140,12 @@ const DoctorEditForm = () => {
         <div className={styles.formGroup}>
           <label>Description</label>
           <textarea name="description" value={doctor.description ? doctor.description : ''} onChange={handleChange} />
+        </div>
+
+        {/* diseases  */}
+        <div className={styles.formGroup}>
+          <label>Diseases</label>
+          <input type="text" name="diseases" value={doctor.diseases} onChange={handleChange} required />
         </div>
 
         {/* Profile Image */}
