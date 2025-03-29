@@ -50,11 +50,11 @@ const Navbar = () => {
                   Appointments
                 </Link>
                 <Link
-                  href={"/health-blog"}
+                  href={"/emergency-contacts"}
                   className={styles.down_link}
                   onClick={() => setToggleDropdown(false)}
                 >
-                  Health Blog
+                  Contacts
                 </Link>
                 <Link
                   href={"/reviews"}
@@ -88,7 +88,7 @@ const Navbar = () => {
         <Link href="/appointments" className={pathname === '/appointments' ? styles.active : ''}>Appointments</Link>
       </li>
       <li>
-        <Link href="/health-blog" className={pathname === '/health-blog' ? styles.active : ''}>Health Blog</Link>
+        <Link href="/emergency-contacts" className={pathname === '/emergency-contacts' ? styles.active : ''}>Contacts</Link>
       </li>
       <li>
         <Link href="/reviews" className={pathname === '/reviews' ? styles.active : ''}>Reviews</Link>
