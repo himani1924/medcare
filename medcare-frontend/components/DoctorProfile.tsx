@@ -3,6 +3,7 @@ import styles from "./styles/doctorprofile.module.css";
 import { useRouter } from "next/navigation";
 import RateDoctor from "./RateDoctor";
 import { useAuth } from "@/app/api/auth/authContext";
+import ReviewDoctor from "./ReviewDoctor";
 
 interface DoctorProfileProps {
   id: number;
@@ -75,6 +76,7 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
           </p>
         </div>
         <RateDoctor doctorId={id} userId={user?.id}/>
+        <ReviewDoctor doctorId={id} userId={user?.id} />
       </div>
       <p className={styles.description}>{description == 'null' ? '' : description}</p>
 

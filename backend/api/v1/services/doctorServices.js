@@ -132,3 +132,38 @@ export const getAllDoctors = async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
   }
+
+  export const addReview = async (req, res) =>{
+    const { doctorId } = req.params;
+    const { userId, review } = req.body;
+
+    if (!review || !userId) {
+      return res.status(400).json({ error: "Review and User ID are required" });
+  }
+  try {
+    await pool.query(
+      "insert into doctorreviews (doctor_id, user_id, review) values ($1, $2, $3)",
+      [doctorId, userId, review]
+  );
+  res.status(201).json({ message: "Review added successfully" });
+  } catch (error) {
+    console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+  }
+  }
+
+  export const getReviews = async ( req, res) =>{
+    console.log('inside get reviews');
+    const {doctorId} = req.params;
+    try {
+      const result = await pool.query(
+        "SELECT dr.review, u.name AS user_name, dr.created_at FROM doctorreviews dr JOIN users u ON dr.user_id = u.id WHERE doctor_id = $1 ORDER BY dr.created_at DESC",
+        [doctorId]
+    );
+    res.json(result.rows);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal server error" });
+      
+    }
+  }
