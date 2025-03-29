@@ -75,14 +75,16 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
             <strong>Evening availability:</strong> {evening_availability}
           </p>
         </div>
-        <RateDoctor doctorId={id} userId={user?.id}/>
-        <ReviewDoctor doctorId={id} userId={user?.id} />
       </div>
       <p className={styles.description}>{description == 'null' ? '' : description}</p>
 
       <div className={styles.actionButtons}>
         <button className={styles.btn} onClick={handleBookAppointment}>Book Appointment</button>
       </div>
+    </div>
+    <div className={styles.reviewratings}>
+        <RateDoctor doctorId={id} userId={user?.id}/>
+        <ReviewDoctor doctorId={id} userId={user?.id} />
     </div>
     </div>
   );
