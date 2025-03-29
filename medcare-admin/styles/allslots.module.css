@@ -31,11 +31,34 @@
   .cardContainer {
     display: none;
   }
+
+  .filters{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px 0;
+  }
+  .filters select{
+    padding: 5px;
+    width: 100px;
+  }
+
+  .filters label{
+    color: white;
+  }
+  .noslots{
+    margin: 20px;
+    color: white;
+    font-weight:400;
+    text-align: center;
+    font-size: 25px ;
+  }
   
   @media (max-width: 1019px) {
     .slotTable {
       display: none;
     }
+
     .para{
       margin: 10px 0;
       padding: 10px 0;
@@ -64,5 +87,11 @@
       margin: 5px 0;
     }
   
+  }
+
+  @media (max-width: 620px){
+    .filters{
+      flex-direction: column;
+    }
   }
   

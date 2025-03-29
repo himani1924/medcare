@@ -10,13 +10,16 @@ interface Slot {
     slot_time: string;
     appointment_type: string;
     status: string;
-    doctor_id: number;
+    doctor_id: number | null;
     doctor_name: string;
     patient_name: string;
     user_id: number;
   }
 const Page = () => {
   const [slots, setSlots] = useState<Slot[]>([]);
+  const [selectedMonthYear, setSelectedMonthYear] = useState('')
+  const [status, setStatus] = useState("");
+  const [doctorId, setDoctorId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchSlots = async () => {
@@ -40,6 +43,16 @@ const Page = () => {
 
     fetchSlots();
   }, []);
+
+  const filteredSlots = slots.filter((slot) => {
+    const slotDate = new Date(slot.date);
+    const slotMonthYear = `${slotDate.toLocaleString('default', { month: 'long' })} ${slotDate.getFullYear()}`;
+    return (
+      (selectedMonthYear ? slotMonthYear === selectedMonthYear : true) &&
+      (status ? slot.status === status : true) &&
+      (doctorId ? slot.doctor_id === doctorId : true)
+    );
+  });
 
   const formatTime = (time: string) => {
     const [hour, minute] = time.split(":");
@@ -66,7 +79,59 @@ const Page = () => {
   else{
   return (
     <div className={styles.container}>
-    {/* Table for larger screens */}
+      <div>
+        <div className={styles.filters}>
+
+<label>Month & Year:</label>
+<select value={selectedMonthYear ?? ''} onChange={(e) => setSelectedMonthYear(e.target.value)}>
+  <option value="">All</option>
+  {Array.from(new Set(slots.map((slot) => {
+      const date = new Date(slot.date);
+      return `${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`;
+    })))
+    .sort((a, b) => {
+      const [monthA, yearA] = a.split(" ");
+      const [monthB, yearB] = b.split(" ");
+      const dateA = new Date(`${monthA} 1, ${yearA}`).getTime();
+      const dateB = new Date(`${monthB} 1, ${yearB}`).getTime();
+
+      return dateA - dateB;
+    })
+    .map((monthYear) => (
+      <option key={monthYear} value={monthYear}>
+        {monthYear}
+      </option>
+    ))}
+</select>
+
+
+        <label>Status:</label>
+        <select value={status} onChange={(e) => setStatus(e.target.value)}>
+          <option value="">All</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="rejected">Rejected</option>
+          <option value="pending">Pending</option>
+        </select>
+
+<label>Doctor ID:</label>
+<select value={doctorId ?? ''} onChange={(e) => setDoctorId(e.target.value ? Number(e.target.value) : null)}>
+  <option value="">All</option>
+  {Array.from(new Set(slots.map((slot) => slot.doctor_id).filter((id)=> id != null))) // Extract unique doctor IDs
+  .sort((a, b) => a - b)
+    .map((id) => (
+      <option key={id} value={Number(id)}>
+        {id}
+      </option>
+    ))}
+</select>
+        </div>
+
+
+    {filteredSlots.length ===0 ?(
+      <p className={styles.noslots}>No slots available.</p>
+    ):(
+      <div>
+            {/* Table for larger screens */}
     <table className={styles.slotTable}>
       <thead>
         <tr>
@@ -81,7 +146,7 @@ const Page = () => {
         </tr>
       </thead>
       <tbody>
-        {slots.map((slot) => (
+        {filteredSlots.map((slot) => (
           <tr key={slot.id}>
             <td>{formatDate(slot.date)}</td>
             <td>{slot.id}</td>
@@ -101,7 +166,7 @@ const Page = () => {
 
     {/* Cards for smaller screens */}
     <div className={styles.cardContainer}>
-      {slots.map((slot) => (
+      {filteredSlots.map((slot) => (
         <div className={styles.card} key={slot.id}>
           <p><strong>Date:</strong> {formatDate(slot.date)}</p>
           <p><strong>Slot ID:</strong> {slot.id}</p>
@@ -114,6 +179,11 @@ const Page = () => {
         </div>
       ))}
     </div>
+      </div>
+    )}
+
+      </div>
+
   </div>
   )
 }
