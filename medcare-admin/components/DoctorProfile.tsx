@@ -13,6 +13,9 @@ interface DoctorProfileProps {
   gender: string;
   profile_image: string;
   description: string;
+  diseases: string[];
+  morning_availability: string;
+  evening_availability: string;
 }
 
 const DoctorProfile: React.FC<DoctorProfileProps> = ({
@@ -24,6 +27,9 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
   gender,
   profile_image,
   description,
+  diseases,
+  morning_availability,
+  evening_availability
 }) => {
   const router = useRouter()
   const handleUpdate = () => {
@@ -72,6 +78,15 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
           </p>
           <p className={styles.details}>
             <strong>Gender:</strong> {gender}
+          </p>
+          <p className={styles.details}>
+          <strong>Diseases Treated:</strong> {diseases.join(", ")}
+          </p>
+          <p className={styles.details}>
+            <strong>Morning availability:</strong> {morning_availability}
+          </p>
+          <p className={styles.details}>
+            <strong>Evening availability:</strong> {evening_availability}
           </p>
         </div>
       </div>

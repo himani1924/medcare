@@ -12,6 +12,9 @@ interface Doctor{
   rating: number;
   description: string;
   profile_image: string
+  diseases: string[];
+  morning_availability: string;
+  evening_availability: string;
 }
 const Doctorpage = () => {
     const {id} = useParams()

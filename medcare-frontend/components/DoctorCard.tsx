@@ -50,7 +50,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
         </span>
       </div>
       <div className={styles.rating}>
-        Ratings:{" "}
+        Ratings: {rating}{" "}
         {[...Array(5)].map((_, index) =>
           index + 1 <= rating ? (
             <FaStar key={index} className={styles.star} />

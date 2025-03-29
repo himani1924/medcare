@@ -79,7 +79,7 @@ const DoctorAppointment = () => {
       console.error("Error fetching doctors:", error);
       setDoctors([]); 
     }
-  }, [ratingFilter, experienceFilter, genderFilter, searchQuery, currentPage]);
+  }, [ratingFilter, experienceFilter, genderFilter, searchQuery, currentPage, searchTerm]);
 
   // Fetch doctors when filters change
   useEffect(() => {
@@ -150,8 +150,9 @@ const DoctorAppointment = () => {
         </p>
         <button
           className={styles.resetBtn}
-          onClick={() =>
+          onClick={() =>{
             updateFilters({ rating: null, experience: null, gender: null })
+          }
           }
         >
           Reset filters

@@ -14,10 +14,12 @@ export const getAllDoctors = async (req, res) => {
       const params = [];
   
       if (searchTerm) {
-        query += " AND (LOWER(name) LIKE LOWER($1) OR LOWER(specialty) LIKE LOWER($1))";
-        countQuery += " AND (LOWER(name) LIKE LOWER($1) OR LOWER(specialty) LIKE LOWER($1))";
+        query += " AND (LOWER(name) LIKE LOWER($1) OR LOWER(specialty) LIKE LOWER($1) OR EXISTS (SELECT 1 FROM unnest(diseases) AS d WHERE d ILIKE $1))";
+        countQuery += " AND (LOWER(name) LIKE LOWER($1) OR LOWER(specialty) LIKE LOWER($1) OR EXISTS (SELECT 1 FROM unnest(diseases) AS d WHERE d ILIKE $1))";
         params.push(`%${searchTerm}%`);
       }
+
+      
   
       if (rating) {
         query += ` AND rating >= $${params.length + 1} and rating < $${params.length + 2}`;
@@ -37,7 +39,7 @@ export const getAllDoctors = async (req, res) => {
         params.push(gender);
       }
   
-      query += ` ORDER BY experience DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
+      query += ` ORDER BY rating DESC, experience desc LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
       params.push(limit, offset);
   
       // Fetch data

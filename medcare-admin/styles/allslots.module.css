@@ -37,10 +37,13 @@
     justify-content: space-around;
     align-items: center;
     margin: 10px 0;
+    gap: 10px;
   }
+  
   .filters select{
     padding: 5px;
     width: 100px;
+    margin: 0 10px;
   }
 
   .filters label{
