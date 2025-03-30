@@ -11,7 +11,7 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const guestPages = ["/", "/login", "/signup"];
+  const guestPages = ["/", "/login", "/signup","/reset-password"];
   const authRestrictedPages = ["/login", "/signup"];
 
   useEffect(() => {
