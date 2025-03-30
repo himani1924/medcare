@@ -5,23 +5,20 @@ import config from "../../config/index.js";
 import util from "util";
 
 dotenv.config();
-console.log('password is====>>>>>>>>>',process.env.DB_PASSWORD);
-
-
 
 const sql_pool = new Pool({
     user: process.env.DB_USER || "",
     host: process.env.DB_HOST || "",
     database: process.env.DB_NAME || "",
-    password: process.env.DB_PASSWORD || "Himani@100",
+    password: process.env.DB_PASSWORD || "",
     port: Number(process.env.DB_PORT) || 5432,
     idleTimeoutMillis: process.env.idleTimeoutMillis || 30000,
     connectionTimeoutMillis: process.env.connectionTimeoutMillis || 6000
 })
 sql_pool.query("SELECT 1")
-    .then(() => console.log("✅ Connected to PostgreSQL"))
+    .then(() => console.log("Connected to PostgreSQL"))
     .catch((err) => {
-        console.error("❌ PostgreSQL connection error:", err);
+        console.error("PostgreSQL connection error:", err);
         process.exit(1);
     });
 sql_pool.on("error", (err) => {

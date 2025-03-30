@@ -18,11 +18,9 @@ passport.use(new LocalStrategy(
         try {
             const user = await pool.query('select * from users where email = $1', [email])
             if(user.rows.length === 0){
-                console.log('no user returned');
                 return done(null, false, {error: 'User not found'})
             }
             const isMatch = await bcrypt.compare(password, user.rows[0].password)
-            console.log('isMatch', isMatch);
             if(!isMatch){
                 return done(null, false, {error: 'Incorrect password'})
             }
@@ -44,7 +42,7 @@ passport.use(new GoogleStrategy(
     async (accessToken, refreshToken, profile, done) =>{
         try {
             const email = profile.emails[0].value;
-            console.log("Checking if user exists in database for email:", email);
+
 
             let user = await pool.query('select * from users where email = $1', [email])
             if(user.rows.length === 0){
@@ -59,13 +57,11 @@ passport.use(new GoogleStrategy(
 ))
 
 passport.serializeUser((user, done) =>{
-    console.log('serializing user', user);
     done(null, user.id)
 })
 
 passport.deserializeUser(async (id, done) =>{
     try {
-        console.log("Deserializing User ID:", id);
         const user = await pool.query('select * from users where id = $1', [id])
         if (user.rows.length === 0) {
             return done(new Error("User not found"), null);

@@ -34,32 +34,18 @@ router.post("/signup", async (req, res) => {
       return res.status(201).json({ user: newUser.rows[0] });
     });
   } catch (error) {
-    console.error("Signup error:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
 
 // Login
 router.post("/login", passport.authenticate('local'),(req, res) =>{
-  console.log(res);
-  console.log('after authentication sending user', req.user);
   res.json({user: req.user})
 });
 
-router.get("/google",(req, res, next) =>{
-  console.log('redirecting to google oauth');
-  next()
-}, passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
-router.get(
-  "/google/callback",
-  (req, res, next) => {
-    console.log("Google callback reached. User is being authenticated...");
-    next();
-  },
-  passport.authenticate("google", { failureRedirect: `${process.env.FRONTEND_URL}/login` }),
-  (req, res) => {
-    console.log("User successfully authenticated. Redirecting to frontend...");
+router.get(  "/google/callback", passport.authenticate("google", { failureRedirect: `${process.env.FRONTEND_URL}/login` }),(req, res) => {
     res.redirect(`${process.env.FRONTEND_URL}`);
   }
 );
