@@ -27,7 +27,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({
 }) => {
   return (
     <div className={styles.card}>
-      <Link href={`/doctor/${id}`} className={styles.cardLink}>
+      <Link href={`/admin/doctor/${id}`} className={styles.cardLink}>
         <div className={styles.imageContainer}>
           <Image
             src={profile_image}

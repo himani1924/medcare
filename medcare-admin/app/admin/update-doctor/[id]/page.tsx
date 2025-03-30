@@ -88,7 +88,7 @@ const DoctorEditForm = () => {
       });
       if (!response.ok) throw new Error("Failed to update doctor");
       toast.success("Profile updated successfully");
-      router.push("/doctors");
+      router.push("/admin/doctors");
     } catch (err) {
       console.error("Error updating doctor:", err);
       setError("Failed to update doctor.");

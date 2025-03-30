@@ -33,7 +33,7 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
 }) => {
   const router = useRouter();
   const handleUpdate = () => {
-    router.push(`/update-doctor/${id}`);
+    router.push(`/admin/update-doctor/${id}`);
   };
 
   const handleDeleteDoctor = async () => {
@@ -43,7 +43,7 @@ const DoctorProfile: React.FC<DoctorProfileProps> = ({
       );
       if (response.status == 200) {
         toast.success(response.data.message);
-        router.push("/doctors");
+        router.push("/admin/doctors");
       }
       if (response.data.error) {
         toast.error(response.data.error);

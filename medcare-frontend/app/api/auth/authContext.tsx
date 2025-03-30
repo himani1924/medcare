@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (res.status === 200) {
         setUser(res.data.user);
         toast.success("Login successful");
-        router.push("/");
+        router.push("/appointments");
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {

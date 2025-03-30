@@ -23,20 +23,26 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 const PgStore = pgSession(session);
-app.use(session({
-  store: new PgStore({
-    pool,
-    tableName: "session",
-  }),
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    secure: false, 
-    maxAge: 2 * 60 * 60 * 1000, 
-  },
-}));
+app.use((req, res, next) => {
+  const sessionName = req.path.includes("/admin") ? "admin.sid" : "user.sid";
+
+  session({
+    store: new PgStore({
+      pool,
+      tableName: "session",
+    }),
+    name: sessionName,
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false, 
+      maxAge: 2 * 60 * 60 * 1000, 
+    },
+  })(req, res, next);  // Executes the middleware with req, res, next
+});
+
 
 app.use(passport.initialize());
 app.use(passport.session());

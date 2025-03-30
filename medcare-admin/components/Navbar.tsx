@@ -44,21 +44,21 @@ const Navbar = () => {
                 {user ? (
                   <>
                     <Link
-                      href={"/doctors"}
+                      href={"/admin/doctors"}
                       className={styles.down_link}
                       onClick={() => setToggleDropdown(false)}
                     >
                       Doctors
                     </Link>
                     <Link
-                      href={"/add-doctor"}
+                      href={"/admin/add-doctor"}
                       className={styles.down_link}
                       onClick={() => setToggleDropdown(false)}
                     >
                       Add doctor
                     </Link>
                     <Link
-                      href={"/appointments"}
+                      href={"/admin/appointments"}
                       className={styles.down_link}
                       onClick={() => setToggleDropdown(false)}
                     >
@@ -75,7 +75,7 @@ const Navbar = () => {
                 ) : (
                   <>
                     <Link
-                      href="/login"
+                      href="/admin/login"
                       className={styles.down_link}
                       onClick={() => setToggleDropdown(false)}
                     >
@@ -98,24 +98,24 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/doctors"
-                className={pathname === "/doctors" ? styles.active : ""}
+                href="/admin/doctors"
+                className={pathname === "/admin/doctors" ? styles.active : ""}
               >
                 Doctors
               </Link>
             </li>
             <li>
               <Link
-                href="/add-doctor"
-                className={pathname === "/add-doctor" ? styles.active : ""}
+                href="/admin/add-doctor"
+                className={pathname === "/admin/add-doctor" ? styles.active : ""}
               >
                 Add doctor
               </Link>
             </li>
             <li>
               <Link
-                href="/appointments"
-                className={pathname === "/appointments" ? styles.active : ""}
+                href="/admin/appointments"
+                className={pathname === "/admin/appointments" ? styles.active : ""}
               >
                 Appointments
               </Link>
@@ -138,10 +138,10 @@ const Navbar = () => {
             <button
               className={styles.login}
               onClick={() =>
-                router.push(pathname === "/login" ? "/" : "/login")
+                router.push(pathname === "/admin/login" ? "/" : "/admin/login")
               }
             >
-              {pathname === "/login" ? "Home" : "Login"}
+              {pathname === "/admin/login" ? "Home" : "Login"}
             </button>
           </>
         )}

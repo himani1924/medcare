@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useAuth } from "../api/auth/authContext";
+import { useAuth } from "../../api/auth/authContext";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Login() {
@@ -48,7 +48,7 @@ export default function Login() {
           <label>Email</label>
           <div className={styles.input_box}>
             <span className="icon">
-              <Image src={"ID.svg"} width={15} height={15} alt="customer" />
+              <Image src={"/ID.svg"} width={15} height={15} alt="customer" />
             </span>
             <input
               type="email"
@@ -66,7 +66,7 @@ export default function Login() {
           <div className={styles.input_box} id={styles.password_input}>
             <div className={styles.p}>
               <span className="icon">
-                <Image src={"Lock.svg"} alt="lock" height={15} width={15} />
+                <Image src={"/Lock.svg"} alt="lock" height={15} width={15} />
               </span>
               <input
                 type={showPassword ? "text" : "password"}
@@ -106,9 +106,7 @@ export default function Login() {
           >
             Reset
           </button>
-          {/* Forgot Password */}
         </form>
-        <p className={styles.forgot_password}></p>
       </div>
     </div>
   );

@@ -74,7 +74,7 @@ const SlotTable: React.FC<SlotTableProps> = ({
               ))}
           </select>
         </div>
-        <a href="/all-slots">
+        <a href="/admin/all-slots">
           <div className={styles.history}> Get Appointment history</div>
         </a>
       </div>

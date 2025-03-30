@@ -50,7 +50,7 @@ const Page = () => {
         }
       );
       toast.success(response.data.message || "Doctor added successfully!");
-      router.push("/doctors");
+      router.push("/admin/doctors");
     } catch (error) {
       let errorMessage = "Something went wrong. Please try again.";
 

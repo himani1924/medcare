@@ -52,19 +52,34 @@ router.get(  "/google/callback", passport.authenticate("google", { failureRedire
 );
 
 router.get("/logout", (req, res) => {
-  req.logout((err) => {
+  req.logout(async (err) => {
     if (err) return res.status(500).json({ message: "Error logging out" });
-    req.session.destroy(async () => {
-      res.clearCookie("connect.sid");
-      try {
-        await pool.query("DELETE FROM session WHERE sid = $1", [sessionID]);
-      } catch (error) {
-        console.error("Error deleting session from DB:", error);
-      }
-      res.json({ message: "Logged out successfully" });
-    });
+
+    const sessionName = req.path.includes("/admin") ? "admin.sid" : "user.sid";
+
+    if (req.session) {
+      const sessionID = req.sessionID; 
+      req.session.destroy(async (err) => {
+        if (err) return res.status(500).json({ message: "Error destroying session" });
+
+        res.clearCookie(sessionName);
+
+        try {
+          if (sessionID) {
+            await pool.query("DELETE FROM session WHERE sid = $1", [sessionID]);
+          }
+        } catch (error) {
+          console.error("Error deleting session from DB:", error);
+        }
+
+        res.json({ message: "Logged out successfully" });
+      });
+    } else {
+      res.json({ message: "No active session" });
+    }
   });
 });
+
 
 router.get("/me", (req, res) => {
   if (req.isAuthenticated()) {

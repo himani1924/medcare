@@ -11,8 +11,8 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const guestPages = ["/", "/login", "/signup"];
-  const authRestrictedPages = ["/login", "/signup"];
+  const guestPages = ["/", "/admin/login", "/admin/signup"];
+  const authRestrictedPages = ["/admin/login", "/admin/signup"];
 
   useEffect(() => {
     if (!loading) {
