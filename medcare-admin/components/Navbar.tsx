@@ -30,7 +30,6 @@ const Navbar = () => {
               alt="menu"
               onClick={() => {
                 setToggleDropdown((prev) => !prev);
-                console.log(toggleDropdown);
               }}
             ></Image>
             {toggleDropdown && (

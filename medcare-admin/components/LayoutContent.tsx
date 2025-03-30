@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import { useAuth } from "../app/api/auth/authContext";
 import Navbar from "@/components/Navbar";
@@ -11,8 +11,8 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const guestPages = ["/", "/login", "/signup"]; // Pages accessible to non-logged-in users
-  const authRestrictedPages = ["/login", "/signup"]; // Pages restricted for logged-in users
+  const guestPages = ["/", "/login", "/signup"];
+  const authRestrictedPages = ["/login", "/signup"];
 
   useEffect(() => {
     if (!loading) {

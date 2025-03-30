@@ -21,7 +21,6 @@ export default function Login() {
   };
 
   const submitHandler = async (e: React.FormEvent) => {
-    
     e.preventDefault();
     setPending(true);
 
@@ -97,13 +96,19 @@ export default function Login() {
           <button className={styles.login_btn} disabled={pending} type="submit">
             Login
           </button>
-          <button className={styles.reset_btn} disabled={pending} onClick={() => {setEmail(''); setPassword('')}}>
+          <button
+            className={styles.reset_btn}
+            disabled={pending}
+            onClick={() => {
+              setEmail("");
+              setPassword("");
+            }}
+          >
             Reset
           </button>
           {/* Forgot Password */}
         </form>
-        <p className={styles.forgot_password}>
-        </p>
+        <p className={styles.forgot_password}></p>
       </div>
     </div>
   );

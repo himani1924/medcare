@@ -28,11 +28,9 @@ const Page = () => {
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/all-slots`
         );
         setSlots(response.data.slots);
-        console.log(response);
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response) {
-            console.log("no slots");
             setSlots([]);
             return;
           }
@@ -85,71 +83,74 @@ const Page = () => {
         <div>
           <div className={styles.filters}>
             <div>
-            <label>Month & Year:</label>
-            <select
-              value={selectedMonthYear ?? ""}
-              onChange={(e) => setSelectedMonthYear(e.target.value)}
-            >
-              <option value="">All</option>
-              {Array.from(
-                new Set(
-                  slots.map((slot) => {
-                    const date = new Date(slot.date);
-                    return `${date.toLocaleString("default", {
-                      month: "long",
-                    })} ${date.getFullYear()}`;
-                  })
+              <label>Month & Year:</label>
+              <select
+                value={selectedMonthYear ?? ""}
+                onChange={(e) => setSelectedMonthYear(e.target.value)}
+              >
+                <option value="">All</option>
+                {Array.from(
+                  new Set(
+                    slots.map((slot) => {
+                      const date = new Date(slot.date);
+                      return `${date.toLocaleString("default", {
+                        month: "long",
+                      })} ${date.getFullYear()}`;
+                    })
+                  )
                 )
-              )
-                .sort((a, b) => {
-                  const [monthA, yearA] = a.split(" ");
-                  const [monthB, yearB] = b.split(" ");
-                  const dateA = new Date(`${monthA} 1, ${yearA}`).getTime();
-                  const dateB = new Date(`${monthB} 1, ${yearB}`).getTime();
+                  .sort((a, b) => {
+                    const [monthA, yearA] = a.split(" ");
+                    const [monthB, yearB] = b.split(" ");
+                    const dateA = new Date(`${monthA} 1, ${yearA}`).getTime();
+                    const dateB = new Date(`${monthB} 1, ${yearB}`).getTime();
 
-                  return dateA - dateB;
-                })
-                .map((monthYear) => (
-                  <option key={monthYear} value={monthYear}>
-                    {monthYear}
-                  </option>
-                ))}
-            </select>
+                    return dateA - dateB;
+                  })
+                  .map((monthYear) => (
+                    <option key={monthYear} value={monthYear}>
+                      {monthYear}
+                    </option>
+                  ))}
+              </select>
             </div>
 
-<div>
-
-            <label>Status:</label>
-            <select value={status} onChange={(e) => setStatus(e.target.value)}>
-              <option value="">All</option>
-              <option value="confirmed">Confirmed</option>
-              <option value="rejected">Rejected</option>
-              <option value="pending">Pending</option>
-            </select>
-</div>
-<div>
-
-            <label>Doctor ID:</label>
-            <select
-              value={doctorId ?? ""}
-              onChange={(e) =>
-                setDoctorId(e.target.value ? Number(e.target.value) : null)
-              }
-            >
-              <option value="">All</option>
-              {Array.from(
-                new Set(
-                  slots.map((slot) => slot.doctor_id).filter((id) => id != null)
+            <div>
+              <label>Status:</label>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="">All</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="rejected">Rejected</option>
+                <option value="pending">Pending</option>
+              </select>
+            </div>
+            <div>
+              <label>Doctor ID:</label>
+              <select
+                value={doctorId ?? ""}
+                onChange={(e) =>
+                  setDoctorId(e.target.value ? Number(e.target.value) : null)
+                }
+              >
+                <option value="">All</option>
+                {Array.from(
+                  new Set(
+                    slots
+                      .map((slot) => slot.doctor_id)
+                      .filter((id) => id != null)
+                  )
                 )
-              ) // Extract unique doctor IDs
-                .sort((a, b) => a - b)
-                .map((id) => (
-                  <option key={id} value={Number(id)}>
-                    {id}
-                  </option>
-                ))}
-            </select>
-</div>
+                  .sort((a, b) => a - b)
+                  .map((id) => (
+                    <option key={id} value={Number(id)}>
+                      {id}
+                    </option>
+                  ))}
+              </select>
+            </div>
           </div>
 
           {filteredSlots.length === 0 ? (

@@ -1,100 +1,97 @@
 .container {
-    width: 100%;
-    padding: 20px;
-    background-color: var(--green-primary);
-    min-height: 100vh;
-  }
-  
-  .slotTable {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .slotTable th, .slotTable td {
-    padding: 8px;
-    text-align: center;
-    border: 1px solid #ddd;
-  }
-  
-  .slotTable th {
-    background-color: rgb(48, 60, 84);
-    color: white;
-  }
-  .slotTable td {
-    background-color: white;
-    color: black;
-  }
-  .slotTable tr:nth-child(even) td {
-    background-color: #f9f9f9; 
-  }
+  width: 100%;
+  padding: 20px;
+  background-color: var(--green-primary);
+  min-height: 100vh;
+}
 
-  .cardContainer {
+.slotTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.slotTable th,
+.slotTable td {
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.slotTable th {
+  background-color: rgb(48, 60, 84);
+  color: white;
+}
+.slotTable td {
+  background-color: white;
+  color: black;
+}
+.slotTable tr:nth-child(even) td {
+  background-color: #f9f9f9;
+}
+
+.cardContainer {
+  display: none;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px 0;
+  gap: 10px;
+}
+
+.filters select {
+  padding: 5px;
+  width: 100px;
+  margin: 0 10px;
+}
+
+.filters label {
+  color: white;
+}
+.noslots {
+  margin: 20px;
+  color: white;
+  font-weight: 400;
+  text-align: center;
+  font-size: 25px;
+}
+
+@media (max-width: 1019px) {
+  .slotTable {
     display: none;
   }
 
-  .filters{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+  .para {
     margin: 10px 0;
-    gap: 10px;
-  }
-  
-  .filters select{
-    padding: 5px;
-    width: 100px;
-    margin: 0 10px;
-  }
-
-  .filters label{
+    padding: 10px 0;
     color: white;
   }
-  .noslots{
-    margin: 20px;
-    color: white;
-    font-weight:400;
-    text-align: center;
-    font-size: 25px ;
-  }
-  
-  @media (max-width: 1019px) {
-    .slotTable {
-      display: none;
-    }
 
-    .para{
-      margin: 10px 0;
-      padding: 10px 0;
-      color: white;
-    }
-  
-    .cardContainer {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: space-evenly;
-      
-    }
-  
-    .card {
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-      padding: 15px;
-      width: 100%;
-      max-width: 350px;
- 
-    }
-  
-    .card p {
-      margin: 5px 0;
-    }
-  
+  .cardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-evenly;
   }
 
-  @media (max-width: 620px){
-    .filters{
-      flex-direction: column;
-    }
+  .card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    width: 100%;
+    max-width: 350px;
   }
-  
+
+  .card p {
+    margin: 5px 0;
+  }
+}
+
+@media (max-width: 620px) {
+  .filters {
+    flex-direction: column;
+  }
+}
