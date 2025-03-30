@@ -2,6 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import passport from "passport";
 import pool from '../../db/index.js';
+import { forgotPassword, resetPassword, verifyOtp } from "../services/passwordServices.js";
 
 const router = express.Router();
 
@@ -67,5 +68,9 @@ router.get("/me", (req, res) => {
     res.status(401).json({ message: "Not authenticated" });
   }
 });
+
+router.post('/forgot-password', forgotPassword);
+router.post('/verify-otp', verifyOtp)
+router.post('/reset-password', resetPassword)
 
 export default router;

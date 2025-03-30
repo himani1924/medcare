@@ -9,6 +9,7 @@ import './api/v1/auth/passportSetup.js'
 import pgSession from "connect-pg-simple";
 import authRoutes from './api/v1/routes/auth.js'
 import pool from "./api/db/index.js";
+import './api/v1/utils/cronjobs.js'
 
 dotenv.config();
 
