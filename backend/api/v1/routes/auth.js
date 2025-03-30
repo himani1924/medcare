@@ -54,8 +54,13 @@ router.get(  "/google/callback", passport.authenticate("google", { failureRedire
 router.get("/logout", (req, res) => {
   req.logout((err) => {
     if (err) return res.status(500).json({ message: "Error logging out" });
-    req.session.destroy(() => {
+    req.session.destroy(async () => {
       res.clearCookie("connect.sid");
+      try {
+        await pool.query("DELETE FROM session WHERE sid = $1", [sessionID]);
+      } catch (error) {
+        console.error("Error deleting session from DB:", error);
+      }
       res.json({ message: "Logged out successfully" });
     });
   });
