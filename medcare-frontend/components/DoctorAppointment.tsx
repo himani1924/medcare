@@ -4,7 +4,6 @@ import styles from "./styles/appointment.module.css";
 import DoctorCard from "./DoctorCard";
 import { useRouter, useSearchParams } from "next/navigation";
 
-// Interface for doctor data
 interface Doctor {
   id: number;
   name: string;
@@ -22,25 +21,15 @@ const DoctorAppointment = () => {
 
   // Get initial values from URL params
   const initialPage = parseInt(searchParams.get("page") || "1", 10);
-  const initialRating = searchParams.get("rating")
-    ? parseInt(searchParams.get("rating")!, 10)
-    : null;
-  const initialExperience = searchParams.get("experience")
-    ? parseInt(searchParams.get("experience")!, 10)
-    : null;
+  const initialRating = searchParams.get("rating") ? parseInt(searchParams.get("rating")!, 10) : null;
+  const initialExperience = searchParams.get("experience") ? parseInt(searchParams.get("experience")!, 10) : null;
   const initialGender = searchParams.get("gender") || null;
 
   // State variables
   const [searchTerm, setSearchTerm] = useState("");
-  const [ratingFilter, setRatingFilter] = useState<number | null>(
-    initialRating
-  );
-  const [experienceFilter, setExperienceFilter] = useState<number | null>(
-    initialExperience
-  );
-  const [genderFilter, setGenderFilter] = useState<string | null>(
-    initialGender
-  );
+  const [ratingFilter, setRatingFilter] = useState<number | null>(initialRating);
+  const [experienceFilter, setExperienceFilter] = useState<number | null>(initialExperience);
+  const [genderFilter, setGenderFilter] = useState<string | null>(initialGender);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -54,32 +43,25 @@ const DoctorAppointment = () => {
   const fetchDoctors = useCallback(async () => {
     try {
       const params = new URLSearchParams();
-      if (ratingFilter !== null)
-        params.append("rating", ratingFilter.toString());
-      if (experienceFilter !== null)
-        params.append("experience", experienceFilter.toString());
+      if (ratingFilter !== null) params.append("rating", ratingFilter.toString());
+      if (experienceFilter !== null) params.append("experience", experienceFilter.toString());
       if (genderFilter !== null) params.append("gender", genderFilter);
       if (searchQuery) params.append("searchTerm", searchQuery);
       params.append("page", currentPage.toString());
       params.append("limit", "6");
-      router.push(`?${params.toString()}`, { scroll: false });
-
-      console.log(
-        `Fetching doctors from: ${API_URL}/doctors/?${params.toString()}`
-      );
-
+      router.push(`?${params.toString()}`, { scroll: false })
       const resp = await fetch(`${API_URL}/doctors/?${params.toString()}`);
       if (!resp.ok) throw new Error(`API error ${resp.status}`);
 
       const data = await resp.json();
-      setDoctors(data.doctors || []); 
+      setDoctors(data.doctors || []);
       setTotalPages(data.totalPages);
       setTotalDoctors(data.totalDoctors);
     } catch (error) {
       console.error("Error fetching doctors:", error);
-      setDoctors([]); 
+      setDoctors([]);
     }
-  }, [ratingFilter, experienceFilter, genderFilter, searchQuery, currentPage, searchTerm]);
+  }, [ ratingFilter, experienceFilter, genderFilter, searchQuery, currentPage, searchTerm,]);
 
   // Fetch doctors when filters change
   useEffect(() => {
@@ -87,24 +69,16 @@ const DoctorAppointment = () => {
   }, [fetchDoctors]);
 
   // Update filters
-  const updateFilters = (newFilters: {
-    rating?: number | null;
-    experience?: number | null;
-    gender?: string | null;
-  }) => {
+  const updateFilters = (newFilters: {rating?: number | null; experience?: number | null; gender?: string | null; }) => {
     const params = new URLSearchParams();
 
     if (newFilters.rating !== undefined) setRatingFilter(newFilters.rating);
-    if (newFilters.experience !== undefined)
-      setExperienceFilter(newFilters.experience);
+    if (newFilters.experience !== undefined) setExperienceFilter(newFilters.experience);
     if (newFilters.gender !== undefined) setGenderFilter(newFilters.gender);
 
-    if (newFilters.rating !== null && newFilters.rating !== undefined)
-      params.set("rating", newFilters.rating.toString());
-    if (newFilters.experience !== null && newFilters.experience !== undefined)
-      params.set("experience", newFilters.experience.toString());
-    if (newFilters.gender !== null && newFilters.gender !== undefined)
-      params.set("gender", newFilters.gender);
+    if (newFilters.rating !== null && newFilters.rating !== undefined) params.set("rating", newFilters.rating.toString());
+    if (newFilters.experience !== null && newFilters.experience !== undefined) params.set("experience", newFilters.experience.toString());
+    if (newFilters.gender !== null && newFilters.gender !== undefined) params.set("gender", newFilters.gender);
 
     params.set("page", "1");
     router.push(`?${params.toString()}`);
@@ -113,6 +87,7 @@ const DoctorAppointment = () => {
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setSearchTerm(e.target.value);
+  
   const handleSearch = () => {
     if (!searchTerm.trim()) return;
     setSearchQuery(searchTerm);
@@ -123,7 +98,7 @@ const DoctorAppointment = () => {
     if (newPage >= 1 && newPage <= totalPages) setCurrentPage(newPage);
   };
 
-  // return jsx 
+  // return jsx
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Find a doctor at your own ease</h1>
@@ -150,10 +125,9 @@ const DoctorAppointment = () => {
         </p>
         <button
           className={styles.resetBtn}
-          onClick={() =>{
-            updateFilters({ rating: null, experience: null, gender: null })
-          }
-          }
+          onClick={() => {
+            updateFilters({ rating: null, experience: null, gender: null });
+          }}
         >
           Reset filters
         </button>
@@ -165,11 +139,10 @@ const DoctorAppointment = () => {
             <h3 className={styles.h3}>Filter By:</h3>
             <button
               className={styles.reset_btn}
-              onClick={() =>{
-                updateFilters({ rating: null, experience: null, gender: null , })
-                setSearchQuery('')
-              }
-              }
+              onClick={() => {
+                updateFilters({ rating: null, experience: null, gender: null });
+                setSearchQuery("");
+              }}
             >
               Reset
             </button>

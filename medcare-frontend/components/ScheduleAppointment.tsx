@@ -39,13 +39,11 @@ export default function ScheduleAppointment() {
 
   const fetchSlots = async ()=>{
     try {
-      console.log('triggered');
+  
       const rawDate = selectedDate + " " + selectedYear
       const formattedDate = dayjs(rawDate, "ddd DD MMM YYYY").format("DD-MMM-YYYY").toUpperCase()
-      console.log(formattedDate);
       const res = await axios.get(`${API_URL}/slots/${doctorId}?date=${formattedDate}`);
       const data = res.data;
-      console.log('data====>>>>>',data);
 
       setSlots({
         morningSlots: data.morningSlots,

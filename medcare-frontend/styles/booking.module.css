@@ -1,8 +1,8 @@
-.foot{
-    display: none;
+.foot {
+  display: none;
 }
-@media (min-width: 1019px){
-    .foot{
-        display: block;
-    }
+@media (min-width: 1019px) {
+  .foot {
+    display: block;
+  }
 }

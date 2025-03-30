@@ -1,12 +1,10 @@
-// import React, { useRef, useState, useEffect } from 'react';
-import styles from './styles/datepicker.module.css';
-import dayjs from 'dayjs';
+import styles from "./styles/datepicker.module.css";
+import dayjs from "dayjs";
 
-interface DatePickerProps{
-  // setCurrentMonth: React.Dispatch<React.SetStateAction<string >>;
+interface DatePickerProps {
   dateContainerRef: React.RefObject<HTMLDivElement | null>;
   currentMonth: number;
-  dates: { date: string; isDisabled: boolean }[]
+  dates: { date: string; isDisabled: boolean }[];
   selectedDate: string;
   setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
   changeMonth: (direction: "prev" | "next") => void;
@@ -14,11 +12,17 @@ interface DatePickerProps{
   endMonth: number;
   currentYear: number;
 }
-const DatePicker: React.FC<DatePickerProps> = ({currentMonth, dateContainerRef, dates, selectedDate, setSelectedDate, changeMonth, startMonth, endMonth, currentYear}) => {
-
-
-
-
+const DatePicker: React.FC<DatePickerProps> = ({
+  currentMonth,
+  dateContainerRef,
+  dates,
+  selectedDate,
+  setSelectedDate,
+  changeMonth,
+  startMonth,
+  endMonth,
+  currentYear,
+}) => {
   const scrollLeft = () => {
     if (dateContainerRef.current) {
       dateContainerRef.current.scrollBy({ left: -100, behavior: "smooth" });
@@ -31,35 +35,47 @@ const DatePicker: React.FC<DatePickerProps> = ({currentMonth, dateContainerRef, 
   };
   return (
     <div className={styles.dateContainer}>
+      {/* Month Selector */}
+      <div className={styles.monthSelector}>
+        <button
+          onClick={() => changeMonth("prev")}
+          disabled={currentMonth === startMonth}
+        >
+          ◀
+        </button>
+        <span>
+          {dayjs().year(currentYear).month(currentMonth).format("MMMM YYYY")}
+        </span>
+        <button
+          onClick={() => changeMonth("next")}
+          disabled={currentMonth === endMonth}
+        >
+          ▶
+        </button>
+      </div>
 
-            {/* Month Selector */}
-            <div className={styles.monthSelector}>
-              <button onClick={() => changeMonth("prev")} disabled={currentMonth === startMonth}>◀</button>
-              <span>{dayjs().year(currentYear).month(currentMonth).format("MMMM YYYY")}</span>
-              <button onClick={() => changeMonth("next")} disabled={currentMonth === endMonth}>▶</button>
-            </div>
-
-
-            {/* Scrollable Date Picker with Arrows */}
-            <div className={styles.datePickerContainer}>
-              <button className={styles.arrow} onClick={scrollLeft}>◀</button>
-              <div className={styles.datePicker} ref={dateContainerRef}>
-                {dates.map(({date, isDisabled}, index) => (
-                  <button
-                    key={index}
-                    className={selectedDate === date ? styles.selected : ""}
-                    onClick={() => !isDisabled && setSelectedDate(date)}
-                    disabled={isDisabled}
-                  >
-                    {date}
-                  </button>
-                ))}
-              </div>
-              <button className={styles.arrow} onClick={scrollRight}>▶</button>
-            </div>
-
-
-          </div>
+      {/* Scrollable Date Picker with Arrows */}
+      <div className={styles.datePickerContainer}>
+        <button className={styles.arrow} onClick={scrollLeft}>
+          ◀
+        </button>
+        <div className={styles.datePicker} ref={dateContainerRef}>
+          {dates.map(({ date, isDisabled }, index) => (
+            <button
+              key={index}
+              className={selectedDate === date ? styles.selected : ""}
+              onClick={() => !isDisabled && setSelectedDate(date)}
+              disabled={isDisabled}
+            >
+              {date}
+            </button>
+          ))}
+        </div>
+        <button className={styles.arrow} onClick={scrollRight}>
+          ▶
+        </button>
+      </div>
+    </div>
   );
 };
 

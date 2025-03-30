@@ -1,9 +1,9 @@
-'use client'
-import DoctorProfile from '@/components/DoctorProfile';
-import { useParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+"use client";
+import DoctorProfile from "@/components/DoctorProfile";
+import { useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
-interface Doctor{
+interface Doctor {
   id: number;
   name: string;
   specialty: string;
@@ -11,20 +11,19 @@ interface Doctor{
   gender: string;
   rating: number;
   description: string;
-  profile_image: string,
-  diseases: string[],
-  morning_availability: string,
-  evening_availability: string
+  profile_image: string;
+  diseases: string[];
+  morning_availability: string;
+  evening_availability: string;
 }
 const Doctorpage = () => {
-    const {id} = useParams()
-    const [doctor, setDoctor] = useState<Doctor | null>(null)
-    const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const { id } = useParams();
+  const [doctor, setDoctor] = useState<Doctor | null>(null);
+  const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
     const fetchDoctor = async () => {
       try {
-        console.log(`${API_URL}/doctors/${id}`);
         const res = await fetch(`${API_URL}/doctors/${id}`);
         if (!res.ok) throw new Error("Failed to fetch doctor");
         const data = await res.json();
@@ -35,12 +34,12 @@ const Doctorpage = () => {
     };
     if (id) fetchDoctor();
   }, [id]);
-  if(!doctor) return <p>Loading doctor details...</p>
+  if (!doctor) return <p>Loading doctor details...</p>;
   return (
     <div>
-        <DoctorProfile {...doctor}/>
+      <DoctorProfile {...doctor} />
     </div>
-  )
-}
+  );
+};
 
-export default Doctorpage
+export default Doctorpage;

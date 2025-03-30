@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 import styles from "./styles/navbar.module.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/api/auth/authContext";
 
 const Navbar = () => {
-  const {user, logout} = useAuth()
+  const { user, logout } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
   const [toggleDropdown, setToggleDropdown] = useState(false);
@@ -17,7 +17,7 @@ const Navbar = () => {
       <div className={styles.navbar_links}>
         {/* app logo  */}
         <div className={styles.app_logo}>
-        <Image src="/logo.svg" alt="logo" height={40} width={40} />
+          <Image src="/logo.svg" alt="logo" height={40} width={40} />
           <div className={styles.logo}>MedCare</div>
         </div>
         {/* mobile navigation */}
@@ -30,7 +30,6 @@ const Navbar = () => {
               alt="menu"
               onClick={() => {
                 setToggleDropdown((prev) => !prev);
-                console.log(toggleDropdown);
               }}
             ></Image>
             {toggleDropdown && (
@@ -65,13 +64,37 @@ const Navbar = () => {
                 </Link>
                 {user ? (
                   <>
-                    <Link href="/profile" className={styles.down_link} onClick={() => setToggleDropdown(false)}>My Profile</Link>
-                    <Link href='#' onClick={logout} className={styles.down_link}>Logout</Link>
+                    <Link
+                      href="/profile"
+                      className={styles.down_link}
+                      onClick={() => setToggleDropdown(false)}
+                    >
+                      My Profile
+                    </Link>
+                    <Link
+                      href="#"
+                      onClick={logout}
+                      className={styles.down_link}
+                    >
+                      Logout
+                    </Link>
                   </>
                 ) : (
                   <>
-                    <Link href="/login" className={styles.down_link} onClick={() => setToggleDropdown(false)}>Login</Link>
-                    <Link href="/signup" className={styles.down_link} onClick={() => setToggleDropdown(false)}>Signup</Link>
+                    <Link
+                      href="/login"
+                      className={styles.down_link}
+                      onClick={() => setToggleDropdown(false)}
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      href="/signup"
+                      className={styles.down_link}
+                      onClick={() => setToggleDropdown(false)}
+                    >
+                      Signup
+                    </Link>
                   </>
                 )}
               </div>
@@ -81,31 +104,67 @@ const Navbar = () => {
 
         {/* nav links */}
         <ul className={styles.navLinks}>
-      <li>
-        <Link href="/" className={pathname === '/' ? styles.active : ''}>Home</Link>
-      </li>
-      <li>
-        <Link href="/appointments" className={pathname === '/appointments' ? styles.active : ''}>Appointments</Link>
-      </li>
-      <li>
-        <Link href="/emergency-contacts" className={pathname === '/emergency-contacts' ? styles.active : ''}>Contacts</Link>
-      </li>
-      <li>
-        <Link href="/reviews" className={pathname === '/reviews' ? styles.active : ''}>Reviews</Link>
-      </li>
-    </ul>
+          <li>
+            <Link href="/" className={pathname === "/" ? styles.active : ""}>
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/appointments"
+              className={pathname === "/appointments" ? styles.active : ""}
+            >
+              Appointments
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/emergency-contacts"
+              className={
+                pathname === "/emergency-contacts" ? styles.active : ""
+              }
+            >
+              Contacts
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/reviews"
+              className={pathname === "/reviews" ? styles.active : ""}
+            >
+              Reviews
+            </Link>
+          </li>
+        </ul>
       </div>
       {/* auth buttons */}
       <div className={styles.authButtons}>
-      {user ? (
+        {user ? (
           <>
-            <button className={styles.profile} onClick={() => router.push("/profile")}>My profile</button>
-            <button className={styles.logout} onClick={logout}>Logout</button>
+            <button
+              className={styles.profile}
+              onClick={() => router.push("/profile")}
+            >
+              My profile
+            </button>
+            <button className={styles.logout} onClick={logout}>
+              Logout
+            </button>
           </>
         ) : (
           <>
-            <button className={styles.login} onClick={() => router.push("/login")}>Login</button>
-            <button className={styles.register} onClick={() => router.push("/signup")}>Register</button>
+            <button
+              className={styles.login}
+              onClick={() => router.push("/login")}
+            >
+              Login
+            </button>
+            <button
+              className={styles.register}
+              onClick={() => router.push("/signup")}
+            >
+              Register
+            </button>
           </>
         )}
       </div>

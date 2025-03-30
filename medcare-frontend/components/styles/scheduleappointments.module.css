@@ -33,7 +33,7 @@
   flex: 1;
   padding: 5px 0;
   margin: 7px 0;
-  border: 1px solid #F4D7D0;
+  border: 1px solid #f4d7d0;
   background-color: white;
   color: black;
   font-size: 13px;
@@ -45,7 +45,7 @@
 }
 
 .active {
-  background-color: #1C4A2A;
+  background-color: #1c4a2a;
   color: white;
   border: none;
 }
@@ -61,7 +61,7 @@
   border-radius: 5px;
   margin-bottom: 3px;
 }
-.next{
+.next {
   width: 100%;
   background-color: var(--green-primary);
   color: white;

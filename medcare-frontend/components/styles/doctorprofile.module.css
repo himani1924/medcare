@@ -1,129 +1,128 @@
-   .body{
-    min-height: 100vh;
+.body {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--green-primary);
+}
+.container {
+  max-width: 600px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 10px;
+  overflow: hidden;
+}
+
+.profileCard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
+  padding: 5px;
+}
+
+.imageWrapper {
+  flex-shrink: 0;
+}
+
+.profileImage {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid black;
+}
+
+.infoSection {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.doctorName {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+}
+
+.specialty {
+  font-size: 18px;
+  font-weight: 400;
+  color: #333;
+}
+
+.details {
+  font-size: 16px;
+  color: #444;
+  margin: 2px 0;
+}
+
+.description {
+  font-size: 14px;
+  color: black;
+  margin-top: 10px;
+  text-align: justify;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn {
+  background-color: green;
+  color: white;
+  border: none;
+  margin-right: 10px;
+}
+
+.btn:hover {
+  background-color: var(--green-primary);
+}
+
+.loading,
+.error {
+  font-size: 16px;
+  color: #e74c3c;
+  text-align: center;
+}
+.reviewratings {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+@media (min-width: 1019) {
+  .body {
+    min-height: calc(100vh - 108px);
     width: 100vw;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     background-color: var(--green-primary);
-   }
-   .container {
-    max-width: 600px;
-    padding: 20px;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin: 10px;
-    overflow: hidden;
   }
-  
-  .profileCard {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-around;
-    gap: 10px;
-    padding: 5px;
-  }
-  
-  .imageWrapper {
-    flex-shrink: 0;
-  }
-  
-  .profileImage {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid black;
-  }
-  
   .infoSection {
     text-align: left;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
   }
-  
-  .doctorName {
-    font-size: 22px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .specialty {
-    font-size: 18px;
-    font-weight: 400;
-    color: #333;
-  }
-  
-  .details {
-    font-size: 16px;
-    color: #444;
-    margin: 2px 0;
-  }
-  
-  .description {
-    font-size: 14px;
-    color: black;
-    margin-top: 10px;
-    text-align: justify;
-  }
-  
-  .actionButtons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .btn {
-    flex: 1;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .btn {
-    background-color: green;
-    color: white;
-    border: none;
-    margin-right: 10px;
-  }
-  
-  .btn:hover {
-    background-color: var(--green-primary);
-  }
-  
-  
-  .loading,
-  .error {
-    font-size: 16px;
-    color: #e74c3c;
-    text-align: center;
-  }
-  .reviewratings{
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-  @media (min-width: 1019){
-    .body{
-      min-height: calc(100vh - 108px);
-      width: 100vw;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      background-color: var(--green-primary);
-    }
-    .infoSection {
-      text-align: left;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-  }
+}

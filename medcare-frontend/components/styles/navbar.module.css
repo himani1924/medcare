@@ -6,19 +6,18 @@
   margin: 0 20px;
   gap: 20px;
 }
-.nav_menu{
+.nav_menu {
   margin-top: 5px;
   display: flex;
-  /* justify-content: space-between; */
 }
-.navbar_links{
+.navbar_links {
   flex: 1;
   display: flex;
   gap: 20px;
   justify-content: space-between;
-  align-items:center;
+  align-items: center;
 }
-.app_logo{
+.app_logo {
   padding: 8px;
   gap: 8px;
   display: flex;
@@ -29,24 +28,23 @@
   font-family: var(--font-mont);
   font-weight: 500;
   font-size: 23px;
-  color: #1C4A2A;
+  color: #1c4a2a;
 }
 .navLinks {
   display: none;
 }
 .authButtons {
   display: none;
-  
 }
 .down {
   position: absolute;
   z-index: 2;
   right: 0;
   top: 100%;
-  margin-top: 0.75rem; 
+  margin-top: 0.75rem;
   width: 100%;
-  padding: 1.25rem; 
-  border-radius: 0.5rem; 
+  padding: 1.25rem;
+  border-radius: 0.5rem;
   background-color: white;
   min-width: 150px;
   display: flex;
@@ -56,7 +54,7 @@
   justify-content: flex-end;
   align-items: flex-end;
 }
-.menu{
+.menu {
   display: flex;
   position: relative;
 }
@@ -66,67 +64,70 @@
   text-align: right;
   font-size: 0.875rem;
   color: #374151;
-  font-weight: 500; 
+  font-weight: 500;
   transition: color 0.2s ease-in-out;
 }
 
 .down_link:hover {
-  color: #6b7280; 
+  color: #6b7280;
 }
 
-
-@media (min-width: 1019){
+@media (min-width: 1019) {
   .navbar {
-      padding: 26px 60px;
-      margin: 0;
-    }
-    .navbar_links{
-      flex-direction: row;
-      align-items:center;
-      justify-content: start;
-    }
-    .navLinks {
-      list-style: none;
-      display: flex;
-      gap: 40px;
-    }
-    .navLinks li a {
-      text-decoration: none;
-      color: var(--muted-text);
-      font-weight: 500;
-      font-size: 18px;
-    }
-    .navLinks .active {
-      color: var(--green-primary);
-    }
-    .logo {
-      font-size: 28px;
-    }
-    .authButtons {
-      display: flex;
-      flex-direction: row;
-      gap: 16px;
-    }
-    .login, .register, .profile, .logout{
-      padding: 12px 32px;
-      border: 1px solid var(--border-card);
-      cursor: pointer;
-      font-weight: 500;
-      border-radius: 8px;
-      font-size: 16px;
-    }
-    
-    .login, .profile{
-      background-color: white;
-      color: #064e3b;
-  
-    }
-    
-    .register, .logout {
-      background-color: #064e3b;
-      color: white;
-    }
-    .nav_menu{
-      display: none;
-    }
+    padding: 26px 60px;
+    margin: 0;
+  }
+  .navbar_links {
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+  }
+  .navLinks {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+  }
+  .navLinks li a {
+    text-decoration: none;
+    color: var(--muted-text);
+    font-weight: 500;
+    font-size: 18px;
+  }
+  .navLinks .active {
+    color: var(--green-primary);
+  }
+  .logo {
+    font-size: 28px;
+  }
+  .authButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+  }
+  .login,
+  .register,
+  .profile,
+  .logout {
+    padding: 12px 32px;
+    border: 1px solid var(--border-card);
+    cursor: pointer;
+    font-weight: 500;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+
+  .login,
+  .profile {
+    background-color: white;
+    color: #064e3b;
+  }
+
+  .register,
+  .logout {
+    background-color: #064e3b;
+    color: white;
+  }
+  .nav_menu {
+    display: none;
+  }
 }

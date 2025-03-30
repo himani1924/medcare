@@ -1,69 +1,69 @@
 .container {
-    width: 100%;
-    max-width: 600px;
-    margin: auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .heading {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
 .reviewInput {
-    width: 100%;
-    height: 80px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
 }
 
 .submitBtn {
-    width: 100%;
-    padding: 10px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .submitBtn:hover {
-    background: #0056b3;
+  background: #0056b3;
 }
 
 .reviewList {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .noReviews {
-    text-align: center;
-    color: #666;
+  text-align: center;
+  color: #666;
 }
 
 .reviewItem {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .userName {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .reviewText {
-    margin: 5px 0;
+  margin: 5px 0;
 }
 
 .date {
-    font-size: 0.8rem;
-    color: #777;
+  font-size: 0.8rem;
+  color: #777;
 }

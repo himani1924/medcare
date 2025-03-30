@@ -1,5 +1,11 @@
 "use client";
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -29,7 +35,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/me`, { withCredentials: true });
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/me`,
+          { withCredentials: true }
+        );
         setUser(res.data.user);
       } catch (error) {
         console.log(error);
@@ -44,27 +53,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // login
   const login = async (email: string, password: string) => {
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, { email, password }, { withCredentials: true });
-      if(res.status === 200){
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
+        { email, password },
+        { withCredentials: true }
+      );
+      if (res.status === 200) {
         setUser(res.data.user);
-        toast.success('Login successful')
-        router.push("/"); 
+        toast.success("Login successful");
+        router.push("/");
       }
     } catch (error) {
-      if(axios.isAxiosError(error) && error.response){
+      if (axios.isAxiosError(error) && error.response) {
         console.log(error.response);
-        toast.error(error.response.data)
+        toast.error(error.response.data);
       }
-      router.push('/login')
+      router.push("/login");
     }
   };
 
   // Logout function
   const logout = async () => {
     try {
-      await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/logout`, { withCredentials: true });
+      await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/logout`, {
+        withCredentials: true,
+      });
       setUser(null);
-      router.push("/"); 
+      router.push("/");
     } catch (error) {
       console.error("Logout failed", error);
     }

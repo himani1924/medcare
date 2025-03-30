@@ -1,82 +1,80 @@
 .container {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.left{
-    min-width: 50%;
-    background-color: var(--green-primary);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.left {
+  min-width: 50%;
+  background-color: var(--green-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.right{
-    min-width: 50%;
-    background-color: antiquewhite;
-    /* height: 500px; */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    background: url('/AppointmentImage.png') no-repeat center center;
-    background-size: 100% 100%; 
+.right {
+  min-width: 50%;
+  background-color: antiquewhite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: url("/AppointmentImage.png") no-repeat center center;
+  background-size: 100% 100%;
 }
 .heroText {
-    max-width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  padding: 30px;
+}
+
+.heroText h1 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.heroText p {
+  font-size: 1.3rem;
+  line-height: 2rem;
+  margin-bottom: 1.5rem;
+  color: white;
+  opacity: 70%;
+}
+@media (min-width: 1011) {
+  .container {
+    height: calc(100vh - 108px - 39.2px);
+    background-color: var(--green-primary);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .right {
+    height: 100%;
+  }
+  .heroText {
+    max-width: 80%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 16px;
-    padding: 30px;
+    gap: 26px;
+    padding: 20px;
   }
-  
   .heroText h1 {
-    font-size: 1.8rem;
-    font-weight: 500;
-    margin-bottom: 1rem;
-    color: white;
+    font-size: 2.8rem;
+  }
+  .heroImage {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    height: 100%;
   }
-  
-  .heroText p {
-    font-size: 1.3rem;
-    line-height: 2rem;
-    margin-bottom: 1.5rem;
-    color: white;
-    opacity: 70%;
-  }
-  @media (min-width: 1011){
-    .container {
-      height: calc(100vh - 108px - 39.2px);
-      background-color: var(--green-primary);
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .right{
-        height: 100%;
-    }
-    .heroText {
-      max-width: 80%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 26px;
-      padding: 20px;
-    }
-    .heroText h1 {
-      font-size: 2.8rem;
-    }
-    .heroImage {
-      display: flex;  
-      height: 100%;
-  
-    }
-  }
+}

@@ -132,13 +132,14 @@ const SignupPage = () => {
               </div>
             </div>
           </div>
-          <button
-            className={styles.submit_btn}
-            disabled={pending}
-          >
+          <button className={styles.submit_btn} disabled={pending}>
             Submit
           </button>
-          <button className={styles.reset_btn} disabled={pending} onClick={() => setForm({ name: "", email: "", password: "" })}>
+          <button
+            className={styles.reset_btn}
+            disabled={pending}
+            onClick={() => setForm({ name: "", email: "", password: "" })}
+          >
             Reset
           </button>
           <hr style={{ width: "100%" }} />

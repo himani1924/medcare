@@ -1,10 +1,10 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --green-primary: #1C4A2A;
-  --muted-text: #8C8C8C;
-  --border-card: #E0E8E0;
-  --green-text: #0E2515;
+  --green-primary: #1c4a2a;
+  --muted-text: #8c8c8c;
+  --border-card: #e0e8e0;
+  --green-text: #0e2515;
 }
 
 html,
@@ -22,11 +22,8 @@ body {
   min-height: 100vh;
 }
 
-*{
+* {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
-
-
-

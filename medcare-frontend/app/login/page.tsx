@@ -100,7 +100,14 @@ export default function Login() {
           <button className={styles.login_btn} disabled={pending} type="submit">
             Login
           </button>
-          <button className={styles.reset_btn} disabled={pending} onClick={() => {setEmail(''); setPassword('')}}>
+          <button
+            className={styles.reset_btn}
+            disabled={pending}
+            onClick={() => {
+              setEmail("");
+              setPassword("");
+            }}
+          >
             Reset
           </button>
           {/* sign in with google  */}

@@ -1,12 +1,12 @@
-import AllReviews from '@/components/AllReviews'
-import React from 'react'
+import AllReviews from "@/components/AllReviews";
+import React from "react";
 
 const page = () => {
   return (
     <>
-        <AllReviews></AllReviews>
+      <AllReviews></AllReviews>
     </>
-  )
-}
+  );
+};
 
-export default page
+export default page;
