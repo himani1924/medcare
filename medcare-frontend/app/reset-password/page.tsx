@@ -50,6 +50,7 @@ const ResetPassword = () => {
     const verifyOtp = async (e: React.FormEvent) => {
         e.preventDefault();
         setOtpMessage("");
+        setMessage('')
 
         try {
             const response = await fetch("http://localhost:5000/api/v1/auth/verify-otp", {
@@ -81,7 +82,6 @@ const ResetPassword = () => {
                     body: JSON.stringify({ email, newPassword }),
                 });
     
-                const data = await response.json();
                 if (response.ok) {
                     toast.success("Password reset successfully! Redirecting to login...");
                 setTimeout(() => {

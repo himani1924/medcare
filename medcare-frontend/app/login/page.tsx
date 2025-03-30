@@ -122,7 +122,7 @@ export default function Login() {
           {/* Forgot Password */}
         </form>
         <p className={styles.forgot_password}>
-          <a href="#">Forgot Password?</a>
+          <a href="/reset-password">Forgot Password?</a>
         </p>
       </div>
     </div>
