@@ -6,7 +6,7 @@ import DatePicker from "./DatePicker";
 import { useRef } from 'react';
 import dayjs from "dayjs";
 import Schedule from "./Schedule";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import { useAuth } from "@/app/api/auth/authContext";
@@ -77,11 +77,15 @@ export default function ScheduleAppointment() {
         router.push('/profile')
       }
       if(response.data.error){
-        toast.error(response.data.error)
+        toast.error('Cannot book this slot')
       }
     } catch (err) {
-      if(err instanceof Error){
-        toast.error(err.message)   
+      if(err instanceof AxiosError){
+        toast.error(err.response?.data.error)
+      }
+      else if(err instanceof Error){
+        console.log(err);
+        toast.error('Cannot book this slot')   
       }
     }
   };
