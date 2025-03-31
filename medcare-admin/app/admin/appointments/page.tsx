@@ -3,10 +3,12 @@ import React from "react";
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import SlotTable from "@/components/SlotTable";
+import styles from '@/styles/appointment.module.css'
 
 const Page = () => {
   const [slots, setSlots] = useState([]);
   const [refreshKey, setRefreshKey] = useState(0);
+  
 
   useEffect(() => {
     const fetchSlots = async () => {
@@ -55,7 +57,7 @@ const Page = () => {
     }
   };
   if (slots.length === 0) {
-    return <p>No pending slots</p>;
+    return <div className={styles.container}><p>No pending slots</p></div>;
   } else {
     return (
       <>

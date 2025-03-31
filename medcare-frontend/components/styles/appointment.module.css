@@ -93,8 +93,7 @@
   font-weight: 600;
   cursor: pointer;
 }
-.radio_input,
-.checkbox_input {
+.radio_inp {
   margin-right: 5px;
   accent-color: var(--primary-green);
   margin-top: 5px;

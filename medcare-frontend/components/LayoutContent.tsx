@@ -18,7 +18,7 @@ const LayoutContent = ({ children }: { children: React.ReactNode }) => {
     if (!loading) {
       if (!user && !guestPages.includes(pathname)) {
         toast.error("Login first");
-        router.push("/");
+        router.push("/login");
       } else if (user && authRestrictedPages.includes(pathname)) {
         toast.success("Already logged in");
         router.push("/appointments");

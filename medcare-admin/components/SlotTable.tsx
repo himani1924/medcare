@@ -24,6 +24,7 @@ const SlotTable: React.FC<SlotTableProps> = ({
   onReject,
 }) => {
   const [doctorId, setDoctorId] = useState<number | null>(null);
+  const [loading, setLoading] = useState<{ [key: number]: boolean }>({});
 
   const filteredSlots = slots.filter((slot) => {
     return doctorId ? slot.doctor_id === doctorId : true;
@@ -49,12 +50,27 @@ const SlotTable: React.FC<SlotTableProps> = ({
     });
   };
 
+  const handleAction = async (slotId: number, action: "approve" | "reject") => {
+    setLoading((prev) => ({ ...prev, [slotId]: true }));
+
+    try {
+      if (action === "approve") {
+        await onApprove(slotId);
+      } else {
+        await onReject(slotId);
+      }
+    } finally {
+      setLoading((prev) => ({ ...prev, [slotId]: false }));
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.filters}>
         <div>
-          <label>Doctor ID:</label>
+          <label>Doctor Name:</label>
           <select
+          className={styles.selectval}
             value={doctorId ?? ""}
             onChange={(e) =>
               setDoctorId(e.target.value ? Number(e.target.value) : null)
@@ -62,16 +78,19 @@ const SlotTable: React.FC<SlotTableProps> = ({
           >
             <option value="">All</option>
             {Array.from(
-              new Set(
-                slots.map((slot) => slot.doctor_id).filter((id) => id != null)
-              )
-            )
-              .sort((a, b) => a - b)
-              .map((id) => (
-                <option key={id} value={Number(id)}>
-                  {id}
-                </option>
-              ))}
+  new Map(
+    slots
+      .filter((slot) => slot.doctor_id != null)
+      .map((slot) => [slot.doctor_id, slot.doctor_name]) // Unique doctor_id -> doctor_name mapping
+  ).entries()
+)
+  .sort((a, b) => a[1].localeCompare(b[1])) // Sort alphabetically by doctor name
+  .map(([id, name]) => (
+    <option key={id} value={Number(id)}>
+      {name}
+    </option>
+  ))}
+
           </select>
         </div>
         <a href="/admin/all-slots">
@@ -104,18 +123,20 @@ const SlotTable: React.FC<SlotTableProps> = ({
               <td>{formatTime(slot.slot_time)}</td>
               <td>{slot.appointment_type}</td>
               <td>
-                <button
-                  className={styles.approveBtn}
-                  onClick={() => onApprove(slot.id)}
-                >
-                  Approve
-                </button>
-                <button
-                  className={styles.rejectBtn}
-                  onClick={() => onReject(slot.id)}
-                >
-                  Reject
-                </button>
+              <button
+                className={styles.approveBtn}
+                onClick={() => handleAction(slot.id, "approve")}
+                disabled={loading[slot.id]}
+              >
+                {loading[slot.id] ? <span className={styles.spinner}></span> : "Approve"}
+              </button>
+              <button
+                className={styles.rejectBtn}
+                onClick={() => handleAction(slot.id, "reject")}
+                disabled={loading[slot.id]}
+              >
+                {loading[slot.id] ? <span className={styles.spinner}></span> : "Reject"}
+              </button>
               </td>
             </tr>
           ))}
@@ -148,17 +169,19 @@ const SlotTable: React.FC<SlotTableProps> = ({
               <strong>Type:</strong> {slot.appointment_type}
             </p>
             <div className={styles.cardActions}>
-              <button
+            <button
                 className={styles.approveBtn}
-                onClick={() => onApprove(slot.id)}
+                onClick={() => handleAction(slot.id, "approve")}
+                disabled={loading[slot.id]}
               >
-                Approve
+                {loading[slot.id] ? <span className={styles.spinner}></span> : "Approve"}
               </button>
               <button
                 className={styles.rejectBtn}
-                onClick={() => onReject(slot.id)}
+                onClick={() => handleAction(slot.id, "reject")}
+                disabled={loading[slot.id]}
               >
-                Reject
+                {loading[slot.id] ? <span className={styles.spinner}></span> : "Reject"}
               </button>
             </div>
           </div>

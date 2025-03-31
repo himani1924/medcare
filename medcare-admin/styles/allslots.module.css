@@ -35,15 +35,15 @@
 
 .filters {
   display: flex;
-  justify-content: space-around;
+  justify-content: right;
   align-items: center;
   margin: 10px 0;
-  gap: 10px;
+  gap: 20px;
 }
 
 .filters select {
   padding: 5px;
-  width: 100px;
+  width: 150px;
   margin: 0 10px;
 }
 
