@@ -40,7 +40,7 @@ app.use((req, res, next) => {
       secure: false, 
       maxAge: 2 * 60 * 60 * 1000, 
     },
-  })(req, res, next);  // Executes the middleware with req, res, next
+  })(req, res, next);  
 });
 
 

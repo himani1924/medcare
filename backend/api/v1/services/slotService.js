@@ -75,6 +75,16 @@ export const bookSlot = async (req, res) => {
   }
 
   try {
+
+    const sameslot = await pool.query(
+      `select * from slots where doctor_id = $1 and date = $2 and slot_time = $3 and user_id = $4 and status != 'rejected'`,
+      [doctorId, date, slotTime, userId]
+    )
+    if (checkslot.rows.length > 0) {
+      return res.status(400).json({
+        error: "You already booked this slot",
+      });
+    }
     const checkslot = await pool.query(
       `select * from appointments where doctor_id = $1 and date = $2 and slot_time = $3`,
       [doctorId, date, slotTime]
