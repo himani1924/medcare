@@ -21,12 +21,13 @@
   border-radius: 5px;
   border: 1px solid #ddd;
   margin-bottom: 10px;
+  font-family: var(--font-mont);
 }
 
 .submitBtn {
   width: 100%;
   padding: 10px;
-  background: #007bff;
+  background: green;
   color: white;
   border: none;
   border-radius: 5px;
