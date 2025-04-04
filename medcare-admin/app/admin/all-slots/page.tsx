@@ -1,4 +1,4 @@
-  "use client";
+"use client";
 import React from "react";
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
@@ -130,27 +130,26 @@ const Page = () => {
             <div>
               <label>Doctor Name:</label>
               <select
-            value={doctorId ?? ""}
-            onChange={(e) =>
-              setDoctorId(e.target.value ? Number(e.target.value) : null)
-            }
-          >
-            <option value="">All</option>
-            {Array.from(
-  new Map(
-    slots
-      .filter((slot) => slot.doctor_id != null)
-      .map((slot) => [slot.doctor_id, slot.doctor_name]) // Unique doctor_id -> doctor_name mapping
-  ).entries()
-)
-  .sort((a, b) => a[1].localeCompare(b[1])) // Sort alphabetically by doctor name
-  .map(([id, name]) => (
-    <option key={id} value={Number(id)}>
-      {name}
-    </option>
-  ))}
-
-          </select>
+                value={doctorId ?? ""}
+                onChange={(e) =>
+                  setDoctorId(e.target.value ? Number(e.target.value) : null)
+                }
+              >
+                <option value="">All</option>
+                {Array.from(
+                  new Map(
+                    slots
+                      .filter((slot) => slot.doctor_id != null)
+                      .map((slot) => [slot.doctor_id, slot.doctor_name])
+                  ).entries()
+                )
+                  .sort((a, b) => a[1].localeCompare(b[1]))
+                  .map(([id, name]) => (
+                    <option key={id} value={Number(id)}>
+                      {name}
+                    </option>
+                  ))}
+              </select>
             </div>
           </div>
 

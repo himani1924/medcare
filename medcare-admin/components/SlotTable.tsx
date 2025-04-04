@@ -81,10 +81,10 @@ const SlotTable: React.FC<SlotTableProps> = ({
   new Map(
     slots
       .filter((slot) => slot.doctor_id != null)
-      .map((slot) => [slot.doctor_id, slot.doctor_name]) // Unique doctor_id -> doctor_name mapping
+      .map((slot) => [slot.doctor_id, slot.doctor_name])
   ).entries()
 )
-  .sort((a, b) => a[1].localeCompare(b[1])) // Sort alphabetically by doctor name
+  .sort((a, b) => a[1].localeCompare(b[1])) 
   .map(([id, name]) => (
     <option key={id} value={Number(id)}>
       {name}

@@ -98,7 +98,7 @@ export const rateDoctor = async (req, res) => {
     const doc = await pool.query("select id from doctors where id = $1", [
       doctorId,
     ]);
-    if (doc.rows.length === 0) {
+    if (!doc.rows.length) {
       return res.status(400).json({ error: "Doctor not found" });
     }
     const existingRating = await pool.query(
@@ -121,7 +121,7 @@ export const rateDoctor = async (req, res) => {
       "select avg(rating) :: numeric(2,1) as avg_rating from doctor_ratings where doctor_id = $1",
       [doctorId]
     );
-    const avgRating = avg.rows[0].avg_rating || 0;
+    const avgRating = avg?.rows[0].avg_rating || 0;
     await pool.query("update doctors set rating = $1 where id = $2", [
       avgRating,
       doctorId,

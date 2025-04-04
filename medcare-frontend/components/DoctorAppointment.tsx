@@ -89,7 +89,7 @@ const DoctorAppointment = () => {
     setSearchTerm(e.target.value);
   
   const handleSearch = () => {
-    if (!searchTerm.trim()) return;
+    if (!searchTerm.trim()) {setSearchTerm('')};
     setSearchQuery(searchTerm);
     setCurrentPage(1);
   };
@@ -142,6 +142,7 @@ const DoctorAppointment = () => {
               onClick={() => {
                 updateFilters({ rating: null, experience: null, gender: null });
                 setSearchQuery("");
+                setSearchTerm('')
               }}
             >
               Reset

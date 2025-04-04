@@ -19,6 +19,7 @@ const Profile = () => {
   const { user } = useAuth();
   const [slots, setSlots] = useState<Slot[]>([]);
 
+
   useEffect(() => {
     const fetchSlots = async () => {
       try {
@@ -54,7 +55,7 @@ const Profile = () => {
               <table className={styles.slotTable}>
                 <thead>
                   <tr>
-                    <th>Slot ID</th>
+                    <th>Slot ID </th>
                     <th>Doctor ID</th>
                     <th>Date</th>
                     <th>Time</th>
